@@ -5,7 +5,8 @@ namespace VS.Mvc {
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-
+    using VS.Mvc.Extensions;
+    using VS.Mvc.StartupTasks;
 
     public class Startup {
 
@@ -21,11 +22,33 @@ namespace VS.Mvc {
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services) {
 
+            services.AddRouting(o => {
+                o.ConstraintMap["slugify"] = typeof(SlugifyParameterTransformer);
+            });
+
+            services.AddLocalization();
+
+            services.AddAuthenticationCore();
+            services.AddAuthorizationCore();
+
+            services.AddMvc();
+
         }
 
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // ORDER IS IMPORTANT. ONLY CHANGE IF YOU KNOW WHAT YOU ARE DOING AND WHY AND IT BETTER BE IN THE COMMIT MESSAGE.
         public void Configure(IApplicationBuilder app) {
-            app.UseRouting();
+            app.ForwardHeaders()
+                .UseStaticFiles()
+                .UseRouting()
+                .UseAuthentication()
+                .UseAuthorization()
+                .UseEndpoints(e => e.AddMvc())
+                .UseExceptionHandler("/error")
+                .UseStatusCodePagesWithReExecute("/error", "?sc={0}"); 
+
+            
         }
     }
 }

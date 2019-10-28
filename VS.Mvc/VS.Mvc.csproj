@@ -8,6 +8,7 @@
     <Folder Include="ClassifiedAds\" />
     <Folder Include="ClassifiedAds\Mediation\" />
     <Folder Include="LogIn\" />
+    <Folder Include="_Services\" />
     <Folder Include="Reset\" />
     <Folder Include="Register\" />
     <Folder Include="ForgotPassword\" />

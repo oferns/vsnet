@@ -4,6 +4,8 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace VS.Mvc {
@@ -32,9 +34,9 @@ namespace VS.Mvc {
         public void OnActionExecuted(ActionExecutedContext context) {
             var request = context.HttpContext.Request;
 
-            if (request.IsAjax() && request.WantsJson() && context.Result is ViewResult view) {
-                context.Result = new ObjectResult(view.Model);
-            }
+            //if (request.IsAjax() && request.WantsJson() && context.Result is ViewResult view) {
+            //    context.Result = new ObjectResult(view.Model);
+            //}
 
             //if (contentType.Equals("application/json", StringComparison.CurrentCultureIgnoreCase)) {
 
