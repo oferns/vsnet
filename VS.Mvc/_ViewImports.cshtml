@@ -1,0 +1,13 @@
+﻿@using System.Globalization
+@using Microsoft.AspNetCore.Routing
+
+@inject LinkGenerator linkGen
+
+
+@addTagHelper *, VS.Mvc
+
+
+<environment include="Development">
+    @using StackExchange.Profiling
+    @addTagHelper *, MiniProfiler.AspNetCore.Mvc
+</environment>

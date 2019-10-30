@@ -1,11 +1,22 @@
 ﻿namespace VS.Mvc.StartupTasks {
-    
+
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Routing;
+    using Microsoft.Extensions.DependencyInjection;
+    using VS.Mvc.Extensions;
 
-    public static class MvcRoutes {
+    public static class Routing {
 
-        public static IEndpointRouteBuilder AddMvc(this IEndpointRouteBuilder builder) {
+
+        public static IServiceCollection AddConstraints(this IServiceCollection services) {
+
+            return services.AddRouting(o => {
+                o.ConstraintMap["slugify"] = typeof(SlugifyParameterTransformer);
+                
+            });
+        }
+
+        public static IEndpointRouteBuilder AddMvcEndpoints(this IEndpointRouteBuilder builder) {
 
             // generic routes
             builder.MapControllerRoute(
@@ -67,10 +78,18 @@
                 pattern: "{controller:slugify}/{action:slugify}"
             );
 
+            builder.MapControllerRoute(
+                name: "DefaultRoute",
+                pattern: "",
+                defaults: new { controller = "Home", Action = "Index" });
+
+
 
             return builder;
 
         }
+
+
 
     }
 }

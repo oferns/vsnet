@@ -1,20 +1,23 @@
-﻿using System;
-using System.Security.Claims;
-using System.Security.Principal;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+﻿
 
 namespace VS.Mvc {
+
+    using System;
+    using System.Security.Claims;
+    using System.Security.Principal;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Filters;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
     // This is a base class to provide the core ASP services our contollers need. 
     // It provides:
     //          ModelState
     //          ControllerContext (HttpContext)
     //          SignIn/Out
+    [Controller]
     public abstract class BaseController : IActionFilter {
 
         private ControllerContext _controllerContext;

@@ -1,0 +1,16 @@
+﻿<!DOCTYPE html>
+
+<html lang="@CultureInfo.CurrentCulture.TextInfo.CultureName">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+
+    @RenderBody()
+
+    <environment include="Development">
+        <mini-profiler />
+    </environment>
+</body>
+</html>

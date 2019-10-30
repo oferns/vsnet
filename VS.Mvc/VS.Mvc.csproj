@@ -5,12 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ClassifiedAds\" />
-    <Folder Include="ClassifiedAds\Mediation\" />
-    <Folder Include="LogIn\" />
-    <Folder Include="_Services\" />
+    <Folder Include="Search\" />
+    <Folder Include="Profile\" />
     <Folder Include="Reset\" />
     <Folder Include="Register\" />
     <Folder Include="ForgotPassword\" />
+    <Folder Include="_Middleware\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.1.0" />
+    <PackageReference Include="UAParser" Version="3.1.43" />
   </ItemGroup>
 </Project>
