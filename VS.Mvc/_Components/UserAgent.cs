@@ -1,20 +1,19 @@
 ﻿
-namespace VS.Mvc.Components {
+namespace VS.Mvc._Components {
 
-    using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using UAParser;
+    using VS.Mvc._Extensions;
 
     [ViewComponent(Name="UserAgentInfo")]
-    public class UserAgent : ViewComponent {
+    public class UserAgent : LocalizedViewComponent {
 
 
         public IViewComponentResult Invoke() {
             var model = Parser.GetDefault().Parse(ViewContext.HttpContext.Request.Headers["User-Agent"].FirstOrDefault());
-            return View("~/_Components/UserAgent.cshtml", model);
+            return View(model);
         }
     }
 }

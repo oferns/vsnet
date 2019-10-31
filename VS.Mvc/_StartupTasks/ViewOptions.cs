@@ -1,7 +1,7 @@
 ﻿namespace VS.Mvc.StartupTasks {
     using Microsoft.AspNetCore.Mvc.Razor;
     using Microsoft.Extensions.DependencyInjection;
-    using VS.Mvc.Extensions;
+    using VS.Mvc._Extensions;
 
     public static class ViewOptions {
 

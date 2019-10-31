@@ -3,7 +3,7 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Routing;
     using Microsoft.Extensions.DependencyInjection;
-    using VS.Mvc.Extensions;
+    using VS.Mvc._Extensions;
 
     public static class Routing {
 

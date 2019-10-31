@@ -4,6 +4,12 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <LangVersion>latestmajor</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <LangVersion>latestmajor</LangVersion>
+  </PropertyGroup>
   <ItemGroup>
     <Folder Include="Search\" />
     <Folder Include="Profile\" />
@@ -16,5 +22,8 @@
   <ItemGroup>
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.1.0" />
     <PackageReference Include="UAParser" Version="3.1.43" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="mono_crash.42f6ec0e6.0.json" />
   </ItemGroup>
 </Project>

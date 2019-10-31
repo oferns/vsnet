@@ -1,4 +1,4 @@
-﻿namespace VS.Mvc.Extensions {
+﻿namespace VS.Mvc._Extensions {
     using Microsoft.AspNetCore.Mvc.Razor;
     using System.Collections.Generic;
     using System.Linq;
