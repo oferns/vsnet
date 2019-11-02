@@ -1,4 +1,4 @@
-﻿namespace VS.Mvc.StartupTasks {
+﻿namespace VS.Mvc._Startup {
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.HttpOverrides;

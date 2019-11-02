@@ -1,0 +1,8 @@
+﻿
+
+
+export default class UserAgent {
+
+
+
+}

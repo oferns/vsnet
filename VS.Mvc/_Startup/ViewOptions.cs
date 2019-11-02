@@ -1,4 +1,5 @@
-﻿namespace VS.Mvc.StartupTasks {
+﻿namespace VS.Mvc._Startup {
+    
     using Microsoft.AspNetCore.Mvc.Razor;
     using Microsoft.Extensions.DependencyInjection;
     using VS.Mvc._Extensions;

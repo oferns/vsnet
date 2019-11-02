@@ -21,7 +21,7 @@
     [ViewComponent]
     public abstract class LocalizedViewComponent {
 
-        //private dynamic _viewBag;
+        private dynamic _viewBag;
         private ViewComponentContext _viewComponentContext;
         private ICompositeViewEngine _viewEngine;
 
@@ -50,18 +50,18 @@
         /// </summary>
         public RouteData RouteData => ViewContext?.RouteData;
 
-        ///// <summary>
-        ///// Gets the view bag.
-        ///// </summary>
-        //public dynamic ViewBag {
-        //    get {
-        //        if (_viewBag == null) {
-        //            _viewBag = new DynamicViewData(() => ViewData);
-        //        }
+        /// <summary>
+        /// Gets the view bag.
+        /// </summary>
+        public dynamic ViewBag {
+            get {
+                if (_viewBag == null) {
+                    _viewBag = new DynamicViewData(() => ViewData);
+                }
 
-        //        return _viewBag;
-        //    }
-        //}
+                return _viewBag;
+            }
+        }
 
         /// <summary>
         /// Gets the <see cref="ModelStateDictionary"/>.
@@ -71,20 +71,11 @@
 
         [ViewComponentContext]
         public ViewComponentContext ViewComponentContext {
-            get {
-                // This should run only for the ViewComponent unit test scenarios.
-                if (_viewComponentContext == null) {
-                    _viewComponentContext = new ViewComponentContext();
-                }
-
+            get { 
                 return _viewComponentContext;
             }
             set {
-                if (value == null) {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                _viewComponentContext = value;
+                _viewComponentContext = value ?? throw new ArgumentNullException(nameof(value));
             }
         }
 
@@ -108,20 +99,10 @@
         /// </summary>
         public ICompositeViewEngine ViewEngine {
             get {
-                if (_viewEngine == null) {
-                    // May be null in unit-testing scenarios.
-                    var services = ViewComponentContext.ViewContext?.HttpContext?.RequestServices;
-                    _viewEngine = services?.GetRequiredService<ICompositeViewEngine>();
-                }
-
                 return _viewEngine;
             }
             set {
-                if (value == null) {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                _viewEngine = value;
+                _viewEngine = value ?? throw new ArgumentNullException(nameof(value));
             }
         }
 

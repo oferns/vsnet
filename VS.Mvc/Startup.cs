@@ -10,7 +10,8 @@ namespace VS.Mvc {
     using Microsoft.Extensions.DependencyInjection;
     using VS.Mvc._Extensions;
     using VS.Mvc._Services;
-    using VS.Mvc.StartupTasks;
+    using VS.Mvc._Startup;
+
 
     public class Startup {
 
@@ -25,17 +26,21 @@ namespace VS.Mvc {
 
         public void ConfigureServices(IServiceCollection services) {
 
-            this.services = services.AddMiniProfiler().Services
-                .AddConstraints()
-                .AddHttpContextAccessor()
-                .AddLocalization()
-                .AddAuthenticationCore()
-                .AddAuthorizationCore()
-                .AddViewOptions()
-                // MVC Builder
-                .AddControllersWithViews(o => o.Conventions.Add(new RouteTokenTransformerConvention(
-                             new SlugifyParameterTransformer())))
-                .AddViewLocalization(LanguageViewLocationExpanderFormat.SubFolder).Services;
+            _ = services
+                    .AddSingleton<HostCultureOptions[]>(configuration.GetSection("HostCultureOptions").Get<HostCultureOptions[]>())
+#if DEBUG
+                    .AddMiniProfiler().Services
+#endif                    
+                    .AddConstraints()  
+                    .AddHttpContextAccessor()
+                    .AddHostBasedLocalization()
+                    .AddAuthenticationCore()
+                    .AddAuthorizationCore()
+                    .AddViewOptions()
+                    // MVC Builder
+                    .AddControllersWithViews(o => o.Conventions.Add(new RouteTokenTransformerConvention(
+                                 new SlugifyParameterTransformer())))
+                    .AddViewLocalization(LanguageViewLocationExpanderFormat.SubFolder).Services;
         }
 
         // OJF: ORDER IS IMPORTANT. ONLY CHANGE IF YOU KNOW WHAT YOU ARE DOING AND WHY AND IT BETTER BE IN THE COMMIT MESSAGE (and yes, I did mean to shout that).
@@ -46,21 +51,12 @@ namespace VS.Mvc {
 #pragma warning disable ASP0001 // Authorization middleware is incorrectly configured.
 
             _ = app
+#if DEBUG
                 .UseMiniProfiler()
+#endif
                 .ProxyForwardHeaders()
                 .UseStaticFiles()
-                .UseRequestLocalization(o => {
-                    o.SetDefaultCulture("en");
-                    o.FallBackToParentCultures = true;
-                    o.FallBackToParentUICultures = true;
-                    o.RequestCultureProviders.Clear();
-                    o.RequestCultureProviders.Insert(0, new HostBasedCultureProvider(
-                        configuration.GetSection("HostCultureOptions").Get<HostCultureOptions[]>(),
-                        new IRequestCultureProvider[] {
-                            new CookieRequestCultureProvider(),
-                            new AcceptLanguageHeaderRequestCultureProvider()
-                        })); 
-                })
+                .UseHostBasedLocalization()
                 .UseRouting()
                 .UseAuthentication()
                 .UseAuthorization()

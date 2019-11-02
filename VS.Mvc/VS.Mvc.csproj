@@ -16,14 +16,44 @@
     <Folder Include="Reset\" />
     <Folder Include="Register\" />
     <Folder Include="ForgotPassword\" />
-    <Folder Include="_Middleware\" />
+    <Folder Include="wwwroot\js\" />
+    <Folder Include="wwwroot\css\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.6.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.1.0" />
     <PackageReference Include="UAParser" Version="3.1.43" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="mono_crash.42f6ec0e6.0.json" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="tsconfig.json.old" />
+    <None Remove="_Components\UserAgent.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="tsconfig.json.old" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="_Components\UserAgent.ts" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES2015</TypeScriptTarget>
+    <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
+    <TypeScriptModuleKind>ES6</TypeScriptModuleKind>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile>wwwroot/js/site.js</TypeScriptOutFile>
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot>wwwroot/js/</TypeScriptMapRoot>
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
 </Project>

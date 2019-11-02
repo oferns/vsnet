@@ -12,7 +12,7 @@
             if (context.ActionContext.RouteData.Values.ContainsKey(_subArea)) {
                 string subArea = RazorViewEngine.GetNormalizedRouteValue(context.ActionContext, _subArea);
 
-                var subAreaViewLocation = new string[] {
+                var subAreaViewLocation = new [] {
                         "/{2}/"+subArea+"/{1}/{0}" + RazorViewEngine.ViewExtension
                 };
 
