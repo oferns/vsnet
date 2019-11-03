@@ -1,0 +1,49 @@
+{
+  "name": "vs.web",
+  "version": "1.0.0",
+  "description": "Client scripts for vs",
+  "main": "app.ts",
+  "scripts": {
+    "build": "webpack --env.MODE=production",
+    "start": "webpack-dev-server --env.MODE=development --open",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tslint-check": "tslint-config-prettier-check ./tslint.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oferns/vsnet.git"
+  },
+  "author": "Ollie Ferns",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oferns/vsnet/issues"
+  },
+  "homepage": "https://github.com/oferns/vsnet#readme",
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/cli": "^7.6.4",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-numeric-separator": "^7.2.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-typescript": "^7.6.0",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.0.4",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "prettier": "^1.18.2",
+    "ts-loader": "^6.2.1",
+    "tsconfig-paths-webpack-plugin": "^3.2.0",
+    "tslint": "^5.20.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "typescript": "^3.6.4",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
+  },
+  "dependencies": {
+    "@webcomponents/webcomponentsjs": "^2.3.0"
+  }
+}

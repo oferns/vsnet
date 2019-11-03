@@ -4,4 +4,14 @@
     <br />
     <strong>UI Culture</strong>
     <span>@CultureInfo.CurrentUICulture.TextInfo.CultureName</span>
+    <br />
+    <strong>Content Language Header</strong>
+    <span>@ViewContext.HttpContext.Response.Headers[HeaderNames.ContentLanguage]</span>
+    <br />
+    <strong>Browser Language</strong>
+    <span is="browser-language"></span>
+    <br />
+    <strong>Browser Languages</strong>
+    <span is="browser-languages"></span>
+
 </div>

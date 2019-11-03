@@ -9,8 +9,7 @@
     public class Culture : LocalizedViewComponent {
 
         public IViewComponentResult Invoke() {
-            var model = Parser.GetDefault().Parse(ViewContext.HttpContext.Request.Headers["User-Agent"].FirstOrDefault());
-            return View(model);
+            return View();
         }
     }
 }

@@ -2,6 +2,7 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Localization;
+    using Microsoft.Net.Http.Headers;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -51,6 +52,8 @@
 
             CultureInfo.CurrentCulture = culture;
             CultureInfo.CurrentUICulture = uiCulture;
+
+            context.Response.Headers.Add(HeaderNames.ContentLanguage, uiCulture.Name);
 
             await next.Invoke(context);
         }

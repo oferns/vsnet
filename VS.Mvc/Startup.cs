@@ -26,7 +26,7 @@ namespace VS.Mvc {
 
         public void ConfigureServices(IServiceCollection services) {
 
-            _ = services
+            this.services = services
                     .AddSingleton<HostCultureOptions[]>(configuration.GetSection("HostCultureOptions").Get<HostCultureOptions[]>())
 #if DEBUG
                     .AddMiniProfiler().Services
