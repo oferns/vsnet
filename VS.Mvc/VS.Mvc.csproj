@@ -6,8 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="_Components\BrowserLanguage.ts" />
-    <None Remove="_Components\BrowserLanguages.ts" />
+    <None Remove="_Components\ClientInfo.ts" />
   </ItemGroup>
 
   <ItemGroup>  
@@ -22,10 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="_Components\BrowserLanguages.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="_Components\BrowserLanguage.ts" />
+    <TypeScriptCompile Include="_Components\ClientInfo.ts" />
   </ItemGroup>
   
 </Project>

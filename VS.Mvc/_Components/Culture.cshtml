@@ -1,17 +1,22 @@
-﻿<div>
-    <strong>Culture</strong>
-    <span>@CultureInfo.CurrentCulture.TextInfo.CultureName</span>
-    <br />
-    <strong>UI Culture</strong>
-    <span>@CultureInfo.CurrentUICulture.TextInfo.CultureName</span>
-    <br />
-    <strong>Content Language Header</strong>
-    <span>@ViewContext.HttpContext.Response.Headers[HeaderNames.ContentLanguage]</span>
-    <br />
-    <strong>Browser Language</strong>
-    <span is="browser-language"></span>
-    <br />
-    <strong>Browser Languages</strong>
-    <span is="browser-languages"></span>
+﻿@model HostCultureOptions[]
 
-</div>
+    <div>
+        <strong>Culture</strong>
+        <span>@CultureInfo.CurrentCulture.TextInfo.CultureName</span>
+        <br />
+        <strong>UI Culture</strong>
+        <span>@CultureInfo.CurrentUICulture.TextInfo.CultureName</span>
+        <br />
+        <strong>Content Language Header</strong>
+        <span>@ViewContext.HttpContext.Response.Headers[HeaderNames.ContentLanguage]</span>
+
+        <select name="host" asp-items="@Model.Select(c=> new SelectListItem(c.Host, c.Host))"></select>
+
+        @foreach (var host in Model) {
+            <strong>@host.Host</strong>
+            <select name="culture" asp-items="@host.SupportedCultures.Select(c=> new SelectListItem(c.TextInfo.CultureName, c.Name))"></select>
+            <select name="uiculture" asp-items="@host.SupportedUICultures.Select(c=> new SelectListItem(c.TextInfo.CultureName, c.Name))"></select>
+            <br />
+        }
+
+    </div>
