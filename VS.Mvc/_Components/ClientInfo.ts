@@ -1,34 +1,32 @@
 ﻿import template from './ClientInfo.html';
 
 class ClientInfo extends HTMLElement {
-    private div: Element | null = null;
+
+    private _shadowRoot: ShadowRoot;
     constructor() {
         super();
-        const shadow = this.attachShadow({ mode: 'open' });
-        shadow.innerHTML = template;
-        this.div = shadow.firstElementChild;
+        this._shadowRoot = this.attachShadow({ mode: 'open' });
+        this._shadowRoot.innerHTML = template;
 
     }
 
     connectedCallback(): void {
 
-        if (this.div) {
-            let langsEls = this.div.getElementsByClassName('langs')
+        if (this._shadowRoot.firstElementChild) {
+            let langsEls = this._shadowRoot.firstElementChild.getElementsByClassName('langs');
             Array.prototype.forEach.call(langsEls, function (e: Element) {
                 e.textContent = navigator.languages.join(', ');
             });
 
-            let langEls = this.div.getElementsByClassName('lang')
+            let langEls = this._shadowRoot.firstElementChild.getElementsByClassName('lang');
             Array.prototype.forEach.call(langEls, function (e: Element) {
                 e.textContent = navigator.language;
             });
 
-            let agentEls = this.div.getElementsByClassName('agent')
+            let agentEls = this._shadowRoot.firstElementChild.getElementsByClassName('agent');
             Array.prototype.forEach.call(agentEls, function (e: Element) {
                 e.textContent = navigator.userAgent;
             });
-
-            
         }
     }
 }
