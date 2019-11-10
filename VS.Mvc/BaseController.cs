@@ -137,7 +137,7 @@ namespace VS.Mvc {
         }
 
         [NonAction]
-        public async Task SignIn(IIdentity identity, string authenticationScheme, bool allowRefresh, bool persistent) {
+        public async Task SignInAsync(IIdentity identity, string authenticationScheme, bool allowRefresh, bool persistent) {
             var principal = new ClaimsPrincipal(identity);
             await ControllerContext.HttpContext.SignInAsync(
              authenticationScheme,
@@ -152,14 +152,14 @@ namespace VS.Mvc {
         }
 
         [NonAction]
-        public async Task SignOut(string authenticationScheme) {
+        public async Task SignOutAsync(string authenticationScheme) {
             await ControllerContext.HttpContext.SignOutAsync(authenticationScheme);
         }
 
         [NonAction]
-        public async Task RefreshLocalIdentity(IIdentity identity, string authenticationScheme) {
-            await SignOut(authenticationScheme);
-            await SignIn(identity, authenticationScheme, true, true); // TODO: Add a claim(?) saying whether they were persistent before or not
+        public async Task RefreshLocalIdentityAsync(IIdentity identity, string authenticationScheme) {
+            await SignOutAsync(authenticationScheme);
+            await SignInAsync(identity, authenticationScheme, true, true); // TODO: Add a claim(?) saying whether they were persistent before or not
         }
 
         /// <summary>

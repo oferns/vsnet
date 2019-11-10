@@ -31,16 +31,13 @@ namespace VS.Mvc {
 #if DEBUG
                     .AddMiniProfiler().Services
 #endif                    
-                    .AddConstraints()  
+                    .AddConstraints()
+                    
                     .AddHttpContextAccessor()
                     .AddHostBasedLocalization()
                     .AddAuthenticationCore()
                     .AddAuthorizationCore()
-                    .AddViewOptions()
-                    // MVC Builder
-                    .AddControllersWithViews(o => o.Conventions.Add(new RouteTokenTransformerConvention(
-                                 new SlugifyParameterTransformer())))
-                    .AddViewLocalization(LanguageViewLocationExpanderFormat.SubFolder).Services;
+                    .AddViewOptions();
         }
 
         // OJF: ORDER IS IMPORTANT. ONLY CHANGE IF YOU KNOW WHAT YOU ARE DOING AND WHY AND IT BETTER BE IN THE COMMIT MESSAGE (and yes, I did mean to shout that).
@@ -55,14 +52,14 @@ namespace VS.Mvc {
                 .UseMiniProfiler()
 #endif
                 .ProxyForwardHeaders()
-                .UseStaticFiles()
                 .UseHostBasedLocalization()
+                .UseExceptionHandler("/error")
+                .UseStatusCodePagesWithReExecute("/error", "?sc={0}")
+                .UseStaticFiles()
                 .UseRouting()
                 .UseAuthentication()
                 .UseAuthorization()
-                .UseEndpoints(e => e.AddMvcEndpoints())
-                .UseExceptionHandler("/error")
-                .UseStatusCodePagesWithReExecute("/error", "?sc={0}");
+                .UseEndpoints(e => e.AddMvcEndpoints());
 
 #pragma warning restore ASP0001 // Authorization middleware is incorrectly configured.
 

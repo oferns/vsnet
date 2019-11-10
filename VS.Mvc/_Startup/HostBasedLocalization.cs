@@ -4,6 +4,8 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Localization;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Localization;
+    using VS.Mvc._Extensions;
     using VS.Mvc._Middleware;
     using VS.Mvc._Services;
 
@@ -14,7 +16,9 @@
             return services
                     .AddTransient<HostBasedLocalizationMiddleware>()
                     .AddTransient<IRequestCultureProvider, CookieRequestCultureProvider>()
-                    .AddTransient<IRequestCultureProvider, AcceptLanguageHeaderRequestCultureProvider>();
+                    .AddTransient<IRequestCultureProvider, AcceptLanguageHeaderRequestCultureProvider>()
+                    .AddTransient<LocalizedRouteValueTransformer>()
+                    .AddTransient<IStringLocalizer, StringLocalizer>();
         }
 
 

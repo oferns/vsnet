@@ -3,7 +3,9 @@
 <html lang="@CultureInfo.CurrentCulture.TextInfo.CultureName">
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <title>@RenderSection("title", true)</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/app.css" />
 
     <script src="/js/webcomponentsjs/custom-elements-es5-adapter.js"></script>
     <script src="/js/webcomponentsjs/webcomponents-loader.js"></script>
@@ -15,13 +17,18 @@
 
     @RenderBody()
 
+    <span>@linkGen.GetPathByAction("Index", "Home")</span>
+    <a asp-controller="Home" asp-action="Index">@sr["Home"]</a>
+    <a asp-area="" asp-controller="Home" asp-action="About">@sr["About"]</a>
 
+    <button>A Button</button>
     <environment include="Development">
         <vc:user-agent-info></vc:user-agent-info>
         <vc:culture-switcher></vc:culture-switcher>
+        <vc:build-info></vc:build-info>
         <client-info></client-info>
-        <mini-profiler />
+        <mini-profiler position="RenderPosition.BottomRight" />
     </environment>
 
 </body>
-</html>
+</html> 

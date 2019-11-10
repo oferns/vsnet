@@ -5,6 +5,12 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
   <ItemGroup>
     <None Remove="_Components\ClientInfo.ts" />
   </ItemGroup>
@@ -18,10 +24,45 @@
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.4.16" />  
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.1.0" />
     <PackageReference Include="UAParser" Version="3.1.43" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="_Components\ClientInfo.ts" />
   </ItemGroup>
   
+  <ItemGroup>
+    <Content Remove="wwwroot\js\webcomponentsjs\bundles\webcomponents-ce.js" />
+    <Content Remove="wwwroot\js\app.js.map" />
+    <Content Remove="wwwroot\js\app.js" />
+    <Content Remove="wwwroot\js\webcomponentsjs\LICENSE.md" />
+    <Content Remove="wwwroot\js\webcomponentsjs\webcomponents-loader.js" />
+    <Content Remove="wwwroot\js\webcomponentsjs\package.json" />
+    <Content Remove="wwwroot\js\webcomponentsjs\custom-elements-es5-adapter.js" />
+    <Content Remove="wwwroot\js\webcomponentsjs\webcomponents-bundle.js" />
+    <Content Remove="wwwroot\js\webcomponentsjs\webcomponents-bundle.js.map" />
+    <Content Remove="wwwroot\js\webcomponentsjs\bundles\webcomponents-sd.js.map" />
+    <Content Remove="wwwroot\js\webcomponentsjs\bundles\webcomponents-sd-ce.js.map" />
+    <Content Remove="wwwroot\js\webcomponentsjs\bundles\webcomponents-sd.js" />
+    <Content Remove="wwwroot\js\webcomponentsjs\bundles\webcomponents-ce.js.map" />
+    <Content Remove="wwwroot\js\webcomponentsjs\bundles\webcomponents-sd-ce.js" />
+    <Content Remove="wwwroot\js\webcomponentsjs\bundles\webcomponents-sd-ce-pf.js.map" />
+    <Content Remove="wwwroot\js\webcomponentsjs\bundles\webcomponents-sd-ce-pf.js" />
+    <Content Remove="wwwroot\js\webcomponentsjs\src\entrypoints\custom-elements-es5-adapter-index.js" />
+    <Content Remove="wwwroot\js\webcomponentsjs\src\entrypoints\webcomponents-sd-ce-index.js" />
+    <Content Remove="wwwroot\js\webcomponentsjs\src\entrypoints\webcomponents-ce-index.js" />
+    <Content Remove="wwwroot\js\webcomponentsjs\src\entrypoints\webcomponents-sd-ce-pf-index.js" />
+    <Content Remove="wwwroot\js\webcomponentsjs\src\entrypoints\webcomponents-sd-index.js" />
+    <Content Remove="wwwroot\js\webcomponentsjs\src\entrypoints\webcomponents-bundle-index.js" />
+    <Content Remove="wwwroot\js\webcomponentsjs\bundles\webcomponents-ce.js" />
+    <Content Remove="wwwroot\js\app.js" />
+    <Content Remove="wwwroot\js\app.js" />
+    <Content Remove="wwwroot\js\app.js.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="_Styles\" />
+    <Folder Include="LogIn\TwoFactor\" />
+    <Folder Include="Search\" />
+    <Folder Include="Error\" />
+  </ItemGroup>
 </Project>
