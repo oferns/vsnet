@@ -17,33 +17,33 @@ namespace VS.Mvc._Extensions {
 
         public override async ValueTask<RouteValueDictionary> TransformAsync(HttpContext httpContext, RouteValueDictionary values) {
 
-            // var returnedValues = new RouteValueDictionary();
+             var returnedValues = new RouteValueDictionary();
             if (values["subarea"] is string subarea) {
-                values["subarea"] = localizer[subarea].Value;
+                returnedValues["subarea"] = localizer[subarea].Value;
 
             }
 
             if (values["area"] is string area) {
-                values["area"] = localizer[area].Value;
-
+                returnedValues["area"] = localizer[area].Value;
+                    
             }
 
             if (values["controller"] is string controller) {
-                values["controller"] = localizer[controller].Value;
+                returnedValues["controller"] = localizer[controller].Value;
 
             } else {
-                values["controller"] = "Home";
+                returnedValues["controller"] = "Home";
             }
 
             if (values["action"] is string action) {
-                values["action"] = localizer[action].Value;
+                returnedValues["action"] = localizer[action].Value;
             } else {
-                values["action"] = "Index";
+                returnedValues["action"] = "Index";
             }
 
 
 
-            return values;
+            return returnedValues;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace VS.Mvc.Home {
     using System;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Routing;
 
@@ -12,9 +13,12 @@
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Index() => new ViewResult { ViewName = "Home" };
 
+
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult About() => new ViewResult { ViewName = "About" };
 
     }

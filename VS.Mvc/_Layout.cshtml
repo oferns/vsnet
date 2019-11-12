@@ -19,7 +19,8 @@
 
     <span>@linkGen.GetPathByAction("Index", "Home")</span>
     <a asp-controller="Home" asp-action="Index">@sr["Home"]</a>
-    <a asp-area="" asp-controller="Home" asp-action="About">@sr["About"]</a>
+    <a asp-controller="Home" asp-action="About">@sr["About"]</a>
+    <a asp-controller="Search" asp-action="Index">@sr["Search"]</a>
 
     <button>A Button</button>
     <environment include="Development">
