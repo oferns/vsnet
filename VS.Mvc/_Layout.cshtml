@@ -5,13 +5,8 @@
     <meta name="viewport" content="width=device-width" />
     <title>@RenderSection("title", true)</title>
 
-    <link rel="stylesheet" type="text/css" href="/css/app.css" />
+    <link rel="stylesheet" type="text/css" href="/css/app.css" asp-append-version="true" />
 
-    <script src="/js/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-    <script src="/js/webcomponentsjs/webcomponents-loader.js"></script>
-
-
-    <script src="/js/app.js" type="text/javascript"></script>
 </head>
 <body>
 
@@ -26,10 +21,17 @@
     <environment include="Development">
         <vc:user-agent-info></vc:user-agent-info>
         <vc:culture-switcher></vc:culture-switcher>
+        <client-info>
+            <strong slot="languageslabel">@sr["Client Languages"]</strong>
+            <strong slot="languagelabel">@sr["Client Language"]</strong>
+            <strong slot="agentlabel">@sr["User Agent"]</strong>
+        </client-info>
         <vc:build-info></vc:build-info>
-        <client-info></client-info>
         <mini-profiler position="RenderPosition.BottomRight" />
     </environment>
 
+    <script src="/js/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+    <script src="/js/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="/js/app.js" type="text/javascript" asp-append-version="true"></script>
 </body>
 </html> 

@@ -3,33 +3,38 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const { getIfUtils, removeEmpty } = require('webpack-config-utils');
 
 module.exports = env => {
-    return ({
-        mode: (env ? env : (env = {})) && env.MODE ? env.MODE : (env.MODE = 'development'),
-        entry: ['./app.ts','./app.scss'],
-        // devtool: env && env.MODE === 'development' ? 'inline-source-map' : 'none',
-        devtool: false,
+    const { ifProd, ifNotProd } = getIfUtils(env.MODE);
+    return ({       
+        cache: ifNotProd(),
+        mode: (env ? env : (env = {})) && env.MODE ? env.MODE : (env.MODE = 'production'),
+        optimization: {
+            minimize: env.MODE === 'production' || env.MODE === 'staging'
+        },
+        entry: ['./app.ts', './app.scss'],
+        devtool: false, // We handle source maps with a plugin due to issues resolving the paths
         module: {
             rules: [
                 {
                     test: /\.tsx?$/,
                     use: 'babel-loader',
-                    exclude: /node_modules/
+                    exclude: /node_modules|bin|obj|wwwroot/
                 },
                 {
                     test: /\.(sa|sc|c)ss$/,
-                    exclude: /node_modules/,
                     use: [
                         {
                             loader: MiniCssExtractPlugin.loader,
                             options: {
-                                hmr: env.MODE  === 'development'
+                                hmr: env.MODE === 'development', // Hot module reload                                
                             }
                         },
                         'css-loader',
                         'sass-loader'
-                    ] 
+                    ],
+                    exclude: /node_modules|bin|obj|wwwroot/
                 },
                 {
                     test: /\.(html)$/,
@@ -39,31 +44,35 @@ module.exports = env => {
                             attrs: false,
                         },
                     },
-                    exclude: /node_modules/
+                    exclude: /node_modules|bin|obj|wwwroot/
                 },
             ],
         },
         resolve: {
-            extensions: ['.tsx', '.ts', '.scss','.sass','.css']            
+            extensions: ['.js', '.ts', '.tsx', '.scss','.sass','.css']            
         },
         output: {
-            filename: 'app.js',
-            path: path.resolve(__dirname, 'wwwroot/js')
+            filename: 'js/app.js',
+            path: path.resolve(__dirname, 'wwwroot')
         },
-        plugins: [
-            new CleanWebpackPlugin(),          
-            new webpack.SourceMapDevToolPlugin({
+        plugins: removeEmpty([
+            new CleanWebpackPlugin(),  // Delete everything in wwwroot
+            ifNotProd(new webpack.SourceMapDevToolPlugin({  // generate source maps
                 filename: '[file].map',
                 fallbackModuleFilenameTemplate: '[absolute-resource-path]',
                 moduleFilenameTemplate: '[absolute-resource-path]'
                 
+            })),
+            new MiniCssExtractPlugin({  // extract the styles imported in app.scss into app.css
+                filename: "css/app.css"                
             }),
-            new MiniCssExtractPlugin({
-                filename: "../css/app.css"
-            }),
-            new CopyPlugin([
-                { from: 'node_modules/@webcomponents/webcomponentsjs', to: 'webcomponentsjs' }
+            new CopyPlugin([ // Copy the webcomponents polyfill
+                {
+                    from: '**/*.js',
+                    to: 'js/webcomponentsjs',
+                    context: 'node_modules/@webcomponents/webcomponentsjs'
+                }
             ])
-        ]
+        ])
     });
 };

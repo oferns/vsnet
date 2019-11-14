@@ -29,10 +29,9 @@ namespace VS.Mvc {
             this.services = services
                     .AddSingleton<HostCultureOptions[]>(configuration.GetSection("HostCultureOptions").Get<HostCultureOptions[]>())
 #if DEBUG
-                    .AddMiniProfiler().Services
+                    .AddDevServices()
 #endif                    
-                    .AddConstraints()
-                    
+                    .AddConstraints()                    
                     .AddHttpContextAccessor()
                     .AddHostBasedLocalization()
                     .AddAuthenticationCore()
@@ -49,8 +48,8 @@ namespace VS.Mvc {
 
             _ = app
 #if DEBUG
-                .UseMiniProfiler()
-#endif
+                .UseDevTools()
+#endif             
                 .ProxyForwardHeaders()
                 .UseHostBasedLocalization()
                 .UseExceptionHandler("/error")

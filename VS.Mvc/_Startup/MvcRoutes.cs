@@ -13,7 +13,8 @@
             return services.AddRouting(o => {
                 o.ConstraintMap["slugify"] = typeof(SlugifyParameterTransformer);
                 o.LowercaseQueryStrings = true;
-                o.LowercaseQueryStrings = true;
+                o.LowercaseUrls = true;
+                o.AppendTrailingSlash = false;
             });
         }
 
@@ -61,7 +62,7 @@
             );
 
             builder.MapDynamicControllerRoute<LocalizedRouteValueTransformer>(
-                "{controller=Home}/{action:slugify=Index}"
+                "{controller=Home}/{action=Index}"
              );
 
          //   builder.MapControllerRoute(
@@ -74,8 +75,5 @@
             return builder;
 
         }
-
-
-
     }
 }

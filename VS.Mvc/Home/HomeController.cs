@@ -6,15 +6,13 @@
 
     [Controller]
     public class HomeController {
-        private readonly EndpointDataSource dataSource;
 
-        public HomeController(EndpointDataSource dataSource) {
-            this.dataSource = dataSource ?? throw new ArgumentNullException(nameof(dataSource));
-        }
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Index() => new ViewResult { ViewName = "Home" };
+        public IActionResult Index() {
+            return new ViewResult { ViewName = "Home" }; 
+        }
 
 
         [HttpGet]

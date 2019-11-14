@@ -4,8 +4,10 @@
   "description": "Client scripts for vs",
   "main": "app.ts",
   "scripts": {
-    "build": "webpack --env.MODE=production",
-    "start": "webpack-dev-server --env.MODE=development --open",
+    "dev": "node_modules/.bin/webpack --env.MODE=development",
+    "stage": "node_modules/.bin/webpack --env.MODE=staging",
+    "prod": "node_modules/.bin/webpack --env.MODE=production",
+    "start": "node_modules/.bin/webpack -w --env.MODE=development",
     "test": "echo \"Error: no test specified\" && exit 1",
     "tslint-check": "tslint-config-prettier-check ./tslint.json"
   },
@@ -30,6 +32,7 @@
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.4",
+    "css-loader": "^3.2.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "jasmine": "^3.5.0",
@@ -40,7 +43,9 @@
     "karma-jasmine": "^2.0.1",
     "karma-spec-reporter": "^0.0.32",
     "mini-css-extract-plugin": "^0.8.0",
+    "node-sass": "^4.13.0",
     "prettier": "^1.18.2",
+    "sass-loader": "^8.0.0",
     "ts-loader": "^6.2.1",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "tslint": "^5.20.0",
@@ -48,13 +53,12 @@
     "tslint-plugin-prettier": "^2.0.1",
     "typescript": "^3.6.4",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.9.0",
-    "css-loader": "^3.2.0",
-    "node-sass": "^4.13.0",
-    "sass-loader": "^8.0.0"
+    "webpack-cli": "^3.3.10"
   },
   "dependencies": {
-    "@webcomponents/webcomponentsjs": "^2.3.0"
+    "@webcomponents/webcomponentsjs": "^2.3.0",
+    "babel-minify": "^0.5.1",
+    "babel-preset-minify": "^0.5.1",
+    "webpack-config-utils": "^2.3.1"
   }
 }

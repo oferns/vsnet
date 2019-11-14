@@ -1,11 +1,13 @@
-﻿
-namespace VS.Mvc.Error {
+﻿namespace VS.Mvc.Error {
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [AllowAnonymous]
-    public class ErrorController : BaseController {
+    [Controller]
+    public class ErrorController {
+
+
 
         public IActionResult Index(int? sc) {
             var status = sc ?? 500;
@@ -13,12 +15,11 @@ namespace VS.Mvc.Error {
             switch (status) {
                 case 500:
                 default:
-                return View("500");
+                    return new ViewResult { ViewName = "500" };
                 case 404:
-                    return View("404");
+                    return new ViewResult { ViewName = "404" };
+            }
 
         }
-
-    }
     }
 }

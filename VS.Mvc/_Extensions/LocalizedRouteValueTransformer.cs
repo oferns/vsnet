@@ -15,7 +15,7 @@ namespace VS.Mvc._Extensions {
             this.localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
         }
 
-        public override async ValueTask<RouteValueDictionary> TransformAsync(HttpContext httpContext, RouteValueDictionary values) {
+        public override ValueTask<RouteValueDictionary> TransformAsync(HttpContext httpContext, RouteValueDictionary values) {
 
              var returnedValues = new RouteValueDictionary();
             if (values["subarea"] is string subarea) {
@@ -43,7 +43,7 @@ namespace VS.Mvc._Extensions {
 
 
 
-            return returnedValues;
+            return new ValueTask<RouteValueDictionary>(returnedValues);
         }
     }
 }

@@ -3,15 +3,14 @@
     using Microsoft.AspNetCore.Mvc;
 
     [Controller]
-    public class SearchController : BaseController {
+    public class SearchController {
         public SearchController() {
         }
 
 
-
         [HttpGet]       
         public IActionResult Index() {
-            return View("Search");
+            return new ViewResult { ViewName = "Search" };
         }
     }
 }
