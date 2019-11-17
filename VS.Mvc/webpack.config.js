@@ -3,12 +3,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
-const { getIfUtils, removeEmpty } = require('webpack-config-utils');
 
 module.exports = env => {
-    const { ifProd, ifNotProd } = getIfUtils(env.MODE);
-    return ({       
-        cache: ifNotProd(),
+    return {        
         mode: (env ? env : (env = {})) && env.MODE ? env.MODE : (env.MODE = 'production'),
         optimization: {
             minimize: env.MODE === 'production' || env.MODE === 'staging'
@@ -55,24 +52,29 @@ module.exports = env => {
             filename: 'js/app.js',
             path: path.resolve(__dirname, 'wwwroot')
         },
-        plugins: removeEmpty([
+        plugins: [
             new CleanWebpackPlugin(),  // Delete everything in wwwroot
-            ifNotProd(new webpack.SourceMapDevToolPlugin({  // generate source maps
+            new webpack.SourceMapDevToolPlugin({  // generate source maps
                 filename: '[file].map',
                 fallbackModuleFilenameTemplate: '[absolute-resource-path]',
                 moduleFilenameTemplate: '[absolute-resource-path]'
                 
-            })),
+            }),
             new MiniCssExtractPlugin({  // extract the styles imported in app.scss into app.css
                 filename: "css/app.css"                
             }),
-            new CopyPlugin([ // Copy the webcomponents polyfill
+            new CopyPlugin([ // Copy the webcomponents polyfill & any assets 
                 {
                     from: '**/*.js',
                     to: 'js/webcomponentsjs',
                     context: 'node_modules/@webcomponents/webcomponentsjs'
+                },
+                {
+                    from: '**/*',
+                    to: '',
+                    context: path.resolve(__dirname, '../assets')
                 }
             ])
-        ])
-    });
+        ]
+    };
 };

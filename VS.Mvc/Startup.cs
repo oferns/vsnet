@@ -12,7 +12,6 @@ namespace VS.Mvc {
     using VS.Mvc._Services;
     using VS.Mvc._Startup;
 
-
     public class Startup {
 
         internal readonly IConfiguration configuration;
@@ -21,21 +20,20 @@ namespace VS.Mvc {
 
         public Startup(IConfiguration configuration, IWebHostEnvironment env) {
             this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            this.env = env ?? throw new ArgumentNullException(nameof(env));
+            this.env = env ?? throw new ArgumentNullException(nameof(env));            
         }
 
         public void ConfigureServices(IServiceCollection services) {
 
             this.services = services
-                    .AddSingleton<HostCultureOptions[]>(configuration.GetSection("HostCultureOptions").Get<HostCultureOptions[]>())
+                    .AddSingleton<CultureOptions>(configuration.GetSection("CultureOptions").Get<CultureOptions>())
 #if DEBUG
                     .AddDevServices()
 #endif                    
-                    .AddConstraints()                    
+                    .AddConstraints()
                     .AddHttpContextAccessor()
                     .AddHostBasedLocalization()
-                    .AddAuthenticationCore()
-                    .AddAuthorizationCore()
+                    .AddAppIdentity()
                     .AddViewOptions();
         }
 
@@ -51,13 +49,12 @@ namespace VS.Mvc {
                 .UseDevTools()
 #endif             
                 .ProxyForwardHeaders()
+                .UseStaticFiles()
                 .UseHostBasedLocalization()
                 .UseExceptionHandler("/error")
                 .UseStatusCodePagesWithReExecute("/error", "?sc={0}")
-                .UseStaticFiles()
                 .UseRouting()
-                .UseAuthentication()
-                .UseAuthorization()
+                .UseAppIdentity()
                 .UseEndpoints(e => e.AddMvcEndpoints());
 
 #pragma warning restore ASP0001 // Authorization middleware is incorrectly configured.

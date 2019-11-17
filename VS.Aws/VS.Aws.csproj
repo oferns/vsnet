@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.AspNetCore.DataProtection.SSM" Version="1.1.0" />
+    <PackageReference Include="AWSSDK.MQ" Version="3.3.104.18" />
+    <PackageReference Include="AWSSDK.S3" Version="3.3.106.6" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VS.Abstractions\VS.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

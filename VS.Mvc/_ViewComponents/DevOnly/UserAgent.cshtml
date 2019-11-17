@@ -1,6 +1,6 @@
-﻿@model ClientInfo
+﻿@model UAParser.FormFactor.Models.ClientInfo
 
-<div>
+<p>
     <strong>Device</strong>
     <span class=@(Model.Device.IsSpider ? "spider" : null)>
         @Model.Device.Brand, @Model.Device.Family, @Model.Device.Model
@@ -15,6 +15,4 @@
     <span>
         @Model.UA.Family, @Model.UA.Major @Model.UA.Minor @Model.UA.Patch
     </span>
-    <br />
-
-</div>
+</p>

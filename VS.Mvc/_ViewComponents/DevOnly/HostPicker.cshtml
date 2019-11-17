@@ -1,0 +1,16 @@
+﻿@model HostCultureOptions[]
+
+@if (Model is null || Model.Length == 0) { } else {
+    var host = ViewContext.HttpContext.Request.Cookies["vshost"]?.ToString();
+
+    <form method="get" formaction="/cc">
+        
+        <select name="host" asp-items=@Model.Select(c => 
+            new SelectListItem(
+                    c.Host, 
+                    c.Host, 
+                    c.Host.Equals(host)
+              )).Prepend(new SelectListItem("-", null, host is null))></select>
+        <button formmethod="get" formaction="/cc">Go</button>
+    </form>
+}

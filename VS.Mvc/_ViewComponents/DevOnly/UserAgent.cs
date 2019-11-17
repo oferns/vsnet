@@ -1,9 +1,9 @@
-﻿namespace VS.Mvc._ViewComponents {
+﻿namespace VS.Mvc._ViewComponents.DevOnly {
 
     using System.Linq;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
-    using UAParser;
+    using UAParser.FormFactor;
     using VS.Mvc._Extensions;
 
     [ViewComponent(Name="UserAgentInfo")]

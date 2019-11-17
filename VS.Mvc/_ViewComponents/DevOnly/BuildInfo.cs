@@ -1,4 +1,4 @@
-﻿namespace VS.Mvc._ViewComponents {
+﻿namespace VS.Mvc._ViewComponents.DevOnly {
     using System.Linq;
     using Microsoft.AspNetCore.Mvc;
     using VS.Mvc._Extensions;

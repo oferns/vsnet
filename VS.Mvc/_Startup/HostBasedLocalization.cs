@@ -14,17 +14,20 @@
 
         public static IServiceCollection AddHostBasedLocalization(this IServiceCollection services) {
             return services
-                    .AddTransient<HostBasedLocalizationMiddleware>()
-                    .AddTransient<IRequestCultureProvider, CookieRequestCultureProvider>()
-                    .AddTransient<IRequestCultureProvider, AcceptLanguageHeaderRequestCultureProvider>()
-                    .AddTransient<LocalizedRouteValueTransformer>()
-                    .AddTransient<IStringLocalizer, StringLocalizer>();
+                    .AddSingleton<HostBasedLocalizationMiddleware>()
+                    .AddSingleton<LanguageSwitchingMiddleware>()
+                    .AddSingleton<IRequestCultureProvider, CookieRequestCultureProvider>()
+                    .AddSingleton<IRequestCultureProvider, AcceptLanguageHeaderRequestCultureProvider>()
+                    .AddScoped<LocalizedRouteValueTransformer>()                    
+                    .AddScoped<IStringLocalizer, StringLocalizer>();
         }
 
 
         public static IApplicationBuilder UseHostBasedLocalization(this IApplicationBuilder app) {
 
-            return app.UseMiddleware<HostBasedLocalizationMiddleware>();
+            return app
+                    .UseMiddleware<HostBasedLocalizationMiddleware>()
+                    .Map("/cl", b => b.UseMiddleware<LanguageSwitchingMiddleware>());
         }
 
     }

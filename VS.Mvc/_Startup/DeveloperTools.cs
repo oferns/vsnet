@@ -2,25 +2,25 @@
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+    using VS.Mvc._Middleware.DevOnly;
 
     public static class DeveloperTools {
 
         public static IServiceCollection AddDevServices(this IServiceCollection services) {
-            return services.AddMiniProfiler().Services;
+            return services
+                   .AddMiniProfiler().Services
+                   .AddSingleton<HostSwitchingMiddleware>()
+                   .AddSingleton<RouteGraphMiddleware>();
         }
 
         public static IApplicationBuilder UseDevTools(this IApplicationBuilder app) {
-            //var options = new StaticFileOptions
-            //app.AddSpaStaticFiles(o => {
-            //    o.Options.SourcePath = "wwwroot";                
-            //    o.UseProxyToSpaDevelopmentServer("http://localhost:8083");
-            //});
-            app.UseBrowserLink();
-            return app.UseMiniProfiler();
+
+            return app
+                    .UseMiniProfiler()
+                    .Map("/cc", b => b.UseMiddleware<HostSwitchingMiddleware>())
+                    .Map("/graph", b => b.UseMiddleware<RouteGraphMiddleware>())
+
+                    .UseBrowserLink();
         }
     }
 }

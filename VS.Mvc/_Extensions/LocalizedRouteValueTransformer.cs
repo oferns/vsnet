@@ -1,6 +1,4 @@
-﻿
-
-namespace VS.Mvc._Extensions {
+﻿namespace VS.Mvc._Extensions {
     using System;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
@@ -20,7 +18,6 @@ namespace VS.Mvc._Extensions {
              var returnedValues = new RouteValueDictionary();
             if (values["subarea"] is string subarea) {
                 returnedValues["subarea"] = localizer[subarea].Value;
-
             }
 
             if (values["area"] is string area) {
@@ -40,8 +37,6 @@ namespace VS.Mvc._Extensions {
             } else {
                 returnedValues["action"] = "Index";
             }
-
-
 
             return new ValueTask<RouteValueDictionary>(returnedValues);
         }

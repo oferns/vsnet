@@ -1,5 +1,6 @@
 ﻿namespace VS.Mvc._Extensions {
     using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
@@ -16,13 +17,13 @@
         /// <param name="context">The Action context</param>
         /// <param name="url">the url string</param>
         /// <returns>true/false</returns>
-        public static bool IsLocalUrl(this ActionContext context, string url) {
+        public static bool IsLocalUrl(this HttpContext context, string url) {
 
             if (string.IsNullOrEmpty(url)) {
                 return false;
             }
 
-            url = url.Replace($"{context.HttpContext.Request.Scheme}://{context.HttpContext.Request.Host}{context.HttpContext.Request.PathBase}", "");
+            url = url.Replace($"{context.Request.Scheme}://{context.Request.Host}{context.Request.PathBase}", "");
 
             // Allows "/" or "/foo" but not "//" or "/\".
             if (url[0] == '/') {

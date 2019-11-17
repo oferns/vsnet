@@ -6,26 +6,32 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
 
-  <Target Name="RunWebpack" AfterTargets="Build">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <Target Name="RunWebpack" BeforeTargets="Build">
     <Exec Condition="'$(Configuration)'=='Debug'" Command="npm run dev" />
-    <Exec Condition="'$(Configuration)'!='Debug'" Command="npm run prod" />
   </Target>
 
   <ItemGroup>
     <Compile Remove="wwwroot\**" />
-    <Folder Remove="wwwroot" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Analyzers" Version="3.0.0-preview3-19153-02" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.0-preview3.19555.2" />
-    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.4.16" />
+    <PackageReference Include="MediatR" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.0-preview3.19555.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.0-preview3.19553.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.1.0" />
-    <PackageReference Include="UAParser" Version="3.1.43" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.0-preview3.19555.2" />
+    <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
+    <PackageReference Include="Serilog.Sinks.Seq" Version="4.0.0" />
+    <PackageReference Include="UAParser.FormFactor" Version="3.0.2" />
   </ItemGroup>
 
-
+  <ItemGroup>
+    <ProjectReference Include="..\VS.Abstractions\VS.Abstractions.csproj" />
+    <ProjectReference Include="..\VS.App\VS.App.csproj" />
+  </ItemGroup>
   
 </Project>
