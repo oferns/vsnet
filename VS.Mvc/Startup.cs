@@ -1,15 +1,10 @@
 namespace VS.Mvc {
     using System;
-    using System.Linq;
     using Microsoft.AspNetCore.Antiforgery;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Localization;
-    using Microsoft.AspNetCore.Mvc.ApplicationModels;
-    using Microsoft.AspNetCore.Mvc.Razor;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using VS.Mvc._Extensions;
     using VS.Mvc._Services;
     using VS.Mvc._Startup;
 

@@ -10,9 +10,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
-  <Target Name="RunWebpack" BeforeTargets="Build">
+  <!-- <Target Name="RunWebpack" BeforeTargets="Build">
     <Exec Condition="'$(Configuration)'=='Debug'" Command="npm run dev" />
-  </Target>
+  </Target> -->
 
   <ItemGroup>
     <Compile Remove="wwwroot\**" />
@@ -48,4 +48,9 @@
   </ItemGroup>
 
   
+  <ItemGroup>
+    <Folder Include="Search\_fr\" />
+    <Folder Include="Search\_fr\FR\" />
+    <Folder Include="Search\_forms\" />
+  </ItemGroup>
 </Project>

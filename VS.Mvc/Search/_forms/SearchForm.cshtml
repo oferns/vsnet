@@ -1,0 +1,12 @@
+﻿@model Microsoft.Extensions.Primitives.StringValues
+
+
+<form method="get" asp-controller="Search" asp-action="Index">
+
+    @foreach (var term in Model) {
+        <input type="hidden" name="q" value=@term />
+    }
+    
+    <input type="text" name="q" />
+    <button type="submit" formmethod="get" asp-controller="Search" asp-action="Index">Submit</button>
+</form>

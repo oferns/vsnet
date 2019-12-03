@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using VS.Abstractions.Queues;
+    using VS.Abstractions;
     using Amazon.MQ;
     using System.Threading.Tasks;
 
@@ -17,7 +17,7 @@
 
 
         public async Task Publish() { 
-        //await client.
+            
         }
 
         public async Task Subscribe() {

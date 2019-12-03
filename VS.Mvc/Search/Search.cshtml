@@ -1,14 +1,9 @@
 ﻿@section Title {
-    Search
+    @sr["Search"]
 }
 
-<h1>Search Page</h1>
+<h1>@sr["Search Page"]</h1>
 
 <section>
-    <form method="get" asp-action="Index" asp-controller="Search">
-        <input type="hidden" name="term" value="something" />
-
-        <input type="text" name="term" />
-        <button type="submit">Submit</button>
-    </form>
+    <vc:search-form></vc:search-form>
 </section>  
