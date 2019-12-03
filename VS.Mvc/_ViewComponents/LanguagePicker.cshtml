@@ -4,7 +4,7 @@
     @if (Model.Length == 1) {
         <label>@Model[0].TextInfo.CultureName</label>
     } else {
-        <form method="get" formaction="/cl">
+        <form method="get" action="/cl">
             <select name="uilang" asp-items=@Model.Select(c => new SelectListItem(c.TextInfo.CultureName, c.Name, c.Name.Equals(CultureInfo.CurrentUICulture.Name)))>
             </select>
             <button formmethod="get" formaction="/cl">Go</button>

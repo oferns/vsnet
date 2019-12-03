@@ -9,7 +9,7 @@
 
 
         [HttpGet]       
-        public IActionResult Index() {
+        public IActionResult Index([FromQuery] string term) {
             return new ViewResult { ViewName = "Search" };
         }
     }

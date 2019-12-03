@@ -3,7 +3,7 @@
 @if (Model is null || Model.Length == 0) { } else {
     var host = ViewContext.HttpContext.Request.Cookies["vshost"]?.ToString();
 
-    <form method="get" formaction="/cc">
+    <form method="get" action="/cc">
         
         <select name="host" asp-items=@Model.Select(c => 
             new SelectListItem(

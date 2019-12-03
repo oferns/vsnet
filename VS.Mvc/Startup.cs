@@ -1,6 +1,7 @@
 namespace VS.Mvc {
     using System;
     using System.Linq;
+    using Microsoft.AspNetCore.Antiforgery;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Localization;
@@ -34,7 +35,7 @@ namespace VS.Mvc {
                     .AddHttpContextAccessor()
                     .AddHostBasedLocalization()
                     .AddAppIdentity()
-                    .AddViewOptions();
+                    .AddViewOptions(configuration.GetSection("AntiforgeryOptions").Get<AntiforgeryOptions>());
         }
 
         // OJF: ORDER IS IMPORTANT. ONLY CHANGE IF YOU KNOW WHAT YOU ARE DOING AND WHY AND IT BETTER BE IN THE COMMIT MESSAGE (and yes, I did mean to shout that).

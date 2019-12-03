@@ -17,4 +17,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VS.Mvc\VS.Mvc.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -19,7 +19,6 @@
                     .UseMiniProfiler()
                     .Map("/cc", b => b.UseMiddleware<HostSwitchingMiddleware>())
                     .Map("/graph", b => b.UseMiddleware<RouteGraphMiddleware>())
-
                     .UseBrowserLink();
         }
     }

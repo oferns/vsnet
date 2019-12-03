@@ -7,8 +7,8 @@
     "dev": "node_modules/.bin/webpack --env.MODE=development",
     "stage": "node_modules/.bin/webpack --env.MODE=staging",
     "prod": "node_modules/.bin/webpack --env.MODE=production",
-    "start": "node_modules/.bin/webpack -w --env.MODE=development",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "node_modules/.bin/webpack -w --env.MODE=development",
+    "test": "node_modules/jasmine/bin/jasmine --config=./jasmine.json",
     "tslint-check": "tslint-config-prettier-check ./tslint.json"
   },
   "repository": {
@@ -29,9 +29,11 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-typescript": "^7.7.2",
+    "@types/jasmine": "^3.5.0",
     "babel-loader": "^8.0.6",
     "babel-minify": "^0.5.1",
     "babel-preset-minify": "^0.5.1",
+    "chai": "^4.2.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.5",
     "css-loader": "^3.2.0",
@@ -48,18 +50,18 @@
     "node-sass": "^4.13.0",
     "prettier": "^1.19.1",
     "sass-loader": "^8.0.0",
+    "sinon": "^7.5.0",
     "ts-loader": "^6.2.1",
+    "ts-node": "^8.5.2",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
+    "typemoq": "^2.1.0",
     "typescript": "^3.7.2",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
-    "chai": "^4.2.0",
-    "sinon": "^7.5.0",
-    "webpack-config-utils": "^2.3.1",
-    "typemoq": "^2.1.0"
+    "webpack-config-utils": "^2.3.1"
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.4.0"

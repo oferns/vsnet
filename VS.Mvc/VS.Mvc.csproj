@@ -19,6 +19,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="tsconfig.json" />
+    <Content Remove="tslint.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="tsconfig.json" />
+    <None Include="tslint.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MarkdownDeep.NET.Core" Version="1.5.0.4" />
     <PackageReference Include="MediatR" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.0-preview3.19555.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.0-preview3.19553.2" />
@@ -27,11 +38,14 @@
     <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="4.0.0" />
     <PackageReference Include="UAParser.FormFactor" Version="3.0.2" />
+    <PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.3.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\AspNetCore\src\Http\Routing\src\Microsoft.AspNetCore.Routing.csproj" />
+    <ProjectReference Include="..\..\AspNetCore\src\Mvc\Mvc.Core\src\Microsoft.AspNetCore.Mvc.Core.csproj" />
     <ProjectReference Include="..\VS.Abstractions\VS.Abstractions.csproj" />
-    <ProjectReference Include="..\VS.App\VS.App.csproj" />
   </ItemGroup>
+
   
 </Project>

@@ -4,8 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using VS.Abstractions.Queues;
-    using VS.Abstractions.Storage;
+    using VS.Abstractions;
 
     public static class ServiceCollectionExtensions {
 

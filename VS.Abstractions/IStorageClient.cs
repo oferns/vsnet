@@ -1,4 +1,4 @@
-﻿namespace VS.Abstractions.Storage {
+﻿namespace VS.Abstractions {
 
     using System;
     using System.Collections.Generic;
