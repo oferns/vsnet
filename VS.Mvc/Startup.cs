@@ -1,5 +1,6 @@
 namespace VS.Mvc {
     using System;
+    using MediatR;
     using Microsoft.AspNetCore.Antiforgery;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -22,6 +23,7 @@ namespace VS.Mvc {
         public void ConfigureServices(IServiceCollection services) {
 
             this.services = services
+                    .AddSingleton<IMediator, Mediator>()
                     .AddSingleton<CultureOptions>(configuration.GetSection("CultureOptions").Get<CultureOptions>())
 #if DEBUG
                     .AddDevServices()

@@ -1,4 +1,4 @@
-﻿import ClientInfo from "ClientInfo";
+﻿import ClientInfo from "./ClientInfo";
 
 describe("ClientInfo", () => {
 
