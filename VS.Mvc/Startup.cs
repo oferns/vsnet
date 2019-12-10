@@ -23,7 +23,7 @@ namespace VS.Mvc {
         public void ConfigureServices(IServiceCollection services) {
 
             this.services = services
-                    .AddSingleton<IMediator, Mediator>()
+                    .AddMediatR(this.GetType().Assembly)
                     .AddSingleton<CultureOptions>(configuration.GetSection("CultureOptions").Get<CultureOptions>())
 #if DEBUG
                     .AddDevServices()

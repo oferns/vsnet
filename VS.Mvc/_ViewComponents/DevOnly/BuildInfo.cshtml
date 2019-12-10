@@ -1,8 +1,9 @@
 ﻿@model System.Reflection.AssemblyName[]
 
 
-
 <div>
+    <label>Framework Version:</label>@Environment.Version
+    <br />
     @foreach (var a in Model) {
         <span>@a.Name @a.Version (@a.CultureInfo?.DisplayName)</span>
         <br />
