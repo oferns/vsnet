@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Apache.NMS.ActiveMQ.NetStd" Version="1.7.2.4115" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.0" />
   </ItemGroup>
 
 </Project>

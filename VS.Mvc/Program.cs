@@ -38,20 +38,22 @@ namespace VS.Mvc {
                 .ConfigureWebHostDefaults(webBuilder => {
 
                     webBuilder.ConfigureKestrel(serverOptions => {
+                        serverOptions.Limits.Http2.MaxStreamsPerConnection = 100;
                         serverOptions.Limits.MaxConcurrentConnections = 100;
                         serverOptions.Limits.MaxConcurrentUpgradedConnections = 100;
                         serverOptions.Limits.MaxRequestBodySize = 10 * 1024;
                         serverOptions.Limits.MinRequestBodyDataRate =
-                            new MinDataRate(bytesPerSecond: 100,
-                                gracePeriod: TimeSpan.FromSeconds(10));
+                           new MinDataRate(bytesPerSecond: 100,
+                               gracePeriod: TimeSpan.FromSeconds(10));
                         serverOptions.Limits.MinResponseDataRate =
-                            new MinDataRate(bytesPerSecond: 100,
-                                gracePeriod: TimeSpan.FromSeconds(10));
-                       //  serverOptions.Listen(IPAddress.Loopback, 5000);
-                        serverOptions.Listen(IPAddress.Loopback, 5001,
+                           new MinDataRate(bytesPerSecond: 100,
+                               gracePeriod: TimeSpan.FromSeconds(10));
+                        //  serverOptions.Listen(IPAddress.Loopback, 5000);
+                        serverOptions.Listen(IPAddress.Loopback, 5000,
                             listenOptions => {
-                                listenOptions.UseHttps("testCert.pfx",
-                                    "testPassword");
+                                listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
+                                listenOptions.UseHttps("localhost.pfx",
+                                    "Evert0nFC");
                             });
                         serverOptions.Limits.KeepAliveTimeout =
                             TimeSpan.FromMinutes(2);
