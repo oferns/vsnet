@@ -10,9 +10,9 @@
 
         public static IServiceCollection AddAWSServices(this IServiceCollection services) {
             return services
-                    .AddSingleton<IAmazonMQ,AmazonMQClient>()
-                    .AddTransient<IStorageClient, S3StorageClient>()
-                    .AddTransient<IQueueClient, MqQueueClient>();
+                    .AddSingleton<IAmazonMQ, AmazonMQClient>()
+                    .AddTransient<IStorageClient, S3StorageClient>();
+                   
         }
     }
 }

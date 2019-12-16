@@ -3,21 +3,23 @@
 <html lang="@CultureInfo.CurrentCulture.TextInfo.CultureName">
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>@RenderSection("title", true)</title>
+    <title>@RenderSection("Title", true)</title>
 
     <link rel="stylesheet" type="text/css" href="/css/app.css" asp-append-version="true" />
 
 </head>
 <body>
+    <header>
+        @RenderSection("Header", false)
+    </header>
+    <aside>
+        @RenderSection("Aside", false)
+    </aside>
+    <main>
+        @RenderBody()
+    </main>
 
-    @RenderBody()
 
-    <span>@linkGen.GetPathByAction("Index", "Home")</span>
-    <a asp-controller="Home" asp-action="Index">@sr["Home"]</a>
-    <a asp-controller="Home" asp-action="About">@sr["About"]</a>
-    <a asp-controller="Search" asp-action="Index">@sr["Search"]</a>
-
-    <button>A Button</button>
     <environment include="Development">
         <vc:host-picker></vc:host-picker>
         <vc:language-picker></vc:language-picker>
@@ -34,9 +36,15 @@
         <vc:build-info></vc:build-info>
         <mini-profiler position="RenderPosition.BottomRight" />
     </environment>
+    <footer>
+
+    </footer>
+
 
     <script src="/js/webcomponentsjs/custom-elements-es5-adapter.js"></script>
     <script src="/js/webcomponentsjs/webcomponents-loader.js"></script>
     <script src="/js/app.js" type="text/javascript" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", false)
 </body>
 </html> 
