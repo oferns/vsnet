@@ -43,6 +43,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VS.Abstractions\VS.Abstractions.csproj" />
+    <ProjectReference Include="..\VS.Core\VS.Core.csproj" />
   </ItemGroup>
 
 

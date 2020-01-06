@@ -7,9 +7,7 @@
     public class SearchForm : LocalizedViewComponent {
 
         public IViewComponentResult Invoke() {
-
-            var qs = ViewContext.HttpContext.Request.Query["q"];
-            return View(qs);
+            return View();
         }
 
 

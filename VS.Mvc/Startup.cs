@@ -28,8 +28,9 @@ namespace VS.Mvc {
 #if DEBUG
                     .AddDevServices()
 #endif                    
+                    .AddRequestCorrelation()
                     .AddConstraints()
-                    .AddHttpContextAccessor()
+                    .AddHttpContextAccessor()                    
                     .AddHostBasedLocalization()
                     .AddAppIdentity()
                     .AddViewOptions(configuration.GetSection("AntiforgeryOptions").Get<AntiforgeryOptions>());
@@ -48,6 +49,7 @@ namespace VS.Mvc {
 #endif             
                 .ProxyForwardHeaders()
                 .UseStaticFiles()
+                .UseRequestCorrelation()
                 .UseHostBasedLocalization()
                 .UseExceptionHandler("/error")
                 .UseStatusCodePagesWithReExecute("/error", "?sc={0}")

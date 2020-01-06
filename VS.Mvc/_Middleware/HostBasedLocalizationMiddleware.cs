@@ -41,7 +41,7 @@
             var hostOptions = options.HostOptions.FirstOrDefault(o => Regex.IsMatch(o.Host, @$"\b{host}\b", RegexOptions.Compiled | RegexOptions.IgnoreCase));
 
 #if DEBUG
-            if (hostOptions is null) {
+            if (hostOptions is null && context.Request.Cookies["vshost"] is object) {
                 context.Response.Cookies.Delete("vshost");
             }
 #endif

@@ -6,8 +6,12 @@ namespace VS.Core.Search {
     using MediatR;
     using Microsoft.Extensions.Primitives;
 
-    public class SearchRequest : IRequest<Uri[]> {
+    public class SearchRequest : IRequest<SearchResponse[]> {
 
-        public StringValues[] Query { get; set; }
+        public SearchRequest(StringValues[] query) {
+            Query = query;
+        }
+
+        public StringValues[] Query { get; private set; }
     }
 }

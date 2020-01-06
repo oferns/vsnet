@@ -4,7 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using VS.Abstractions;
+    using VS.Abstractions.Storage;
 
     public static class ServiceCollectionExtensions {
 
