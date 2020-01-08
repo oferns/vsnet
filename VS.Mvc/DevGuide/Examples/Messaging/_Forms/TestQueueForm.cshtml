@@ -1,0 +1,12 @@
+﻿@model TestMessageModel
+
+
+<form method="post" asp-route-subarea="Examples" asp-area="DevGuide" asp-controller="Messaging" asp-action="SendToQueue">
+    <section>
+        <textarea asp-for="Message"></textarea>
+    </section>
+    <section>
+        <button formmethod="post" asp-route-subarea="Examples" asp-area="DevGuide" asp-controller="Messaging" asp-action="SendToQueue">@sr["Send"]</button>
+    </section>
+
+</form>

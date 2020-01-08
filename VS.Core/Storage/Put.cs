@@ -3,14 +3,25 @@
     using System;
     using System.IO;
     using System.Net.Mime;
+    using System.Runtime.Serialization;
 
     public class Put : IRequest<Uri> {
 
-        public Uri RelativePath { get; set; }
-        public Stream Stream { get; set; }
+        public Put(Uri uri, Stream stream, ContentDisposition contentDisposition, ContentType contentType) {
+            Uri = uri ?? throw new ArgumentNullException(nameof(uri));
+            Stream = stream ?? throw new ArgumentNullException(nameof(stream));
+            ContentDisposition = contentDisposition ?? throw new ArgumentNullException(nameof(contentDisposition));
+            ContentType = contentType ?? throw new ArgumentNullException(nameof(contentType));
+        }
 
-        public ContentDisposition ContentDisposition { get; set; }
+        public Uri Uri { get; }
 
-        public ContentType ContentType { get; set; }
+        [IgnoreDataMember]
+        public Stream Stream { get; }
+
+        public ContentDisposition ContentDisposition { get; }
+
+        public ContentType ContentType { get; }
+
     }
 }

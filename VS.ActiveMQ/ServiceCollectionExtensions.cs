@@ -10,10 +10,6 @@
                 throw new ArgumentNullException(nameof(services));
             }
 
-            if (options is null) {
-                throw new ArgumentNullException(nameof(options));
-            }
-
             return services
                 .AddSingleton<IConnectionFactory>(new NMSConnectionFactory(options.Address))
                 .AddScoped<IConnection>(s => s.GetService<IConnectionFactory>().CreateConnection())

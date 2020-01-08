@@ -15,6 +15,7 @@
     /// Base storage client that uses the machine temp directory if no config is provided
     /// </summary>
     public class FileStorageClient : IStorageClient {
+       
         private readonly IFileProvider provider;
         private readonly IContentTypeProvider typeProvider;
 
@@ -23,13 +24,16 @@
             this.typeProvider = typeProvider ?? throw new ArgumentNullException(nameof(typeProvider));
         }
 
+        private Uri baseUri;
         public Uri BaseUri {
             get {
-
-                if (provider is PhysicalFileProvider pfile) {
-                    return new Uri(pfile.Root);
+                if (baseUri is null) {
+                    if (provider is PhysicalFileProvider pfile) {
+                        return (baseUri = new Uri(pfile.Root));
+                    }
+                    return (baseUri = new Uri(Path.GetTempPath()));
                 }
-                return new Uri(Path.GetTempPath());
+                return baseUri;
             }
         }
 
@@ -105,8 +109,21 @@
 
         }
 
-        public Task<Uri> Put(Stream stream, Uri uri, ContentType contentType, ContentDisposition contentDisposition, CancellationToken cancel) {
-            throw new NotImplementedException();
+        public async Task<Uri> Put(Stream stream, Uri uri, ContentDisposition contentDisposition, ContentType contentType, CancellationToken cancel) {
+            bool isRelative = !uri.IsAbsoluteUri;
+            if (isRelative) {
+                uri = new Uri(this.BaseUri, uri);
+            }
+
+            if (!await Exists(uri, cancel)) {
+                new FileInfo(uri.LocalPath).Directory.Create();
+            }
+
+            using FileStream writer = new FileStream(uri.LocalPath, FileMode.Create, FileAccess.Write);
+            await stream.CopyToAsync(writer);
+
+            return uri;
+
         }
 
         public Task<bool> Remove(Uri uri, CancellationToken cancel) {

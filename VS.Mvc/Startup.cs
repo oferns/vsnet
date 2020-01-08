@@ -6,34 +6,49 @@ namespace VS.Mvc {
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
+    using SimpleInjector;
+    using VS.ActiveMQ;
     using VS.Mvc._Services;
     using VS.Mvc._Startup;
 
     public class Startup {
-
+        internal readonly Container container;
         internal readonly IConfiguration configuration;
         internal readonly IWebHostEnvironment env;
         internal IServiceCollection services;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment env) {
             this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            this.env = env ?? throw new ArgumentNullException(nameof(env));            
+            this.env = env ?? throw new ArgumentNullException(nameof(env));
+            container = new Container();
         }
 
         public void ConfigureServices(IServiceCollection services) {
 
-            this.services = services
+            this.services = services                   
                     .AddMediatR(this.GetType().Assembly)
                     .AddSingleton<CultureOptions>(configuration.GetSection("CultureOptions").Get<CultureOptions>())
 #if DEBUG
                     .AddDevServices()
 #endif                    
                     .AddRequestCorrelation()
+                    .AddActiveMQServices(configuration.GetSection("MQueueOptions").Get<MQueueOptions>() ?? new MQueueOptions())
                     .AddConstraints()
-                    .AddHttpContextAccessor()                    
+                    .AddHttpContextAccessor()
                     .AddHostBasedLocalization()
                     .AddAppIdentity()
-                    .AddViewOptions(configuration.GetSection("AntiforgeryOptions").Get<AntiforgeryOptions>());
+                    .AddViewOptions(configuration.GetSection("AntiforgeryOptions").Get<AntiforgeryOptions>())
+                    .AddSimpleInjector(container, options => {
+                        options.AddLogging()
+                           .AddAspNetCore()
+                           .AddControllerActivation()
+                           .AddViewComponentActivation()
+                           .AddPageModelActivation()
+                           .AddTagHelperActivation();
+                        
+                        container.AddCoreServices();
+                     });
         }
 
         // OJF: ORDER IS IMPORTANT. ONLY CHANGE IF YOU KNOW WHAT YOU ARE DOING AND WHY AND IT BETTER BE IN THE COMMIT MESSAGE (and yes, I did mean to shout that).
@@ -44,6 +59,7 @@ namespace VS.Mvc {
 #pragma warning disable ASP0001 // Authorization middleware is incorrectly configured.
 
             _ = app
+                
 #if DEBUG
                 .UseDevTools()
 #endif             

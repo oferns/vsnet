@@ -7,9 +7,12 @@ namespace VS.Mvc {
     using System;
     using Microsoft.AspNetCore.Server.Kestrel.Core;
     using System.Net;
+    using SimpleInjector;
+    using System.Threading.Tasks;
 
     public class Program {
-        public static void Main(string[] args) {
+        public static async Task Main(string[] args) {
+           
             var config = new LoggerConfiguration();
             config.Enrich.FromLogContext()
             .WriteTo.Console();
@@ -24,7 +27,10 @@ namespace VS.Mvc {
 
             try {
                 Log.Information("Starting up");
-                CreateHostBuilder(args).Build().Run();
+                await CreateHostBuilder(args)
+                      .Build()                     
+                      .RunAsync();
+
             } catch (Exception ex) {
                 Log.Fatal(ex, "Application start-up failed");
             } finally {
@@ -34,7 +40,7 @@ namespace VS.Mvc {
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseSerilog()
+                .UseSerilog(Log.Logger)
                 .ConfigureWebHostDefaults(webBuilder => {
 
                     webBuilder.ConfigureKestrel(serverOptions => {
@@ -59,10 +65,11 @@ namespace VS.Mvc {
                             TimeSpan.FromMinutes(2);
                         serverOptions.Limits.RequestHeadersTimeout =
                             TimeSpan.FromMinutes(1);
-                    })        
+                    })
+                    .UseSerilog()
                     .UseStartup<Startup>()
                     .ConfigureAppConfiguration((context, builder) => {
-                            builder.AddEnvironmentVariables();
+                        builder.AddEnvironmentVariables();
                     });
                 });
     }

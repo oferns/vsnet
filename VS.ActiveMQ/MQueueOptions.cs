@@ -7,7 +7,6 @@ namespace VS.ActiveMQ {
 
     public class MQueueOptions {
 
-
-        public string Address { get; set; }
+        public string Address { get; set; } = "activemq:tcp://localhost:61616";
     }
 }

@@ -18,7 +18,7 @@
 
         public S3StorageClient(IAmazonS3 s3) {
             this.s3 = s3 ?? throw new ArgumentNullException(nameof(s3));
-       
+
         }
 
         public Uri BaseUri {
@@ -39,7 +39,7 @@
             throw new NotImplementedException();
         }
 
-        public Task<Uri> Put(Stream stream, Uri uri, ContentType contentType, ContentDisposition contentDisposition, CancellationToken cancel) {
+        public Task<Uri> Put(Stream stream, Uri uri, ContentDisposition contentDisposition, ContentType contentType, CancellationToken cancel) {
             throw new NotImplementedException();
         }
 

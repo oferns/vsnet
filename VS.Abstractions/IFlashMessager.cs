@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-
+﻿
 namespace VS.Abstractions {
+
+    using System.Collections.Generic;
 
     /// <summary>
     /// An interface for client messaging 

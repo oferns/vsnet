@@ -3,12 +3,12 @@
     using Microsoft.AspNetCore.Mvc;
     using VS.Mvc._Extensions;
 
-    [Controller]
+    [Controller]    
     public class DevGuideController {
 
         [HttpGet]
         [NavLink("DevGuide", "Index", 0)]
-        public IActionResult Index() => new ViewResult { ViewName = "Index" };
+        public IActionResult Index() => new ViewResult { ViewName = "DevGuide" };
 
         [HttpGet]
         [NavLink("DevGuide", "Architecture", 1)]

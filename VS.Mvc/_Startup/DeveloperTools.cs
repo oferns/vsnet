@@ -2,7 +2,9 @@
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
+    using System.Data;
     using VS.Mvc._Middleware.DevOnly;
+    using VS.Mvc.Services.DevOnly;
 
     public static class DeveloperTools {
 
@@ -10,7 +12,8 @@
             return services
                    .AddMiniProfiler().Services
                    .AddSingleton<HostSwitchingMiddleware>()
-                   .AddSingleton<RouteGraphMiddleware>();
+                   .AddSingleton<RouteGraphMiddleware>()
+                   .AddScoped<IDbConnection, NoOpConnection>();
         }
 
         public static IApplicationBuilder UseDevTools(this IApplicationBuilder app) {

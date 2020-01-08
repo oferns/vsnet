@@ -55,16 +55,23 @@
             }
         }
 
-
         public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing) {
+
+            if (disposing) {
 #if DEBUG
-            if (this.commitCount != this.transactionCount) {
-                System.Diagnostics.Debug.WriteLine("You have left a DB transaction open. Look for a call to Begin() without a corresponding Commit(). This transaction will be rolled back");
-                Rollback();
-            }
+                if (this.commitCount != this.transactionCount) {
+                    System.Diagnostics.Debug.WriteLine("You have left a DB transaction open. Look for a call to Begin() without a corresponding Commit(). This transaction will be rolled back");
+                    Rollback();
+                }
 #endif
-            if (this.connection != null) {
-                this.connection.Dispose(); // Equivelent to Close() 
+                if (this.connection != null) {
+                    this.connection.Dispose(); // Equivelent to Close() 
+                }
             }
         }
     }

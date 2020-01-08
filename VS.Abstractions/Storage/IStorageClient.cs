@@ -18,7 +18,7 @@
 
         Task<Stream> Get(Uri uri, CancellationToken cancel);
 
-        Task<Uri> Put(Stream stream, Uri uri, ContentType contentType, ContentDisposition contentDisposition, CancellationToken cancel);
+        Task<Uri> Put(Stream stream, Uri uri, ContentDisposition contentDisposition, ContentType contentType, CancellationToken cancel);
 
         Task<bool> Exists(Uri uri, CancellationToken cancel);
 
