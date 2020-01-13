@@ -3,7 +3,11 @@
     "VS.Mvc": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "AWS_ACCESS_KEY_ID": "AKIAIODGVLXS42Z5D7BQ",
+        "SEQ_API_KEY": "bFzpkR6P5P0tQndkpgIn",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SEQ_URI": "http://localhost:5341",
+        "AWS_SECRET_KEY": "PnZejFgZ+I606NZ+0hged3nTihIc7iLxxEPDpaii"
       },
       "applicationUrl": ""
     }

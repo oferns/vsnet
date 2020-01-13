@@ -24,6 +24,6 @@
 
         Task<bool> Remove(Uri uri, CancellationToken cancel);
 
-        Task<Uri> TemporaryLink(AccessLevel accessLevel, Uri path, DateTime start, DateTime expiry, CancellationToken cancel);
+        Task<Uri> TemporaryLink(AccessLevel accessLevel, Uri uri, DateTime start, DateTime expiry, CancellationToken cancel);
     }
 }

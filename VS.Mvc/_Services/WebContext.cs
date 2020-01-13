@@ -1,12 +1,11 @@
-﻿
-namespace VS.Mvc._Services {
+﻿namespace VS.Mvc._Services {
+
     using Microsoft.AspNetCore.Http;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
+    using System.Globalization;
     using System.Security.Claims;
-    using System.Threading.Tasks;
     using VS.Abstractions;
 
     public class WebContext : IContext {
@@ -16,9 +15,10 @@ namespace VS.Mvc._Services {
                 throw new ArgumentNullException(nameof(contextAccessor));
             }
 
-            this.User = (ClaimsPrincipal)contextAccessor.HttpContext.User;
+            this.User = (ClaimsPrincipal)contextAccessor.HttpContext.User; 
             this.Host = contextAccessor.HttpContext.Request.Host.Host;
-            this.RequestId = Activity.Current?.Id ?? contextAccessor.HttpContext.TraceIdentifier;
+            this.UICulture = CultureInfo.CurrentUICulture;
+            this.RequestId = Activity.Current?.RootId ?? contextAccessor.HttpContext.TraceIdentifier;
         }
 
         public ClaimsPrincipal User { get; }
@@ -26,5 +26,8 @@ namespace VS.Mvc._Services {
         public string Host { get; }
 
         public string RequestId { get; }
+
+        public CultureInfo UICulture { get; }
+
     }
 }

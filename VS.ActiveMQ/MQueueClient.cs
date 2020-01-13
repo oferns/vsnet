@@ -20,7 +20,7 @@
             using var producer = session.CreateProducer(dest);
             var mess = this.session.CreateTextMessage(JsonSerializer.Serialize(message.Body));
             mess.NMSCorrelationID = message.CorrelationId;
-            producer.Send(mess);
+            producer.Send(mess, MsgDeliveryMode.Persistent,MsgPriority.Normal, TimeSpan.FromSeconds(10));
             return message;
         }
     }

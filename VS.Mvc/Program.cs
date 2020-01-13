@@ -9,18 +9,18 @@ namespace VS.Mvc {
     using System.Net;
     using SimpleInjector;
     using System.Threading.Tasks;
+    using System.IO;
 
     public class Program {
         public static async Task Main(string[] args) {
-           
+
             var config = new LoggerConfiguration();
-            config.Enrich.FromLogContext()
+            config.Enrich.FromLogContext()            
             .WriteTo.Console();
 
-            var seq = Environment.GetEnvironmentVariable("SEQ_URL");
+            var seq = Environment.GetEnvironmentVariable("SEQ_URI");
             if (seq is object) {
-
-                config = config.WriteTo.Seq(seq);
+                config = config.WriteTo.Seq(seq, apiKey: Environment.GetEnvironmentVariable("SEQ_API_KEY"));
             }
 
             Log.Logger = config.CreateLogger();
@@ -28,19 +28,20 @@ namespace VS.Mvc {
             try {
                 Log.Information("Starting up");
                 await CreateHostBuilder(args)
-                      .Build()                     
+                      .Build()
                       .RunAsync();
 
             } catch (Exception ex) {
-                Log.Fatal(ex, "Application start-up failed");
+                Log.Fatal(ex, "Application failed!");
             } finally {
                 Log.CloseAndFlush();
             }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+            new HostBuilder()
                 .UseSerilog(Log.Logger)
+                .UseContentRoot(Directory.GetCurrentDirectory())
                 .ConfigureWebHostDefaults(webBuilder => {
 
                     webBuilder.ConfigureKestrel(serverOptions => {
@@ -54,23 +55,26 @@ namespace VS.Mvc {
                         serverOptions.Limits.MinResponseDataRate =
                            new MinDataRate(bytesPerSecond: 100,
                                gracePeriod: TimeSpan.FromSeconds(10));
-                        //  serverOptions.Listen(IPAddress.Loopback, 5000);
                         serverOptions.Listen(IPAddress.Loopback, 5000,
                             listenOptions => {
                                 listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
                                 listenOptions.UseHttps("localhost.pfx",
                                     "Evert0nFC");
                             });
-                        serverOptions.Limits.KeepAliveTimeout =
-                            TimeSpan.FromMinutes(2);
-                        serverOptions.Limits.RequestHeadersTimeout =
-                            TimeSpan.FromMinutes(1);
+                        serverOptions.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(2);
+                        serverOptions.Limits.RequestHeadersTimeout = TimeSpan.FromMinutes(1);
                     })
-                    .UseSerilog()
-                    .UseStartup<Startup>()
                     .ConfigureAppConfiguration((context, builder) => {
-                        builder.AddEnvironmentVariables();
-                    });
+                        builder.AddEnvironmentVariables()
+                           .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
+                           .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: false);
+
+                        var path = Path.Combine(context.HostingEnvironment.ContentRootPath, "_Config");
+
+                        foreach (var file in Directory.EnumerateFiles(path, "*.json", SearchOption.AllDirectories)) {
+                            builder.AddJsonFile(file, true, false);
+                        }
+                    }).UseStartup<Startup>();
                 });
     }
 }

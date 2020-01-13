@@ -11,7 +11,7 @@
     /// A request to get data from a table returning SQL function
     /// </summary>
     /// <typeparam name="T">The Function type</typeparam>
-    /// <typeparam name="A"></typeparam>
+    /// <typeparam name="A">The arguments type</typeparam>
     public class GetWithArgs<T, A> : IRequest<IEnumerable<T>> where T :class where A :class {
 
 

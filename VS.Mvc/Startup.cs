@@ -1,5 +1,6 @@
 namespace VS.Mvc {
     using System;
+    using Amazon.S3;
     using MediatR;
     using Microsoft.AspNetCore.Antiforgery;
     using Microsoft.AspNetCore.Builder;
@@ -7,8 +8,10 @@ namespace VS.Mvc {
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Serilog;
     using SimpleInjector;
     using VS.ActiveMQ;
+    using VS.Aws;
     using VS.Mvc._Services;
     using VS.Mvc._Startup;
 
@@ -21,12 +24,12 @@ namespace VS.Mvc {
         public Startup(IConfiguration configuration, IWebHostEnvironment env) {
             this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             this.env = env ?? throw new ArgumentNullException(nameof(env));
-            container = new Container();
+            this.container = new Container();
         }
 
         public void ConfigureServices(IServiceCollection services) {
 
-            this.services = services                   
+            this.services = services
                     .AddMediatR(this.GetType().Assembly)
                     .AddSingleton<CultureOptions>(configuration.GetSection("CultureOptions").Get<CultureOptions>())
 #if DEBUG
@@ -40,15 +43,18 @@ namespace VS.Mvc {
                     .AddAppIdentity()
                     .AddViewOptions(configuration.GetSection("AntiforgeryOptions").Get<AntiforgeryOptions>())
                     .AddSimpleInjector(container, options => {
-                        options.AddLogging()
+                        options
                            .AddAspNetCore()
                            .AddControllerActivation()
-                           .AddViewComponentActivation()
-                           .AddPageModelActivation()
+                           .AddViewComponentActivation()                           
                            .AddTagHelperActivation();
-                        
-                        container.AddCoreServices();
-                     });
+
+                        container
+                            .AddAwsServices(configuration, Log.Logger)
+                            .AddCoreServices();
+
+
+                    });
         }
 
         // OJF: ORDER IS IMPORTANT. ONLY CHANGE IF YOU KNOW WHAT YOU ARE DOING AND WHY AND IT BETTER BE IN THE COMMIT MESSAGE (and yes, I did mean to shout that).
@@ -59,7 +65,7 @@ namespace VS.Mvc {
 #pragma warning disable ASP0001 // Authorization middleware is incorrectly configured.
 
             _ = app
-                
+                .UseSerilogRequestLogging()
 #if DEBUG
                 .UseDevTools()
 #endif             

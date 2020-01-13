@@ -25,7 +25,7 @@
             using var stream = new MemoryStream();
             await MessagePackSerializer.SerializeAsync<T>(stream, request.Message.Body, ContractlessStandardResolver.Options, cancel);
             stream.Seek(0, SeekOrigin.Begin);
-            await mediator.Send(new Put(new Uri($"messages/{request.Message.CorrelationId}.queue", UriKind.Relative), stream, new ContentDisposition(DispositionTypeNames.Attachment), new ContentType()), cancel);
+            await mediator.Send(new Put(new Uri($"divertedmessages/{request.Message.CorrelationId}.queue", UriKind.Relative), stream, new ContentDisposition(DispositionTypeNames.Attachment), new ContentType()), cancel);
             return request.Message.Body;
         }
     }

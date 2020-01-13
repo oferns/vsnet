@@ -3,7 +3,6 @@
     using System;
     using System.IO;
     using System.Net.Mime;
-    using System.Runtime.Serialization;
 
     public class Put : IRequest<Uri> {
 
@@ -16,7 +15,6 @@
 
         public Uri Uri { get; }
 
-        [IgnoreDataMember]
         public Stream Stream { get; }
 
         public ContentDisposition ContentDisposition { get; }

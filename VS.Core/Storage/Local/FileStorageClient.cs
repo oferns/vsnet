@@ -15,7 +15,7 @@
     /// Base storage client that uses the machine temp directory if no config is provided
     /// </summary>
     public class FileStorageClient : IStorageClient {
-       
+
         private readonly IFileProvider provider;
         private readonly IContentTypeProvider typeProvider;
 
@@ -77,7 +77,7 @@
             }
 
             if (!info.IsDirectory) {
-     //           return Task.FromResult(new PagedIndex(new[] { GetItemFromUri(uri) }, pageSize));
+                //           return Task.FromResult(new PagedIndex(new[] { GetItemFromUri(uri) }, pageSize));
             }
 
             var ite = this.provider.GetDirectoryContents(uri.AbsoluteUri);
@@ -86,7 +86,7 @@
             var dirInfo = new DirectoryInfo(uri.AbsoluteUri);
 
             return Task.FromResult(default(PagedIndex));
-           
+
         }
 
         private IEnumerable<IndexItem> FlattenDirectory(IFileInfo info) {
@@ -95,17 +95,17 @@
             }
 
             if (!info.IsDirectory) {
-                yield return GetItemFromInfo(info) ;
+                yield return GetItemFromInfo(info);
             }
 
             foreach (var item in this.provider.GetDirectoryContents(info.PhysicalPath)) {
                 if (item.IsDirectory) {
-                    foreach (var subitem in FlattenDirectory(item)) { 
-                        
+                    foreach (var subitem in FlattenDirectory(item)) {
+
                     }
                 }
             }
-            
+
 
         }
 
@@ -131,7 +131,10 @@
         }
 
         public Task<Uri> TemporaryLink(AccessLevel accessLevel, Uri path, DateTime start, DateTime expiry, CancellationToken cancel) {
-            throw new NotImplementedException();
+            if (!path.IsAbsoluteUri) {
+                path = new Uri(this.BaseUri, path);
+            }
+            return Task.FromResult(path);
         }
 
         /// <summary>                                                                                                                                                    ks*
@@ -164,7 +167,7 @@
 
 
         //private void GetFiles(IFileInfo fileInfo) {
-            
+
         //    var contents = this.provider.GetDirectoryContents("");
 
         //    foreach (var content in contents) {

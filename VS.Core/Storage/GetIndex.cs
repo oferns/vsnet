@@ -3,10 +3,9 @@
     using System;
     using VS.Abstractions.Storage.Paging;
 
-    public class Index : IRequest<PagedIndex> {
+    public class GetIndex : IRequest<PagedIndex> {
 
-
-        public Index(Uri prefix, int pageSize, string token) {
+        public GetIndex(Uri prefix, int pageSize, string token) {
             Prefix = prefix;
             PageSize = pageSize;
             Token = token;

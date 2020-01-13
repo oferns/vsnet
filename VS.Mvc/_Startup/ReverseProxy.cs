@@ -12,10 +12,14 @@
         /// Add headers forwarded by the web proxy, if there is one (ie nginx)
         /// </summary>
         public static IApplicationBuilder ProxyForwardHeaders(this IApplicationBuilder app) {
-            return app.UseForwardedHeaders(new ForwardedHeadersOptions {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
-             
+            var options = new ForwardedHeadersOptions {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto                
+            };
+
+            options.KnownNetworks.Clear();
+            options.KnownProxies.Clear();
+
+            return app.UseForwardedHeaders(options);             
         }
     }
 }

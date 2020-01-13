@@ -7,14 +7,14 @@
     using VS.Abstractions.Storage.Paging;
     using VS.Core.Storage;
 
-    public class IndexHandler : IRequestHandler<Index, PagedIndex> {
+    public class GetIndexHandler : IRequestHandler<GetIndex, PagedIndex> {
         private readonly IStorageClient client;
 
-        public IndexHandler(IStorageClient client) {
+        public GetIndexHandler(IStorageClient client) {
             this.client = client ?? throw new System.ArgumentNullException(nameof(client));
         }
 
-        public async Task<PagedIndex> Handle(Index request, CancellationToken cancel) {
+        public async Task<PagedIndex> Handle(GetIndex request, CancellationToken cancel) {
            return await client.Index(request.Prefix, request.PageSize, request.Token, cancel);
         }
     }

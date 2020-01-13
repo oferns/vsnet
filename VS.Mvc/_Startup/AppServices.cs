@@ -56,8 +56,8 @@
             container.Collection.Append(typeof(INotificationHandler<>), typeof(ChangeNotificationHandler<>));
 
 
-            container.Register<IDbClient, DbClient>();
-            container.Register<IStorageClient, FileStorageClient>();
+            container.RegisterConditional<IDbClient, DbClient>(c => !c.Handled);
+            container.RegisterConditional<IStorageClient, FileStorageClient>(c => !c.Handled);
             container.Register<IFileProvider>(() => new PhysicalFileProvider(Path.GetTempPath()));
             container.RegisterSingleton<IContentTypeProvider>(()=> new  FileExtensionContentTypeProvider());
             return container;
