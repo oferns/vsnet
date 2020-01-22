@@ -4,6 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Threading;
     using VS.Abstractions.Messaging;
 
     [TestClass]
@@ -13,55 +14,55 @@
         public class BrokerTests {
 
 
-            [TestMethod]
-            public void ShouldListQueues() {
+            //[TestMethod]
+            //public void ShouldListQueues() {
 
 
-                string brokerUri = $"activemq:tcp://localhost:61616";  // Default port
-                NMSConnectionFactory factory = new NMSConnectionFactory(brokerUri);
+            //    string brokerUri = $"activemq:tcp://localhost:61616";  // Default port
+            //    NMSConnectionFactory factory = new NMSConnectionFactory(brokerUri);
 
-                using IConnection connection = factory.CreateConnection();
-                connection.Start();
-                using ISession session = connection.CreateSession(AcknowledgementMode.AutoAcknowledge);
+            //    using IConnection connection = factory.CreateConnection();
+            //    connection.Start();
+            //    using ISession session = connection.CreateSession(AcknowledgementMode.AutoAcknowledge);
 
-                var client = new MQueueBroker(session);
+            //    var client = new MQueueBroker(session);
 
 
-                var list = client.List(true);
+            //    var list = client.List(true);
 
-            }
+            //}
 
-            [TestMethod]
-            public void ShouldRemoveQueue() {
+            //[TestMethod]
+            //public void ShouldRemoveQueue() {
 
-                string brokerUri = $"activemq:tcp://localhost:61616";  // Default port
-                NMSConnectionFactory factory = new NMSConnectionFactory(brokerUri);
+            //    string brokerUri = $"activemq:tcp://localhost:61616";  // Default port
+            //    NMSConnectionFactory factory = new NMSConnectionFactory(brokerUri);
 
-                using IConnection connection = factory.CreateConnection();
-                connection.Start();
-                using ISession session = connection.CreateSession(AcknowledgementMode.AutoAcknowledge);
+            //    using IConnection connection = factory.CreateConnection();
+            //    connection.Start();
+            //    using ISession session = connection.CreateSession(AcknowledgementMode.AutoAcknowledge);
 
-                var client = new MQueueBroker(session);
+            //    var client = new MQueueBroker(session);
 
-                client.Destroy("test");
+            //    client.Destroy("test");
 
-            }
+            //}
 
-            [TestMethod]
-            public void ShouldCreateQueue() {
+            //[TestMethod]
+            //public void ShouldCreateQueue() {
 
-                string brokerUri = $"activemq:tcp://localhost:61616";  // Default port
-                NMSConnectionFactory factory = new NMSConnectionFactory(brokerUri);
+            //    string brokerUri = $"activemq:tcp://localhost:61616";  // Default port
+            //    NMSConnectionFactory factory = new NMSConnectionFactory(brokerUri);
 
-                using IConnection connection = factory.CreateConnection();
-                connection.Start();
-                using ISession session = connection.CreateSession(AcknowledgementMode.AutoAcknowledge);
+            //    using IConnection connection = factory.CreateConnection();
+            //    connection.Start();
+            //    using ISession session = connection.CreateSession(AcknowledgementMode.AutoAcknowledge);
 
-                var client = new MQueueBroker(session);
+            //    var client = new MQueueBroker(session);
 
-                client.Create("test");
+            //    client.Create("test");
 
-            }
+            //}
         }
         
 
@@ -78,7 +79,7 @@
                 using ISession session = connection.CreateSession(AcknowledgementMode.AutoAcknowledge);
                 var client = new MQueueClient(session);
                 var message = new Message<TestModel>(new TestModel { StringProp = "SomeString" }, "Test");
-                var retmsg = client.Send<TestModel>("test", message);
+                var retmsg = client.Send<TestModel>("test", message, CancellationToken.None);
 
             }
             public class TestModel { 

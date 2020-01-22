@@ -11,14 +11,21 @@
     public class WebContext : IContext {
 
         public WebContext(IHttpContextAccessor contextAccessor) {
-            if (contextAccessor?.HttpContext is null) {
+            if (contextAccessor is null) {
                 throw new ArgumentNullException(nameof(contextAccessor));
             }
 
-            this.User = (ClaimsPrincipal)contextAccessor.HttpContext.User; 
-            this.Host = contextAccessor.HttpContext.Request.Host.Host;
+            this.User = contextAccessor.HttpContext?.User as ClaimsPrincipal; 
+            this.Host = contextAccessor.HttpContext?.Request.Host.Host;
+
+#if DEBUG
+            var hostoverride = this.User?.FindFirstValue("hostoverride");
+            if (!string.IsNullOrEmpty(hostoverride)) {
+                this.Host = hostoverride;
+            }
+#endif
             this.UICulture = CultureInfo.CurrentUICulture;
-            this.RequestId = Activity.Current?.RootId ?? contextAccessor.HttpContext.TraceIdentifier;
+            this.RequestId = Activity.Current?.RootId ?? contextAccessor.HttpContext?.TraceIdentifier;
         }
 
         public ClaimsPrincipal User { get; }

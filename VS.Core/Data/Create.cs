@@ -1,4 +1,4 @@
-﻿
+﻿   
 namespace VS.Core.Data {
     using MediatR;
     using System.Collections.Generic;

@@ -23,7 +23,7 @@
                 return false;
             }
 
-            url = url.Replace($"{context.Request.Scheme}://{context.Request.Host}{context.Request.PathBase}", "");
+            url = url.Replace($"{context.Request.Scheme}://{context.Request.Host}", "");
 
             // Allows "/" or "/foo" but not "//" or "/\".
             if (url[0] == '/') {

@@ -7,6 +7,7 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Security.Claims;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using VS.Mvc._Services;
@@ -34,7 +35,8 @@
 
 #if DEBUG
             if (context.Request.Cookies["vshost"] is object) {
-                host = context.Request.Cookies["vshost"].ToString();            
+                host = context.Request.Cookies["vshost"].ToString();
+                ((ClaimsIdentity)context.User.Identity).AddClaim(new Claim("hostoverride", host, ClaimValueTypes.String, "vsnet"));
             }
 #endif
 

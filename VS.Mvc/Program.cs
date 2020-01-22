@@ -1,15 +1,14 @@
 namespace VS.Mvc {
 
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Hosting;
-    using Microsoft.Extensions.Configuration;
-    using Serilog;
     using System;
-    using Microsoft.AspNetCore.Server.Kestrel.Core;
-    using System.Net;
-    using SimpleInjector;
-    using System.Threading.Tasks;
     using System.IO;
+    using System.Net;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Server.Kestrel.Core;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Hosting;
+    using Serilog;
 
     public class Program {
         public static async Task Main(string[] args) {

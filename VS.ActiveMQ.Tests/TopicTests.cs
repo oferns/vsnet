@@ -14,55 +14,55 @@
         public class BrokerTests {
 
 
-            [TestMethod]
-            public void ShouldListTopics() {
+            //[TestMethod]
+            //public void ShouldListTopics() {
 
 
-                string brokerUri = $"activemq:tcp://localhost:61616";  // Default port
-                NMSConnectionFactory factory = new NMSConnectionFactory(brokerUri);
+            //    string brokerUri = $"activemq:tcp://localhost:61616";  // Default port
+            //    NMSConnectionFactory factory = new NMSConnectionFactory(brokerUri);
 
-                using IConnection connection = factory.CreateConnection();
-                connection.Start();
-                using ISession session = connection.CreateSession(AcknowledgementMode.AutoAcknowledge);
+            //    using IConnection connection = factory.CreateConnection();
+            //    connection.Start();
+            //    using ISession session = connection.CreateSession(AcknowledgementMode.AutoAcknowledge);
 
-                var client = new MTopicBroker(session);
+            //    var client = new MTopicBroker(session);
 
 
-                var list = client.List(true);
+            //    var list = client.List(true);
 
-            }
+            //}
 
-            [TestMethod]
-            public void ShouldRemoveTopic() {
+            //[TestMethod]
+            //public void ShouldRemoveTopic() {
 
-                string brokerUri = $"activemq:tcp://localhost:61616";  // Default port
-                NMSConnectionFactory factory = new NMSConnectionFactory(brokerUri);
+            //    string brokerUri = $"activemq:tcp://localhost:61616";  // Default port
+            //    NMSConnectionFactory factory = new NMSConnectionFactory(brokerUri);
 
-                using IConnection connection = factory.CreateConnection();
-                connection.Start();
-                using ISession session = connection.CreateSession(AcknowledgementMode.AutoAcknowledge);
+            //    using IConnection connection = factory.CreateConnection();
+            //    connection.Start();
+            //    using ISession session = connection.CreateSession(AcknowledgementMode.AutoAcknowledge);
 
-                var client = new MTopicBroker(session);
+            //    var client = new MTopicBroker(session);
 
-                client.Destroy("test");
+            //    client.Destroy("test");
 
-            }
+            //}
 
-            [TestMethod]
-            public void ShouldCreateTopic() {
+            //[TestMethod]
+            //public void ShouldCreateTopic() {
 
-                string brokerUri = $"activemq:tcp://localhost:61616";  // Default port
-                NMSConnectionFactory factory = new NMSConnectionFactory(brokerUri);
+            //    string brokerUri = $"activemq:tcp://localhost:61616";  // Default port
+            //    NMSConnectionFactory factory = new NMSConnectionFactory(brokerUri);
 
-                using IConnection connection = factory.CreateConnection();
-                connection.Start();
-                using ISession session = connection.CreateSession(AcknowledgementMode.AutoAcknowledge);
+            //    using IConnection connection = factory.CreateConnection();
+            //    connection.Start();
+            //    using ISession session = connection.CreateSession(AcknowledgementMode.AutoAcknowledge);
 
-                var client = new MTopicBroker(session);
+            //    var client = new MTopicBroker(session);
 
-                client.Create("test");
+            //    client.Create("test");
 
-            }
+            //}
         }
 
 

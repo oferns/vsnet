@@ -1,17 +1,13 @@
 namespace VS.Mvc {
     using System;
-    using Amazon.S3;
-    using MediatR;
     using Microsoft.AspNetCore.Antiforgery;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc.Infrastructure;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
     using Serilog;
     using SimpleInjector;
-    using VS.ActiveMQ;
-    using VS.Aws;
     using VS.Mvc._Services;
     using VS.Mvc._Startup;
 
@@ -30,29 +26,31 @@ namespace VS.Mvc {
         public void ConfigureServices(IServiceCollection services) {
 
             this.services = services
-                    .AddMediatR(this.GetType().Assembly)
                     .AddSingleton<CultureOptions>(configuration.GetSection("CultureOptions").Get<CultureOptions>())
 #if DEBUG
                     .AddDevServices()
 #endif                    
                     .AddRequestCorrelation()
-                    .AddActiveMQServices(configuration.GetSection("MQueueOptions").Get<MQueueOptions>() ?? new MQueueOptions())
-                    .AddConstraints()
+                    .AddConstraints()                    
+                    .AddSingleton<IActionContextAccessor, ActionContextAccessor>()
                     .AddHttpContextAccessor()
                     .AddHostBasedLocalization()
                     .AddAppIdentity()
                     .AddViewOptions(configuration.GetSection("AntiforgeryOptions").Get<AntiforgeryOptions>())
                     .AddSimpleInjector(container, options => {
-                        options
+                        options                        
                            .AddAspNetCore()
                            .AddControllerActivation()
-                           .AddViewComponentActivation()                           
+                           .AddViewComponentActivation()
                            .AddTagHelperActivation();
 
                         container
+                            .AddLogging()
                             .AddAwsServices(configuration, Log.Logger)
-                            .AddCoreServices();
-
+                            .AddCoreServices()
+                            .AddPostGresServices()
+                            .AddSerializationServices();                            
+                         
 
                     });
         }
@@ -66,21 +64,24 @@ namespace VS.Mvc {
 
             _ = app
                 .UseSerilogRequestLogging()
-#if DEBUG
-                .UseDevTools()
-#endif             
                 .ProxyForwardHeaders()
                 .UseStaticFiles()
                 .UseRequestCorrelation()
+                .UseSimpleInjector(container)
                 .UseHostBasedLocalization()
                 .UseExceptionHandler("/error")
                 .UseStatusCodePagesWithReExecute("/error", "?sc={0}")
                 .UseRouting()
                 .UseAppIdentity()
+#if DEBUG
+                .UseDevTools()
+#endif    
                 .UseEndpoints(e => e.AddMvcEndpoints());
 
 #pragma warning restore ASP0001 // Authorization middleware is incorrectly configured.
 
+
+            container.Verify();
         }
     }
 }

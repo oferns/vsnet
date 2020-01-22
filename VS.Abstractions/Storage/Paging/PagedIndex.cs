@@ -1,6 +1,4 @@
 ﻿namespace VS.Abstractions.Storage.Paging {
-
-    using System.Collections;
     using System.Collections.Generic;
 
     public class PagedIndex : List<IndexItem> {

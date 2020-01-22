@@ -1,42 +1,40 @@
 ﻿
 namespace VS.PostGres {
-    using MediatR;
+
     using Npgsql;
     using System;
     using System.Data;
     using VS.Abstractions.Data;
+
 
     /// <summary>
     /// The PostGres SQL client.
     /// </summary>
     public sealed class PgClient : IDbClient {
 
+        public event NoticeEventHandler MessageRecieved;
         private readonly IDbClient wrappedClient;
-        private readonly IMediator mediator;
 
         private bool attached = false;
         private readonly object atlock = new object();
 
-        public PgClient(IDbClient wrappedClient, IMediator mediator) {
+        public PgClient(IDbClient wrappedClient) {
             this.wrappedClient = wrappedClient ?? throw new ArgumentNullException(nameof(wrappedClient));
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public IDbConnection Connection { 
+        public IDbConnection Connection {
             get {
-                if (!attached && wrappedClient.Connection is NpgsqlConnection conn) {
+                if (!attached && MessageRecieved is object && wrappedClient.Connection is NpgsqlConnection conn) {
                     lock (atlock) {
                         if (!attached) {
-                            conn.Notice += async (s, e) => {
-                                await mediator.Publish(new PgMessageNotification(e.Notice));
-                            };
+                            conn.Notice += MessageRecieved;
                         }
                         attached = true;
                     }
                 } else {
                     attached = true;
-                }    
-              
+                }
+
                 return wrappedClient.Connection;
             }
         }

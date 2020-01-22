@@ -6,7 +6,7 @@
     public class IndexItem {
 
         public IndexItem(Uri location, ContentDisposition contentDisposition, ContentType contentType) {
-            Location = location;
+            Location = location ?? throw new ArgumentNullException(nameof(location));
             ContentDisposition = contentDisposition;
             ContentType = contentType;
         }

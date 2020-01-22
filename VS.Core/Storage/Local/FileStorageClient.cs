@@ -1,6 +1,7 @@
 ﻿namespace VS.Core.Storage {
     using Microsoft.AspNetCore.StaticFiles;
     using Microsoft.Extensions.FileProviders;
+    using Microsoft.Extensions.FileProviders.Physical;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -38,21 +39,21 @@
         }
 
         public Task<bool> Exists(Uri uri, CancellationToken cancel) {
-            if (!uri.IsAbsoluteUri) {
-                uri = new Uri(this.BaseUri, uri);
+            if (uri.IsAbsoluteUri) {
+                uri = uri.MakeRelativeUri(this.BaseUri);
             }
 
-            var info = this.provider.GetFileInfo(uri.AbsoluteUri);
+            var info = this.provider.GetFileInfo(uri.ToString());
             return Task.FromResult(info.Exists);
 
         }
 
         public Task<Stream> Get(Uri uri, CancellationToken cancel) {
-            if (!uri.IsAbsoluteUri) {
-                uri = new Uri(this.BaseUri, uri);
+            if (uri.IsAbsoluteUri) {
+                uri = uri.MakeRelativeUri(this.BaseUri);
             }
 
-            var info = this.provider.GetFileInfo(uri.AbsoluteUri);
+            var info = this.provider.GetFileInfo(uri.ToString());
             return Task.FromResult(info.CreateReadStream());
         }
 
@@ -66,79 +67,63 @@
         /// <param name="cancel">a cancellation token</param>
         /// <returns></returns>
         public Task<PagedIndex> Index(Uri uri, int pageSize, string token, CancellationToken cancel) {
-            if (!uri.IsAbsoluteUri) {
-                uri = new Uri(this.BaseUri, uri);
+            if (uri.IsAbsoluteUri) {
+                uri = uri.MakeRelativeUri(this.BaseUri);
             }
 
-            var info = this.provider.GetFileInfo(uri.AbsoluteUri);
+            var info = this.provider.GetFileInfo(uri.ToString());
 
-            if (!info.Exists) {
-                return Task.FromResult(new PagedIndex(Enumerable.Empty<IndexItem>(), pageSize));
+            if (info.Exists) {
+                return Task.FromResult(new PagedIndex(new[] { GetItemFromInfo(info) }, pageSize));
             }
 
-            if (!info.IsDirectory) {
-                //           return Task.FromResult(new PagedIndex(new[] { GetItemFromUri(uri) }, pageSize));
-            }
+            var files = this.provider.GetDirectoryContents(uri.ToString());
 
-            var ite = this.provider.GetDirectoryContents(uri.AbsoluteUri);
-
-
-            var dirInfo = new DirectoryInfo(uri.AbsoluteUri);
-
-            return Task.FromResult(default(PagedIndex));
-
-        }
-
-        private IEnumerable<IndexItem> FlattenDirectory(IFileInfo info) {
-            if (info == null) {
-                yield break;
-            }
-
-            if (!info.IsDirectory) {
-                yield return GetItemFromInfo(info);
-            }
-
-            foreach (var item in this.provider.GetDirectoryContents(info.PhysicalPath)) {
-                if (item.IsDirectory) {
-                    foreach (var subitem in FlattenDirectory(item)) {
-
-                    }
-                }
-            }
+            return Task.FromResult(new PagedIndex(files.Select(f => GetItemFromInfo(f)).Take(pageSize), pageSize, token));
 
 
         }
-
+       
         public async Task<Uri> Put(Stream stream, Uri uri, ContentDisposition contentDisposition, ContentType contentType, CancellationToken cancel) {
-            bool isRelative = !uri.IsAbsoluteUri;
-            if (isRelative) {
-                uri = new Uri(this.BaseUri, uri);
+            if (uri.IsAbsoluteUri) {
+                uri = uri.MakeRelativeUri(this.BaseUri);
             }
 
             if (!await Exists(uri, cancel)) {
-                new FileInfo(uri.LocalPath).Directory.Create();
+                new FileInfo(uri.ToString()).Directory.Create();
             }
 
-            using FileStream writer = new FileStream(uri.LocalPath, FileMode.Create, FileAccess.Write);
+            using FileStream writer = new FileStream(new Uri(this.BaseUri, uri).LocalPath, FileMode.Create, FileAccess.Write);
             await stream.CopyToAsync(writer);
 
             return uri;
-
         }
 
-        public Task<bool> Remove(Uri uri, CancellationToken cancel) {
-            throw new NotImplementedException();
+        public async Task<bool> Remove(Uri uri, CancellationToken cancel) {
+            return await Task.Factory.StartNew(() => {
+                if (uri.IsAbsoluteUri) {
+                    uri = uri.MakeRelativeUri(this.BaseUri);
+                }
+
+                var info = this.provider.GetFileInfo(uri.ToString());
+
+                if (!info.Exists) {
+                    return false;
+                }
+
+                File.Delete(info.PhysicalPath);
+                return true;
+            });
         }
 
-        public Task<Uri> TemporaryLink(AccessLevel accessLevel, Uri path, DateTime start, DateTime expiry, CancellationToken cancel) {
-            if (!path.IsAbsoluteUri) {
-                path = new Uri(this.BaseUri, path);
+        public Task<Uri> TemporaryLink(AccessLevel accessLevel, Uri uri, DateTime start, DateTime expiry, CancellationToken cancel) {
+            if (uri.IsAbsoluteUri) {
+                uri = uri.MakeRelativeUri(this.BaseUri);
             }
-            return Task.FromResult(path);
+            return Task.FromResult(new Uri(this.BaseUri, uri));
         }
 
-        /// <summary>                                                                                                                                                    ks*
-        /// 
+        /// <summary>                                                                                                                                                    
         /// Gets info about a local file and converts it to a <see cref="IndexItem"/>
         /// </summary>
         /// <param name="uri">The file Uri</param>
@@ -165,18 +150,13 @@
             return new IndexItem(new Uri(info.PhysicalPath), contentdisposition, contenttype);
         }
 
-
-        //private void GetFiles(IFileInfo fileInfo) {
-
-        //    var contents = this.provider.GetDirectoryContents("");
-
-        //    foreach (var content in contents) {
-        //        if (!content.IsDirectory && content.Name.ToLower().EndsWith(".pdf")) {
-        //            files.Add(content);
-        //        } else {
-        //            GetFiles(content.PhysicalPath, files);
-        //        }
-        //    }
-        //}
+        private IEnumerable<IFileInfo> GetFiles(IEnumerable<IFileInfo> dirContents) {
+            foreach (var fileOrDir in dirContents) {
+                if (fileOrDir.IsDirectory) {
+                    GetFiles(this.provider.GetDirectoryContents(fileOrDir.PhysicalPath));
+                }
+                yield return fileOrDir;
+            }
+        }
     }
 }

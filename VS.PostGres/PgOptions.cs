@@ -1,8 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace VS.PostGres {
 
-namespace VS.PostGres {
-    class PgOptions {
+    public class PgOptions {
+
+
+
+
+        public int MaxBatchInsertSize { get; set; } = 500;
+
     }
 }

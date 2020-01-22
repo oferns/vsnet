@@ -2,14 +2,14 @@
     using System;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Routing;
     using Microsoft.Extensions.Logging;
+    using VS.Abstractions.Logging;
 
     [Controller]
     public class HomeController {
-        private readonly ILogger<HomeController> log;
+        private readonly ILog log;
 
-        public HomeController(ILogger<HomeController> log) {
+        public HomeController(ILog log) {
             this.log = log ?? throw new ArgumentNullException(nameof(log));
         }
 

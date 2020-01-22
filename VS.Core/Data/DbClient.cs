@@ -1,9 +1,7 @@
 ﻿namespace VS.Core.Data {
 
     using System;
-    using System.Collections.Generic;
     using System.Data;
-    using System.Text;
     using VS.Abstractions.Data;
 
 
@@ -34,13 +32,13 @@
         
         public void BeginTransaction() {
             transactionCount++;
-            if (Transaction == null) {
+            if (Transaction is null) {
                 Transaction = this.Connection.BeginTransaction();
             }
         }
         public void Commit() {
             commitCount++;
-            if (commitCount == transactionCount) {
+            if (commitCount.Equals(transactionCount)) {
                 Transaction.Commit();
                 Transaction.Dispose();
                 Transaction = null;
@@ -48,7 +46,7 @@
         }
 
         public void Rollback() {
-            if (Transaction != null) {
+            if (Transaction is object) {
                 Transaction.Rollback();
                 Transaction.Dispose();
                 Transaction = null;
@@ -69,7 +67,7 @@
                     Rollback();
                 }
 #endif
-                if (this.connection != null) {
+                if (this.connection is object) {
                     this.connection.Dispose(); // Equivelent to Close() 
                 }
             }

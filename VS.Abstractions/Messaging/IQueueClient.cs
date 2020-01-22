@@ -3,10 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
 
-    public interface IQueueClient<T> {
+    public interface IQueueClient {
 
-        Message<M> Send<M>(string queue, Message<M> message) where M : class;
+        Task<Message<M>> Send<M>(string queue, Message<M> message, CancellationToken cancel) where M : class;
+
 
     }
 }

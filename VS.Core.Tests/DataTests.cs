@@ -2,9 +2,8 @@
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Linq;
-    using VS.Core.Data.Abstractions;
-    using VS.Core.Data.Filtering;
-    using VS.Core.Data.Paging;
+    using VS.Abstractions.Data.Filtering;
+    using VS.Abstractions.Data.Paging;
 
     [TestClass]
     public class DataTests {

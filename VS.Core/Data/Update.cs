@@ -2,7 +2,7 @@
 
     using MediatR;
     using System.Collections.Generic;
-    using VS.Core.Data.Abstractions;
+    using VS.Abstractions.Data.Filtering;
 
     public class Update<T> : IRequest<IEnumerable<T>> where T : class {
 

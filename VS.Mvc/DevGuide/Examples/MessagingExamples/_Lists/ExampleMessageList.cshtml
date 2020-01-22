@@ -1,0 +1,17 @@
+﻿@model PagedIndex
+
+
+@if (!Model.Any()) {
+
+} else {
+
+    <ul>
+        @foreach (var doc in Model) {
+
+            <li>               
+                <a href="@doc.Location.AbsoluteUri">@(doc.ContentDisposition?.FileName ?? doc.Location.AbsoluteUri)</a>
+            </li>
+
+        }
+    </ul>
+}

@@ -37,6 +37,7 @@
             }).ToArray());
 
             container.Register<IAmazonMQ, RegionAwareAmazonMQClient>();
+
             var assemblies = new[] { typeof(PutRequestDecorator).Assembly }; 
 
             container.GetTypesToRegister(
