@@ -1,10 +1,5 @@
 ﻿namespace VS.Mvc._Services {
-
-    using System;
-    using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class CultureOptions {
 

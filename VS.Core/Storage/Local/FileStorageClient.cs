@@ -1,14 +1,12 @@
 ﻿namespace VS.Core.Storage {
-    using Microsoft.AspNetCore.StaticFiles;
-    using Microsoft.Extensions.FileProviders;
-    using Microsoft.Extensions.FileProviders.Physical;
     using System;
     using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
+    using System.IO;    
     using System.Net.Mime;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.StaticFiles;
+    using Microsoft.Extensions.FileProviders;
     using VS.Abstractions.Storage;
     using VS.Abstractions.Storage.Paging;
 
@@ -79,8 +77,17 @@
 
             var files = this.provider.GetDirectoryContents(uri.ToString());
 
-            return Task.FromResult(new PagedIndex(files.Select(f => GetItemFromInfo(f)).Take(pageSize), pageSize, token));
+            var items = new List<IndexItem>();
 
+            var index = 1;
+
+            foreach (var file in files) {
+                if (index.Equals(pageSize)) break;
+                items.Add(GetItemFromInfo(file));
+                index++;
+            }
+
+            return Task.FromResult(new PagedIndex(items, pageSize, token));
 
         }
        

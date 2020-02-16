@@ -10,13 +10,14 @@
             this.contextAccessor = contextAccessor ?? throw new System.ArgumentNullException(nameof(contextAccessor));
         }
 
-        
-        public int StartFrom { get {
+
+        public int StartFrom {
+            get {
                 if (int.TryParse(contextAccessor.HttpContext?.Request.Query["sf"], out var sf)) {
 
                     return sf;
                 }
-                return 0;            
+                return 0;
             }
         }
         public int PageSize {

@@ -5,59 +5,58 @@
     using System.Data;
     using VS.Abstractions.Data;
 
-    public struct CultureMetadata : IMetaData<Culture> {
+    public class CultureMetadata : IMetaData<Culture> {
         public string NativeName => "app.culture";
         public Type ReturnType => typeof(Culture);
         public Type ArgumentType => default;
 
-        public IEnumerable<int> PrimaryKeys => new[] { 0 };
+        public IList<int> PrimaryKeys => new[] { 0 };
         public IDictionary<object, IEnumerable<int>> ForeignKeys => new Dictionary<object, IEnumerable<int>>();
 
-        public IDictionary<ValueTuple<string, bool>, IEnumerable<int>> Indices => new Dictionary<ValueTuple<string, bool>, IEnumerable<int>> {
-            { ("ix_culture_specific_culture", true), new [] { 1 } }
-        };
+        public IList<IndexInfo> Indices => new List<IndexInfo> { new IndexInfo("ix_culture_specific_culture", true, new int[] { 1 }) };
 
-        public IEnumerable<Field> Fields => new[] { 
-            new Field {
-                    Ordinal = 0,
-                    Property = typeof(Culture).GetProperty("Code"),
-                    NativeName = "code",
-                    DbType = (int)DbType.String,
-                    DbTypeName = "character varying(24)",
-                    DefaultExpression = null,                    
-                    Generated = false,
-                    ReadOnly = false,
-            },
-            new Field {
-                    Ordinal = 1,
-                    Property = typeof(Culture).GetProperty("SpecificCulture"),
-                    NativeName = "specific_culture",
-                    DbType = (int)DbType.String,
-                    DbTypeName = "character varying(24)",
-                    DefaultExpression = null,                    
-                    Generated = false,
-                    ReadOnly = false                    
-            } ,
-            new Field {
-                    Ordinal = 2,
-                    Property = typeof(Culture).GetProperty("EnglishName"),
-                    NativeName = "english_name",
-                    DbType = (int)DbType.String,
-                    DbTypeName = "character varying(255)",
-                    DefaultExpression = null,                    
-                    Generated = false,
-                    ReadOnly = false                    
-            } ,
-            new Field {
-                    Ordinal = 3,
-                    Property = typeof(Culture).GetProperty("LocalName"),
-                    NativeName = "local_name",
-                    DbType = (int)DbType.String,
-                    DbTypeName = "character varying(255)",
-                    DefaultExpression = null,                    
-                    Generated = false,
-                    ReadOnly = false
-            }
-        };        
+        public IList<DbFieldInfo> Fields => new[] {
+
+             new DbFieldInfo(
+                    0,
+                    typeof(Culture).GetProperty("Code"),
+                    "code",
+                    "int(11)",
+                    (int) DbType.Int32,
+                    true,
+                    true,
+                    null
+            ),
+             new DbFieldInfo(
+                    1,
+                    typeof(Culture).GetProperty("SpecificCulture"),
+                    "specific_culture",
+                    "character varying(24)",
+                    (int) DbType.String,
+                    false,
+                    false,
+                    null
+            ),
+             new DbFieldInfo(
+                    2,
+                    typeof(Culture).GetProperty("EnglishName"),
+                    "english_name",
+                    "character varying(255)",
+                    (int) DbType.String,
+                    false,
+                    false,
+                    null
+            ),
+            new DbFieldInfo(
+                    3,
+                    typeof(Culture).GetProperty("LocalName"),
+                    "local_name",
+                    "character varying(255)",
+                    (int) DbType.String,
+                    false,
+                    false,
+                    null
+            )
+        };
     }
 }

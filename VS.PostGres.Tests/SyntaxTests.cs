@@ -1,9 +1,6 @@
-﻿
-
-namespace VS.PostGres.Tests {
+﻿namespace VS.PostGres.Tests {
     using System.Collections.Generic;
-    using System.Dynamic;
-    using System.Linq;
+    using System.Dynamic;    
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
     using VS.Abstractions.Data.Filtering;
@@ -56,9 +53,14 @@ namespace VS.PostGres.Tests {
             var sql = provider.Select(filter, default, default, out var parameters);
 
             // Act
+            var keyEnum = parameters.Keys.GetEnumerator();
+            var valueEnum = parameters.Values.GetEnumerator();
+
             Assert.AreEqual(1, parameters.Count);
-            Assert.AreEqual("Code0_0", parameters.Keys.Single());
-            Assert.AreEqual("en", parameters.Values.Single());
+            Assert.IsTrue(keyEnum.MoveNext());
+            Assert.IsTrue(valueEnum.MoveNext());
+            Assert.AreEqual("Code0_0", keyEnum.Current);
+            Assert.AreEqual("en", valueEnum.Current);
             Assert.AreEqual("SELECT code, specific_culture, english_name, local_name FROM app.culture WHERE code = @Code0_0;", sql);
 
         }
@@ -103,9 +105,14 @@ namespace VS.PostGres.Tests {
             var sql = provider.Select(filter, sorter, default, out var parameters);
 
             // Act
+            var keyEnum = parameters.Keys.GetEnumerator();
+            var valueEnum = parameters.Values.GetEnumerator();
+            Assert.IsTrue(keyEnum.MoveNext());
+            Assert.IsTrue(valueEnum.MoveNext());
+
             Assert.AreEqual(1, parameters.Count);
-            Assert.AreEqual("Code0_0", parameters.Keys.Single());
-            Assert.AreEqual("en", parameters.Values.Single());
+            Assert.AreEqual("Code0_0", keyEnum.Current);
+            Assert.AreEqual("en", valueEnum.Current);
             Assert.AreEqual("SELECT code, specific_culture, english_name, local_name FROM app.culture WHERE code = @Code0_0 ORDER BY code ASC;", sql);
         }
 
@@ -120,9 +127,14 @@ namespace VS.PostGres.Tests {
             var sql = provider.Select(filter, default, pager, out var parameters);
 
             // Act
+            var keyEnum = parameters.Keys.GetEnumerator();
+            var valueEnum = parameters.Values.GetEnumerator();
+            Assert.IsTrue(keyEnum.MoveNext());
+            Assert.IsTrue(valueEnum.MoveNext());
+
             Assert.AreEqual(1, parameters.Count);
-            Assert.AreEqual("Code0_0", parameters.Keys.Single());
-            Assert.AreEqual("en", parameters.Values.Single());
+            Assert.AreEqual("Code0_0", keyEnum.Current);
+            Assert.AreEqual("en", valueEnum.Current);
             Assert.AreEqual("SELECT code, specific_culture, english_name, local_name FROM app.culture WHERE code = @Code0_0 LIMIT 10 OFFSET 0;", sql);
         }
 
@@ -149,7 +161,7 @@ namespace VS.PostGres.Tests {
             var fields = new[] { "Code", "EnglishName" };
 
             // Act
-            var sql = provider.Select(fields.AsEnumerable(), default, default, default, out var parameters);
+            var sql = provider.Select(fields, default, default, default, out var parameters);
 
             // Assert
             Assert.AreEqual(0, parameters.Count);
@@ -166,7 +178,7 @@ namespace VS.PostGres.Tests {
             var fields = new[] { "Code", "EnglishName", "Nonsense" };
 
             // Act
-            var sql = provider.Select(fields.AsEnumerable(), default, default, default, out var parameters);
+            var sql = provider.Select(fields, default, default, default(IPager), out var parameters);
 
             // Assert
             internalLog.Verify(l => l.Log(It.IsAny<LogEntry>()), Times.Once());
@@ -185,7 +197,7 @@ namespace VS.PostGres.Tests {
             var fields = new[] { "Code", "EnglishName", "Nonsense" };
 
             // Act
-            var sql = provider.Select(fields.AsEnumerable(), default, default, default, out var parameters);
+            var sql = provider.Select(fields, default, default, default, out var parameters);
 
             // Assert
             internalLog.Verify(l => l.Log(It.IsAny<LogEntry>()), Times.Once());
@@ -209,12 +221,20 @@ namespace VS.PostGres.Tests {
             var sql = provider.Update(updateObject, filter, out IDictionary<string, object> parameters);
 
             // Assert
-            Assert.AreEqual(2, parameters.Count);
-            Assert.AreEqual("Code0_0", parameters.Keys.First());
-            Assert.AreEqual("en", parameters.Values.First());
+            var keyEnum = parameters.Keys.GetEnumerator();
+            var valueEnum = parameters.Values.GetEnumerator();
+            Assert.IsTrue(keyEnum.MoveNext());
+            Assert.IsTrue(valueEnum.MoveNext());
 
-            Assert.AreEqual("@Code", parameters.Keys.Skip(1).First());
-            Assert.AreEqual("bc", parameters.Values.Skip(1).First());
+            Assert.AreEqual(2, parameters.Count);
+            Assert.AreEqual("Code0_0", keyEnum.Current);
+            Assert.AreEqual("en", valueEnum.Current);
+
+            Assert.IsTrue(keyEnum.MoveNext());
+            Assert.IsTrue(valueEnum.MoveNext());
+            
+            Assert.AreEqual("@Code", keyEnum.Current);
+            Assert.AreEqual("bc", valueEnum.Current);
 
             Assert.AreEqual("UPDATE app.culture SET code = @Code WHERE code = @Code0_0 RETURNING *;", sql);
 
@@ -229,9 +249,14 @@ namespace VS.PostGres.Tests {
             var sql = provider.Delete(filter, out var parameters);
 
             // Act
+            var keyEnum = parameters.Keys.GetEnumerator();
+            var valueEnum = parameters.Values.GetEnumerator();
+            Assert.IsTrue(keyEnum.MoveNext());
+            Assert.IsTrue(valueEnum.MoveNext());
+
             Assert.AreEqual(1, parameters.Count);
-            Assert.AreEqual("Code0_0", parameters.Keys.Single());
-            Assert.AreEqual("en", parameters.Values.Single());
+            Assert.AreEqual("Code0_0", keyEnum.Current);
+            Assert.AreEqual("en", valueEnum.Current);
             Assert.AreEqual("DELETE FROM app.culture WHERE code = @Code0_0 RETURNING *;", sql);
 
         }
@@ -245,9 +270,16 @@ namespace VS.PostGres.Tests {
             var sql = provider.Insert(new[] { culture }, out var parameters);
 
             // Act
+            var keyEnum = parameters.Keys.GetEnumerator();
+            var valueEnum = parameters.Values.GetEnumerator();
+            Assert.IsTrue(keyEnum.MoveNext());
+            Assert.IsTrue(valueEnum.MoveNext());
+
             Assert.AreEqual(4, parameters.Count);
-            Assert.AreEqual("Code0", parameters.Keys.First());
-            Assert.AreEqual("Test", parameters.Values.First());
+            Assert.AreEqual("Code0", keyEnum.Current);
+            Assert.AreEqual("Test", valueEnum.Current);
+
+            // TODO: The rest of the parameters
             Assert.AreEqual("INSERT INTO app.culture (code, specific_culture, english_name, local_name) VALUES (@Code0, @SpecificCulture0, @EnglishName0, @LocalName0) RETURNING *;", sql);
 
         }
@@ -263,9 +295,14 @@ namespace VS.PostGres.Tests {
             var sql = provider.Insert(new[] { culture, culture1 }, out var parameters);
 
             // Act
+            var keyEnum = parameters.Keys.GetEnumerator();
+            var valueEnum = parameters.Values.GetEnumerator();
+            Assert.IsTrue(keyEnum.MoveNext());
+            Assert.IsTrue(valueEnum.MoveNext());
+
             Assert.AreEqual(8, parameters.Count);
-            Assert.AreEqual("Code0", parameters.Keys.First());
-            Assert.AreEqual("Test", parameters.Values.First());
+            Assert.AreEqual("Code0", keyEnum.Current);
+            Assert.AreEqual("Test", valueEnum.Current);
             Assert.AreEqual("INSERT INTO app.culture (code, specific_culture, english_name, local_name) VALUES (@Code0, @SpecificCulture0, @EnglishName0, @LocalName0), (@Code1, @SpecificCulture1, @EnglishName1, @LocalName1) RETURNING *;", sql);
 
         }

@@ -1,11 +1,8 @@
 ﻿namespace VS.Mvc._Extensions {
 
-    using Microsoft.AspNetCore.Mvc.Razor;
-    using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
-    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc.Razor;
 
     public class UICultureViewLocationExpander : IViewLocationExpander {
 

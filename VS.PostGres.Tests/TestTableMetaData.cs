@@ -10,51 +10,64 @@
         public Type ReturnType => typeof(TestTable);
         public Type ArgumentType => default;
 
-        public IEnumerable<int> PrimaryKeys => new[] { 0 };
+        public IList<int> PrimaryKeys => new[] { 0 };
         public IDictionary<object, IEnumerable<int>> ForeignKeys => new Dictionary<object, IEnumerable<int>>();
 
-        public IDictionary<ValueTuple<string, bool>, IEnumerable<int>> Indices => new Dictionary<ValueTuple<string, bool>, IEnumerable<int>> {
-            {  ValueTuple.Create("ix_culture_specific_culture", true) , new [] { 1 } }
+        public IList<IndexInfo> Indices => new List<IndexInfo> {
+              new IndexInfo ("ix_culture_specific_culture",true , new [] { 1 })
         };
 
-        public IEnumerable<Field> Fields => new[] {
-            new Field {
-                    Ordinal = 0,
-                    Property = typeof(TestTable).GetProperty("IntProp"),
-                    NativeName = "int_prop",
-                    DbType = 11, // DbType.Int32
-                    DbTypeName = "int(11)",
-                    DefaultExpression = null,
-                    Generated = true
-            },
-            new Field {
-                    Ordinal = 1,
-                    Property = typeof(TestTable).GetProperty("StringProp"),
-                    NativeName = "string_prop",
-                    DbType = 0x10, // DbType.String
-                    DbTypeName = "character varying(24)",
-                    DefaultExpression = null,
-                    Generated = false,
-                    ReadOnly = false,
-            } ,
-            new Field {
-                    Ordinal = 2,
-                    NativeName = "english_name",
-                    DbType = 0x10, // DbType.String
-                    DbTypeName = "character varying(255)",
-                    DefaultExpression = null,
-                    Generated = false,
-                    ReadOnly = false
-            } ,
-            new Field {
-                    Ordinal = 3,
-                    NativeName = "local_name",
-                    DbType = 0x10, // DbType.String
-                    DbTypeName = "character varying(255)",
-                    DefaultExpression = null,
-                    Generated = false,
-                    ReadOnly = false,
-            }
+        public IList<DbFieldInfo> Fields => new[] {
+            new DbFieldInfo(
+                    0,
+                    typeof(TestTable).GetProperty("IntProp"),
+                    "int_prop",
+                    "int(11)",
+                    11, // DbType.Int32                    
+                    true,
+                    true,
+                    null                                
+            ),
+            new DbFieldInfo(
+                    1,
+                    typeof(TestTable).GetProperty("StringProp"),
+                    "string_prop",
+                    "character varying(24)",
+                    0x10, // DbType.String
+                    false,
+                    false,
+                    null
+            ),
+            new DbFieldInfo(
+                    2,
+                    typeof(TestTable).GetProperty("FloatProp"),
+                    "float_prop",
+                    "decimal",
+                    6, // DbType.Float                    
+                    false,
+                    false,
+                    null
+            ),
+            new DbFieldInfo(
+                    3,
+                    typeof(TestTable).GetProperty("DoubleProp"),
+                    "double_prop",
+                    "decimal",
+                    6, // DbType.Float
+                    false,
+                    false,
+                    null
+            ),
+            new DbFieldInfo (
+                    4,
+                    typeof(TestTable).GetProperty("DecimalProp"),
+                    "decimal_prop",
+                    "character varying(255)",
+                    0x10, // DbType.String                    
+                    false,
+                    false,
+                    null
+            )
         };
     }
 }

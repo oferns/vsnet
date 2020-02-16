@@ -2,8 +2,8 @@
     using Microsoft.Azure.Storage;
     using Microsoft.Azure.Storage.Blob;
     using System;
+    using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Net.Mime;
     using System.Threading;
     using System.Threading.Tasks;
@@ -60,19 +60,25 @@
             } else {
 
                 if (!await containerRef.ExistsAsync(Options, context, cancel)) {
-                    return new PagedIndex(Enumerable.Empty<IndexItem>(), pageSize, null);
+                    return new PagedIndex(Array.Empty<IndexItem>(), pageSize, null);
                 }
             }
 
             var blobName = BlobNameFromUri(prefix);
             var resultsSegment = await containerRef.ListBlobsSegmentedAsync(blobName, true, BlobListingDetails.Metadata, pageSize, ctoken, Options, Context, cancel);
 
-            var blobs = resultsSegment.Results.Select(r => {
-                var blob = (CloudBlockBlob)r;
-                return new IndexItem(r.Uri, new ContentDisposition(blob.Properties.ContentDisposition), new ContentType(blob.Properties.ContentType));
-            });
 
-            return new PagedIndex(blobs, pageSize, token, resultsSegment.ContinuationToken?.NextMarker);
+            var items = new List<IndexItem>();
+
+            foreach (var result in resultsSegment.Results) {
+                if (result is CloudBlockBlob blob) {
+                    items.Add(new IndexItem(result.Uri, new ContentDisposition(blob.Properties.ContentDisposition), new ContentType(blob.Properties.ContentType)));
+                } // TODO: Is it always one of these?
+            
+            
+            }
+
+            return new PagedIndex(items, pageSize, token, resultsSegment.ContinuationToken?.NextMarker);
         }
 
         public async Task<Uri> Put(Stream stream, Uri uri, ContentDisposition contentDisposition, ContentType contentType, CancellationToken cancel) {
@@ -161,7 +167,9 @@
                 return string.Empty;
             }
 
-            return string.Join('/', parts.Skip(1));
+            var trimmedParts = new string[parts.Length - 2];
+            parts.CopyTo(trimmedParts, 1);
+            return string.Join('/', trimmedParts);
         }
     }
 }

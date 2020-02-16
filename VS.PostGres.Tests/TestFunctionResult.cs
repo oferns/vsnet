@@ -1,8 +1,8 @@
 ﻿namespace VS.PostGres.Tests {
 
     public class TestFunctionResult {
-    
-           public TestFunctionResult(int intProp, string stringProp, decimal decimalProp, bool boolProp) {
+
+        public TestFunctionResult(int intProp, string stringProp, decimal decimalProp, bool boolProp) {
             IntProp = intProp;
             StringProp = stringProp;
             DecimalProp = decimalProp;

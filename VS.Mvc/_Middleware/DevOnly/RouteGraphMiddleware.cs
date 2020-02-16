@@ -1,14 +1,11 @@
-﻿
-namespace VS.Mvc._Middleware.DevOnly {
+﻿namespace VS.Mvc._Middleware.DevOnly {
 
+    using System;
+    using System.IO;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Routing;
     using Microsoft.AspNetCore.Routing.Internal;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class RouteGraphMiddleware : IMiddleware {
 

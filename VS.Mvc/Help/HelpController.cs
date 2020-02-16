@@ -1,16 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using VS.Mvc._Extensions;
+﻿namespace VS.Mvc.Help {
 
-namespace VS.Mvc.Help {
+    using Microsoft.AspNetCore.Mvc;
+    using VS.Mvc._Extensions;
 
     [Controller]
     public class HelpController {
-
-
 
 
         [NavLink("Help", "Help", 0)]

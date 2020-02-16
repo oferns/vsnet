@@ -1,18 +1,13 @@
 ﻿namespace VS.Tests {
 
+    using System.Globalization;    
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Razor;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Text;
     using VS.Mvc._Extensions;
 
     [TestClass]
     public class MvcExtensions {
-
 
         [TestClass]
         public class ViewLocationExpanders {
@@ -32,11 +27,22 @@
                     var result = expander.ExpandViewLocations(context, new[] { "{0}/{1}.test", "{0}.test" });
 
                     // Assert
-                    Assert.AreEqual(expectedResult.Length, result.Count());
-                    Assert.AreEqual(expectedResult[0], result.ToArray<string>()[0]);
-                    Assert.AreEqual(expectedResult[1], result.ToArray<string>()[1]);
-                    Assert.AreEqual(expectedResult[2], result.ToArray<string>()[2]);
-                    Assert.AreEqual(expectedResult[3], result.ToArray<string>()[3]);
+
+                    var resultsEnum = result.GetEnumerator();
+
+                    Assert.IsTrue(resultsEnum.MoveNext());
+                    Assert.AreEqual(expectedResult[0], resultsEnum.Current);
+
+                    Assert.IsTrue(resultsEnum.MoveNext());
+                    Assert.AreEqual(expectedResult[1], resultsEnum.Current);
+
+                    Assert.IsTrue(resultsEnum.MoveNext());
+                    Assert.AreEqual(expectedResult[2], resultsEnum.Current);
+
+                    Assert.IsTrue(resultsEnum.MoveNext());
+                    Assert.AreEqual(expectedResult[3], resultsEnum.Current);
+
+                    Assert.IsFalse(resultsEnum.MoveNext());
                 }
             }
         }

@@ -1,8 +1,9 @@
 ﻿namespace VS.Mvc._ViewComponents {
 
-    using Microsoft.AspNetCore.Mvc;
     using System;
-    using System.Linq;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using Microsoft.AspNetCore.Mvc;
     using VS.Mvc._Extensions;
     using VS.Mvc._Services;
 
@@ -23,9 +24,17 @@
             host = ViewContext.HttpContext.Request.Cookies["vshost"]?.ToString() ?? host;
 #endif
 
-            var uicultures = hostCultures.HostOptions.Where(c => c.Host.Equals(host)).SelectMany(c => c.SupportedUICultures);
+          //  var cultures = new List<CultureInfo>();
+            var uiCultures = new List<CultureInfo>();
 
-            return View(uicultures?.ToArray());
+            foreach (var hostOption in hostCultures.HostOptions) {
+                if (hostOption.Host.Equals(host, StringComparison.OrdinalIgnoreCase)) {
+                  //  cultures.AddRange(hostOption.SupportedCultures);
+                    uiCultures.AddRange(hostOption.SupportedUICultures);
+                }
+            }
+
+            return View(uiCultures);
         }
     }
 }

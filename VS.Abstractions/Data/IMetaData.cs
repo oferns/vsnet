@@ -11,13 +11,13 @@
 
         Type ArgumentType { get; }
 
-        IEnumerable<Field> Fields { get; }
+        IList<DbFieldInfo> Fields { get; }
 
-        IEnumerable<int> PrimaryKeys { get;}
+        IList<int> PrimaryKeys { get;}
 
         IDictionary<object, IEnumerable<int>> ForeignKeys { get;  }
 
-        IDictionary<ValueTuple<string, bool>, IEnumerable<int>> Indices { get; }
+        IList<IndexInfo> Indices { get; }
 
     }
 }

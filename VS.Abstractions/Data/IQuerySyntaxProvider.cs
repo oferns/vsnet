@@ -7,14 +7,16 @@
     public interface IQuerySyntaxProvider<T> where T : class {
 
         string Count(IFilter<T> filter, out IDictionary<string, object> parameters);
+        
+        string Count<A>(A args, IFilter<T> filter, out IDictionary<string, object> parameters);
 
         string Select(IFilter<T> filter, ISorter<T> sorter, IPager pager, out IDictionary<string, object> parameters);
 
-        string Select(IEnumerable<string> columns, IFilter<T> filter, ISorter<T> sorter, IPager pager, out IDictionary<string, object> parameters);
+        string Select(string[] columns, IFilter<T> filter, ISorter<T> sorter, IPager pager, out IDictionary<string, object> parameters);
 
         string Select<A>(A args, IFilter<T> filter, ISorter<T> sorter, IPager pager, out IDictionary<string, object> parameters) where A : class;
 
-        string Select<A>(A args, IEnumerable<string> columns, IFilter<T> filter, ISorter<T> sorter, IPager pager, out IDictionary<string, object> parameters) where A : class;
+        string Select<A>(A args, string[] columns, IFilter<T> filter, ISorter<T> sorter, IPager pager, out IDictionary<string, object> parameters) where A : class;
 
         string Insert(IEnumerable<T> entities, out IDictionary<string, object> parameters);
 

@@ -3,17 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Net;
     using System.Net.Mime;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+    using Amazon.S3;
+    using Amazon.S3.Model;
     using VS.Abstractions.Storage;
     using VS.Abstractions.Storage.Paging;
-    using Amazon.S3;
-    using Amazon.Runtime.SharedInterfaces;
-    using System.Linq;
-    using Amazon.S3.Model;
-    using System.Net;
 
     public class S3StorageClient : IStorageClient {
         private readonly IAmazonS3 s3;
@@ -44,7 +41,7 @@
             var response = await s3.GetAllObjectKeysAsync(bucket, S3KeyFromUri(uri), null);
 
             // Is it a file?
-            return response.Count() == 1;
+            return response.Count == 1;
         }
 
         public async Task<Stream> Get(Uri uri, CancellationToken cancel) {
@@ -64,7 +61,12 @@
 
             var response = await s3.ListObjectsV2Async(request, cancel);
 
-            var items = response.S3Objects.Select(s => new IndexItem(new Uri(this.BaseUri, Path.Combine(s.BucketName, s.Key)), default(ContentDisposition), default(ContentType)));
+            var items = new List<IndexItem>();
+            
+            foreach (var obj in response.S3Objects) {
+                items.Add(new IndexItem(new Uri(this.BaseUri, Path.Combine(obj.BucketName, obj.Key)), default(ContentDisposition), default(ContentType)));
+            }
+            
             return new PagedIndex(items, pageSize, response.ContinuationToken, response.NextContinuationToken, token);
         }
 
@@ -157,7 +159,9 @@
                 return string.Empty;
             }
 
-            return string.Join('/', parts.Skip(1));
-        }
+            var trimmedParts = new string[parts.Length - 2];
+            parts.CopyTo(trimmedParts, 1);            
+            return string.Join('/', trimmedParts);
+        }        
     }
 }

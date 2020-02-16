@@ -1,0 +1,72 @@
+﻿@section Title {
+    @sr["Top Level Architecural Overview"]
+}
+
+
+<h1> @sr["Top Level Architecural Overview"]</h1>
+
+
+
+<markdown>
+
+
+    ## Overview
+
+    This page describes the abstracted architecture, avoiding any specific implementation detail.
+    It provides a visual overview, and a more detailed explaination of each element and how they interact,
+    as well as describing the data flow in greater detail. The architecure is underpinned by the concept of
+    *Eventual Consistency*. It is an extremely common architectural pattern. More can be found here https://en.wikipedia.org/wiki/Eventual_consistency
+
+
+    ## The Search Engine
+    The requirements of VS require a reasonably complicated search algorithm, that is not only category and location
+    affected, but also product-weighted (ie VIP results score higher than free ones) and also time-based (temporal) (ie ads expire).
+    So the heavier (ie more weight) results are returned first.
+
+    So the algorithm can be split into 5 vectors and looks like this:
+
+    > This assumes that every advert has a product associated, even if there is no cost involved.
+
+
+    Named Location + category + Product score (+ addons) - Time since last post.
+
+
+    What affects the indexing and thus determines the position of any given url in the returned results is the *weighting* given to each of these elements.
+    Here is an *example* of how each element *might* affect the order of search results.
+
+    If a known "Named Location" is part of the search query, and is an exact match for a "Named Location" for the ad
+    then this might score higher than if the Named Location in the search query is the parent
+    (ie I searched for "London" and London is a parent of Mayfair),
+    which subsequently might score higher than if the "Named Location" in the search query is the child of a
+    (ie I searched for Mayfair, but my advert is in Old Kent Road, but both are in London).
+
+    If a known category is part of the search query then you might want to weight this strongly so that
+    adverts that have been indexed as associated with this category will score highly compared to those who do not.
+
+    If a product has been sold that guarantees an advert priority then naturally you will want to weight it higher.
+
+    If the advert qualifies for a bespoke boost (ie Admin want to butter up a customer) then the addon can add weight.
+
+    If, all other things being equal, an advert was last posted after another advert then the later advert will score higher.
+
+    So each of our search vectors produces a weighting and it is how we combine these individual weightings that eventually determines
+    the overall weight for each result. More can be seen in the implementation section of this guide and there is an excel spreadsheet
+    that describes the implementation and variables involved and allows you to recreate scenarios to understand why results come back 
+    in the order that they do.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</markdown>

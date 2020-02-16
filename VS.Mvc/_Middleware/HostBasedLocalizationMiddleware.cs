@@ -1,15 +1,14 @@
 ﻿namespace VS.Mvc._Middleware {
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Localization;
-    using Microsoft.Net.Http.Headers;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
+
     using System.Security.Claims;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Localization;
+    using Microsoft.Net.Http.Headers;
     using VS.Mvc._Services;
 
     public class HostBasedLocalizationMiddleware : IMiddleware {
@@ -40,7 +39,15 @@
             }
 #endif
 
-            var hostOptions = options.HostOptions.FirstOrDefault(o => Regex.IsMatch(o.Host, @$"\b{host}\b", RegexOptions.Compiled | RegexOptions.IgnoreCase));
+            HostCultureOptions hostOptions = default;
+
+            foreach (var opt in options.HostOptions) {
+                if (Regex.IsMatch(opt.Host, @$"\b{host}\b", RegexOptions.Compiled | RegexOptions.IgnoreCase)) {
+                    hostOptions = opt;
+                    break;
+                }
+            }
+
 
 #if DEBUG
             if (hostOptions is null && context.Request.Cookies["vshost"] is object) {
@@ -60,8 +67,29 @@
             }
 
             if (requestedCultures is object && hostOptions is object) {
-                culture = hostOptions.SupportedCultures.Where(s => requestedCultures.Cultures.Contains(s.Name)).FirstOrDefault() ?? culture;
-                uiCulture = hostOptions.SupportedUICultures.Where(s => requestedCultures.UICultures.Contains(s.Name)).FirstOrDefault() ?? uiCulture;
+                foreach (var supppotedculture in hostOptions.SupportedCultures) {
+                    foreach (var requestedCulture in requestedCultures.Cultures) {
+                        if (requestedCulture.Equals(supppotedculture.Name, StringComparison.OrdinalIgnoreCase)) {
+                            culture = supppotedculture;
+                            break;
+                        }
+                    }
+                    if (culture.Equals(supppotedculture)) {
+                        break;
+                    }
+                }
+
+                foreach (var supppoteduiculture in hostOptions.SupportedUICultures) {
+                    foreach (var requestedCulture in requestedCultures.UICultures) {
+                        if (requestedCulture.Equals(supppoteduiculture.Name, StringComparison.OrdinalIgnoreCase)) {
+                            uiCulture = supppoteduiculture;
+                            break;
+                        }
+                    }
+                    if (uiCulture.Equals(supppoteduiculture)) {
+                        break;
+                    }
+                }                
             }
 
             CultureInfo.CurrentCulture = culture;

@@ -2,6 +2,7 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Security.Claims;
+    using Microsoft.Extensions.Primitives;
 
     public interface IContext {
 
@@ -12,6 +13,9 @@
         public CultureInfo UICulture { get; }
 
         public string RequestId { get; }
-        
+
+
+        IEnumerable<KeyValuePair<string, StringValues>> Query { get; }
+
     }
 }

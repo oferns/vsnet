@@ -1,12 +1,8 @@
 ﻿namespace VS.Mvc._Startup {
-    
+
     using MessagePack;
     using MessagePack.Resolvers;
     using SimpleInjector;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using VS.Abstractions;
     using VS.MPack;
 

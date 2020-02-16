@@ -1,9 +1,7 @@
-﻿namespace VS.Core.Data {
+﻿namespace VS.Abstractions.Data {
 
     using System;
     using System.Data;
-    using VS.Abstractions.Data;
-
 
     /// <summary>
     /// A generic database client that can be used with any IDbConnection
@@ -29,7 +27,7 @@
                 return connection;
             }
         }
-        
+
         public void BeginTransaction() {
             transactionCount++;
             if (Transaction is null) {

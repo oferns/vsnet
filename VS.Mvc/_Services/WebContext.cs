@@ -1,6 +1,7 @@
 ﻿namespace VS.Mvc._Services {
 
     using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Primitives;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -17,6 +18,7 @@
 
             this.User = contextAccessor.HttpContext?.User as ClaimsPrincipal; 
             this.Host = contextAccessor.HttpContext?.Request.Host.Host;
+            this.Query = contextAccessor.HttpContext?.Request.Query;
 
 #if DEBUG
             var hostoverride = this.User?.FindFirstValue("hostoverride");
@@ -36,5 +38,6 @@
 
         public CultureInfo UICulture { get; }
 
+        public IEnumerable<KeyValuePair<string, StringValues>> Query { get; }
     }
 }

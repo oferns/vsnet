@@ -1,5 +1,4 @@
-﻿
-namespace VS.Core.Data.Handlers {
+﻿namespace VS.Core.Data.Handlers {
 
     using Dapper;
     using MediatR;
@@ -18,9 +17,6 @@ namespace VS.Core.Data.Handlers {
         }
 
         public Task<T> Handle(GetOne<T> request, CancellationToken cancellationToken) {
-
-
-
             var sql = this.querySyntax.Select(request.Filter, request.Sorter, default, out var parameters);
             return this.db.Connection.QuerySingleOrDefaultAsync<T>(sql, parameters, db.Transaction);
         }

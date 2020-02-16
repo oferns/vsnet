@@ -1,8 +1,5 @@
 ﻿namespace VS.Mvc._ViewComponents.DevOnly {
-
-    using System.Linq;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using UAParser.FormFactor;
     using VS.Mvc._Extensions;
 
@@ -11,7 +8,7 @@
 
 
         public IViewComponentResult Invoke() {
-            var model = Parser.GetDefault().Parse(ViewContext.HttpContext.Request.Headers["User-Agent"].FirstOrDefault());
+            var model = Parser.GetDefault().Parse(ViewContext.HttpContext.Request.Headers["User-Agent"]);
             return View(model);
         }
     }

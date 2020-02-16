@@ -6,7 +6,7 @@
 
     public class GetOne<T> : IRequest<T> where T : class {
 
-        public GetOne(IFilter<T> filter, ISorter<T> sorter) {
+        public GetOne(IFilter<T> filter = default, ISorter<T> sorter = default) {
             Filter = filter;
             Sorter = sorter;
         }
@@ -19,7 +19,7 @@
 
     public class GetOne<F, T> : IRequest<T> where F : class where T : class {
 
-        public GetOne(F function, IFilter<T> filter, ISorter<T> sorter) {
+        public GetOne(F function, IFilter<T> filter = default, ISorter<T> sorter = default) {
             Function = function;
             Filter = filter;
             Sorter = sorter;

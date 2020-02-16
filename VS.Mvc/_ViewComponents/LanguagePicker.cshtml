@@ -1,7 +1,7 @@
-﻿@model CultureInfo[]
+﻿@model IList<CultureInfo>
 
-@if (Model is null || Model.Length == 0) { } else {
-    @if (Model.Length == 1) {
+@if (Model is null || Model.Count == 0) { } else {
+    @if (Model.Count == 1) {
         <label>@Model[0].TextInfo.CultureName</label>
     } else {
         <form method="get" action="/cl">

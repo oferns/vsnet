@@ -3,8 +3,6 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.Net.Http.Headers;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using VS.Mvc._Extensions;
     using VS.Mvc._Services;
@@ -18,10 +16,15 @@
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next) {
             if (context.Request.Query["host"] is object host) {
-                var validhost = this.options.HostOptions
-                    .Where(h => h.Host.Equals(host.ToString(), StringComparison.InvariantCultureIgnoreCase)).Select(h => h.Host)
-                    .FirstOrDefault();
-                if (validhost is object) {
+
+                bool validhost = false;
+                foreach (var opt in this.options.HostOptions) {
+                    if (opt.Host.Equals(host.ToString(), StringComparison.InvariantCultureIgnoreCase)) {
+                        validhost = true;
+                    }
+                }
+                
+                if (validhost) {
                     context.Response.Cookies.Append("vshost", host.ToString());
                 } else {
                     context.Response.Cookies.Delete("vshost");

@@ -1,7 +1,7 @@
 ﻿namespace VS.Core.Tests {
 
+    using System;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Linq;
     using VS.Abstractions.Data.Filtering;
     using VS.Abstractions.Data.Paging;
 
@@ -149,7 +149,7 @@
             [TestMethod]
             public void ShouldCalculateCorrectPageCount() {
                 // Arrange && Act
-                var model = new PagedList<object>(Enumerable.Empty<object>(), 1, 25, 59197);
+                var model = new PagedList<object>(Array.Empty<object>(), 1, 25, 59197);
 
                 // Asssert
                 Assert.AreEqual(model.PageCount, 2368);
@@ -158,7 +158,7 @@
             [TestMethod]
             public void ShouldCalculateCorrectLastPage() {
                 // Arrange && Act
-                var model = new PagedList<object>(Enumerable.Empty<object>(), 59172, 25, 59197);
+                var model = new PagedList<object>(Array.Empty<object>(), 59172, 25, 59197);
 
                 // Asssert
                 Assert.AreEqual(2368, model.CurrentPage);
@@ -167,7 +167,7 @@
             [TestMethod]
             public void ShouldCalculateCorrectPenultimatePage() {
                 // Arrange && Act
-                var model = new PagedList<object>(Enumerable.Empty<object>(), 89, 10, 100);
+                var model = new PagedList<object>(Array.Empty<object>(), 89, 10, 100);
 
                 // Asssert
                 Assert.AreEqual(9, model.CurrentPage);
@@ -176,7 +176,7 @@
             [TestMethod]
             public void ShouldCalculateCorrect2ndPage() {
                 // Arrange && Act
-                var model = new PagedList<object>(Enumerable.Empty<object>(), 25, 25, 59197);
+                var model = new PagedList<object>(Array.Empty<object>(), 25, 25, 59197);
 
                // Asssert
                 Assert.AreEqual(2, model.CurrentPage);
@@ -185,7 +185,7 @@
             [TestMethod]
             public void ShouldCalculateCorrectFirstPage() {
                 // Arrange && Act
-                var model = new PagedList<object>(Enumerable.Empty<object>(), 0, 25, 59197);
+                var model = new PagedList<object>(Array.Empty<object>(), 0, 25, 59197);
                 // Asssert
                 Assert.AreEqual(1, model.CurrentPage);
             }

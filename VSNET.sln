@@ -30,17 +30,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.GCloud", "VS.GCloud\VS.G
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Core.Aws", "VS.Core.Aws\VS.Core.Aws.csproj", "{4C89E071-2C56-44F9-962F-C5573AAD9017}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VS.Core.ActiveMQ", "VS.Core.ActiveMQ\VS.Core.ActiveMQ.csproj", "{8B208EDC-4A7E-4001-82BA-FF2A6DA16B41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Core.ActiveMQ", "VS.Core.ActiveMQ\VS.Core.ActiveMQ.csproj", "{8B208EDC-4A7E-4001-82BA-FF2A6DA16B41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VS.MPack", "VS.MessagePack\VS.MPack.csproj", "{87CD9B19-A77C-498F-B785-9FA3918633D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.MPack", "VS.MessagePack\VS.MPack.csproj", "{87CD9B19-A77C-498F-B785-9FA3918633D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VS.Core.FakeData", "VS.Core.FakeData\VS.Core.FakeData.csproj", "{4AA0CD94-8F53-4299-B17B-74039C3C9827}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Core.FakeData", "VS.Core.FakeData\VS.Core.FakeData.csproj", "{4AA0CD94-8F53-4299-B17B-74039C3C9827}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VS.Core.PostGres", "VS.Core.PostGres\VS.Core.PostGres.csproj", "{A3ABF5AF-3715-4BC5-B2E7-79854260E0F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Core.PostGres", "VS.Core.PostGres\VS.Core.PostGres.csproj", "{A3ABF5AF-3715-4BC5-B2E7-79854260E0F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VS.Data", "VS.Data\VS.Data.csproj", "{68A900EF-E9DD-4815-8208-2655B31B7452}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Data", "VS.Data\VS.Data.csproj", "{68A900EF-E9DD-4815-8208-2655B31B7452}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VS.PostGres.Tests", "VS.PostGres.Tests\VS.PostGres.Tests.csproj", "{3DD4449B-7F09-4E91-98C9-D8EF0CC73DF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.PostGres.Tests", "VS.PostGres.Tests\VS.PostGres.Tests.csproj", "{3DD4449B-7F09-4E91-98C9-D8EF0CC73DF9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Data.Tests", "VS.Data.Tests\VS.Data.Tests.csproj", "{EF1EF4CF-0925-4CFE-97CF-0F8659FB368A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VD.Noire", "VD.Noire\VD.Noire.csproj", "{4E6E1CBC-8443-44C7-858E-0C3D440B9C70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -128,6 +132,14 @@ Global
 		{3DD4449B-7F09-4E91-98C9-D8EF0CC73DF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DD4449B-7F09-4E91-98C9-D8EF0CC73DF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DD4449B-7F09-4E91-98C9-D8EF0CC73DF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF1EF4CF-0925-4CFE-97CF-0F8659FB368A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF1EF4CF-0925-4CFE-97CF-0F8659FB368A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF1EF4CF-0925-4CFE-97CF-0F8659FB368A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF1EF4CF-0925-4CFE-97CF-0F8659FB368A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E6E1CBC-8443-44C7-858E-0C3D440B9C70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E6E1CBC-8443-44C7-858E-0C3D440B9C70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E6E1CBC-8443-44C7-858E-0C3D440B9C70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E6E1CBC-8443-44C7-858E-0C3D440B9C70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

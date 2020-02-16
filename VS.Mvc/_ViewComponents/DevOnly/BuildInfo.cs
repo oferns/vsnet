@@ -1,5 +1,5 @@
 ﻿namespace VS.Mvc._ViewComponents.DevOnly {
-    using System.Linq;
+    using System.Reflection;
     using Microsoft.AspNetCore.Mvc;
     using VS.Mvc._Extensions;
 
@@ -9,9 +9,14 @@
         public IViewComponentResult Invoke() {
 
             var assembly = typeof(BuildInfo).Assembly;
-            var model = assembly.GetReferencedAssemblies().ToList();
-            model = model.Prepend(assembly.GetName()).ToList();
-            return View(model.ToArray());   
+            var referencedassemblies = assembly.GetReferencedAssemblies();
+
+            var assemblies = new AssemblyName[referencedassemblies.Length];
+            assemblies[0] = assembly.GetName();
+
+            referencedassemblies.CopyTo(assemblies, 0);
+
+            return View(assemblies);   
         }	
     }
 }

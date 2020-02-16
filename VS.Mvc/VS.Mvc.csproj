@@ -23,7 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="_Config\aws.json.ignore" />
+    <Content Include="_Config\aws.json.ignore">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 
@@ -46,6 +48,7 @@
     <ProjectReference Include="..\VS.ActiveMQ\VS.ActiveMQ.csproj" />
     <ProjectReference Include="..\VS.Aws\VS.Aws.csproj" />
     <ProjectReference Include="..\VS.Core.Aws\VS.Core.Aws.csproj" />
+    <ProjectReference Include="..\VS.Core.FakeData\VS.Core.FakeData.csproj" />
     <ProjectReference Include="..\VS.Core.PostGres\VS.Core.PostGres.csproj" />
     <ProjectReference Include="..\VS.Core\VS.Core.csproj" />
     <ProjectReference Include="..\VS.Data\VS.Data.csproj" />

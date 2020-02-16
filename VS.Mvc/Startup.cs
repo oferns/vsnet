@@ -60,7 +60,7 @@ namespace VS.Mvc {
 
             // I believe it is correctly configured but the analyzer can't cope with chained methods
             // Remove the pragma clause and make your own mind up.
-#pragma warning disable ASP0001 // Authorization middleware is incorrectly configured.
+#pragma warning disable     
 
             _ = app
                 .UseSerilogRequestLogging()

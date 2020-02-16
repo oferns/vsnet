@@ -57,8 +57,8 @@ namespace VS.Mvc {
                         serverOptions.Listen(IPAddress.Loopback, 5000,
                             listenOptions => {
                                 listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
-                                listenOptions.UseHttps("localhost.pfx",
-                                    "Evert0nFC");
+                                //listenOptions.UseHttps("localhost.pfx",
+                                //    "Evert0nFC");
                             });
                         serverOptions.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(2);
                         serverOptions.Limits.RequestHeadersTimeout = TimeSpan.FromMinutes(1);
@@ -68,6 +68,8 @@ namespace VS.Mvc {
                            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
                            .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: false);
 
+                        
+                        
                         var path = Path.Combine(context.HostingEnvironment.ContentRootPath, "_Config");
 
                         foreach (var file in Directory.EnumerateFiles(path, "*.json", SearchOption.AllDirectories)) {
