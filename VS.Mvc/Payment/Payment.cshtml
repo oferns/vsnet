@@ -1,8 +1,17 @@
 ﻿@section Title {
-    "Payment Page"
+    @sr["Payment Page"]
 }
 
 
-<h1>Payment Page</h1>
 
-<vc:noire-form></vc:noire-form>
+<h1>@sr["Payment Page"]</h1>
+<section>
+    <vc:noire-form></vc:noire-form>
+</section>
+
+
+@section Scripts{
+
+    <script src="https://test.oppwa.com/v1/paymentWidgets.js?checkoutId=12345678"></script>
+
+}

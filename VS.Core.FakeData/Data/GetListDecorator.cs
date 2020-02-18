@@ -1,4 +1,4 @@
-﻿namespace VS.Core.FakeData.Data {
+﻿ namespace VS.Core.FakeData.Data {
 
     using System;
     using System.Threading;
