@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\VD.Noire\VD.Noire.csproj" />
     <ProjectReference Include="..\VS.Abstractions\VS.Abstractions.csproj" />
   </ItemGroup>
 

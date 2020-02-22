@@ -10,6 +10,6 @@ namespace VS.Abstractions {
 
         void Flash(string level, string message);
 
-        IEnumerable<KeyValuePair<string, object>> GetMessages();
+        IEnumerable<KeyValuePair<string, string>> GetMessages();
     }
 }

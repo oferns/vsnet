@@ -44,11 +44,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\VD.Noire\VD.Noire.csproj" />
     <ProjectReference Include="..\VS.Abstractions\VS.Abstractions.csproj" />
     <ProjectReference Include="..\VS.ActiveMQ\VS.ActiveMQ.csproj" />
     <ProjectReference Include="..\VS.Aws\VS.Aws.csproj" />
     <ProjectReference Include="..\VS.Core.Aws\VS.Core.Aws.csproj" />
     <ProjectReference Include="..\VS.Core.FakeData\VS.Core.FakeData.csproj" />
+    <ProjectReference Include="..\VS.Core.Noire\VS.Core.Noire.csproj" />
     <ProjectReference Include="..\VS.Core.PostGres\VS.Core.PostGres.csproj" />
     <ProjectReference Include="..\VS.Core\VS.Core.csproj" />
     <ProjectReference Include="..\VS.Data\VS.Data.csproj" />

@@ -1,44 +1,52 @@
 ﻿@model NoireFormViewModel
 
-<form action=@Model.FormAction method="POST" lang="en">
+@if (Model is null) {
+    <strong>Not Found</strong>
 
-    <input type="hidden" name="shopperResultUrl" value=@Model.ReturnUrl>
+} else {
+    <form action=@Model.FormAction method="POST" lang="en">
 
-    <strong>Payment Form</strong>
+        <input type="hidden" name="shopperResultUrl" value=@Model.ReturnUrl>
+        <input name="forceUtf8" type="hidden" value="&amp;#9760;">
+        <input name="shopOrigin" type="hidden" value="http://localhost:5000">
 
-    <section>
-        <label>Card Provider</label>
-        <select name="paymentBrand">
-            <option value="MASTER">Mastercard</option>
-            <option value="VISA">Visa</option>
-        </select>
-    </section>
+        <strong>Payment Form</strong>
 
-    <section>
-        <label>Card Number</label>
-        <input autocomplete="off" type="tel" name="card.number" placeholder="Card Number">
-    </section>
+        <section>
+            <label>Card Provider</label>
+            <select name="paymentBrand">
+                <option value="MASTER">Mastercard</option>
+                <option value="VISA">Visa</option>
+            </select>
+        </section>
 
-    <section>
-        <label>Expiry Date</label>
-        <input autocomplete="off" type="tel" name="card.expiryMonth" placeholder="MM"> /
-        <input autocomplete="off" type="tel" name="card.expiryYear" placeholder="YY">
+        <section>
+            <label>Card Number</label>
+            <input autocomplete="off" type="tel" name="card.number" placeholder="Card Number">
+        </section>
 
-    </section>
+        <section>
+            <label>Expiry Date</label>
+            <input autocomplete="off" type="tel" name="card.expiryMonth" placeholder="MM"> /
+            <input autocomplete="off" type="tel" name="card.expiryYear" placeholder="YY">
 
-    <section>
-        <label>Card holder</label>
-        <input autocomplete="off" type="text" name="card.holder" placeholder="Card holder">
-    </section>
+        </section>
 
-    <section>
-        <label>CVV</label>
-        <input autocomplete="off" type="tel" name="card.cvv" placeholder="CVV">
-    </section>
+        <section>
+            <label>Card holder</label>
+            <input autocomplete="off" type="text" name="card.holder" placeholder="Card holder">
+        </section>
+
+        <section>
+            <label>CVV</label>
+            <input autocomplete="off" type="tel" name="card.cvv" placeholder="CVV">
+        </section>
 
 
-    <section>
-        <button type="submit" name="pay">Pay now</button>
-    </section>
+        <section>
+            <button type="submit">Pay now</button>
+        </section>
 
-</form>
+    </form>
+}
+

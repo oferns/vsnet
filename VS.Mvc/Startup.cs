@@ -34,6 +34,7 @@ namespace VS.Mvc {
                     .AddConstraints()                    
                     .AddSingleton<IActionContextAccessor, ActionContextAccessor>()
                     .AddHttpContextAccessor()
+                    .AddHttpClient()
                     .AddHostBasedLocalization()
                     .AddAppIdentity()
                     .AddViewOptions(configuration.GetSection("AntiforgeryOptions").Get<AntiforgeryOptions>())
@@ -47,11 +48,10 @@ namespace VS.Mvc {
                         container
                             .AddLogging()
                             .AddAwsServices(configuration, Log.Logger)
+                            .AddNoire(configuration, Log.Logger)
                             .AddCoreServices()
                             .AddPostGresServices()
-                            .AddSerializationServices();                            
-                         
-
+                            .AddSerializationServices();                                                     
                     });
         }
 

@@ -15,7 +15,5 @@
         public string RequestId { get; }
 
 
-        IEnumerable<KeyValuePair<string, StringValues>> Query { get; }
-
     }
 }

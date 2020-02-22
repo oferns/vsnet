@@ -2,19 +2,19 @@
     using System;
     using System.ComponentModel;
     using System.Text;
-    using VS.Abstractions;
+    using Microsoft.AspNetCore.Http;
     using VS.Abstractions.Data;
     using VS.Abstractions.Data.Filtering;
     using VS.Abstractions.Logging;
 
     public class QueryStringFilterService<T> : IFilterService<T> where T : class {
 
-        private readonly IContext context;
+        private readonly IHttpContextAccessor context;
         private readonly IMetaData<T> metaData;
         private readonly ILog log;
         private IFilter<T> filter;
         
-        public QueryStringFilterService(IContext context, IMetaData<T> metaData, ILog log) {
+        public QueryStringFilterService(IHttpContextAccessor context, IMetaData<T> metaData, ILog log) {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
             this.metaData = metaData ?? throw new ArgumentNullException(nameof(metaData));
             this.log = log ?? throw new ArgumentNullException(nameof(log));
@@ -27,7 +27,7 @@
 
             filter = new Filter<T>();
 
-            foreach (var item in context.Query) {
+            foreach (var item in context.HttpContext.Request.Query) {
 
                 DbFieldInfo fieldInfo = default;
 
@@ -42,7 +42,7 @@
                     }
                 }
 
-                if (fieldInfo.Equals(default)) {
+                if (fieldInfo.Property is null) {
                     continue; // We didnt find a property that matches the query
                 }
 

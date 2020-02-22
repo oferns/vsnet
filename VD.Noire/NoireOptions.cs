@@ -6,7 +6,8 @@
 
         public Uri BaseUri { get; set; }
 
-        public string RequestPathFormat { get; set; }
+        public string Token { get; set; }
 
+        public string EntityId { get; set; }
     }
 }

@@ -25,12 +25,16 @@
 
         public async Task<T> Handle(GetOne<T> request, CancellationToken cancel) {
 
-            // if (context.User.HasClaim(c => c.Type.Equals("vsfake") && c.Value.Equals("true"))) {
+            if (context is object) {         // This is always true
+                var obj = this.faker.Generate<T>(config => config.WithLocale(context.UICulture.Name.Replace('-', '_')));
 
-            var filter = filterService.GetFilter();
+                foreach (var entry in filterService.GetFilter()) {
+                    if (entry.Clause is Clause<T> singleclause) {
+                        singleclause.Property.SetValue(obj, singleclause.Value);
+                    }
+                }
 
-            if (true) {
-                return this.faker.Generate<T>(config => config.WithLocale(context.UICulture.Name.Replace('-','_')));
+                return obj;
             }
 
             return await wrappedHandler.Handle(request, cancel);

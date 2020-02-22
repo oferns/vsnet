@@ -11,7 +11,7 @@
         public Type ArgumentType => default;
 
         public IList<int> PrimaryKeys => new[] { 0 };
-        public IDictionary<object, IEnumerable<int>> ForeignKeys => new Dictionary<object, IEnumerable<int>>();
+        public IDictionary<Type, IEnumerable<int>> ForeignKeys => new Dictionary<Type, IEnumerable<int>>();
 
         public IList<IndexInfo> Indices => new List<IndexInfo> { new IndexInfo("ix_culture_specific_culture", true, new int[] { 1 }) };
 

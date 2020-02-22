@@ -15,7 +15,7 @@
 
         IList<int> PrimaryKeys { get;}
 
-        IDictionary<object, IEnumerable<int>> ForeignKeys { get;  }
+        IDictionary<Type, IEnumerable<int>> ForeignKeys { get;  }
 
         IList<IndexInfo> Indices { get; }
 

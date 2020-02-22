@@ -9,14 +9,17 @@
     using Microsoft.AspNetCore.StaticFiles;
     using Microsoft.Extensions.FileProviders;
     using SimpleInjector;
+    using VS.Abstractions;
     using VS.Abstractions.Data;
     using VS.Abstractions.Data.Filtering;
     using VS.Abstractions.Data.Paging;
     using VS.Abstractions.Data.Sorting;
     using VS.Abstractions.Messaging;
+    using VS.Abstractions.Payment;
     using VS.Abstractions.Storage;
     using VS.Core;
     using VS.Core.Messaging.Queue;
+    using VS.Core.Payment;
     using VS.Core.Storage;
     using VS.Data.PostGres.App.Meta;
     using VS.Mvc._Services;
@@ -83,6 +86,9 @@
             container.Register<IPager, QueryStringPager>();
             container.Register(typeof(IFilterService<>), typeof(QueryStringFilterService<>));
             container.Register(typeof(ISorterService<>), typeof(QueryStringSorterService<>));
+            container.Register<IFlashMessager, HttpFlashMessager>();
+
+            container.RegisterConditional<IPaymentProvider, NoOpPaymentProvider>(c => !c.Handled);
 
 
             // Fake Data Handlers
