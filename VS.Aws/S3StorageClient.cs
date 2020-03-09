@@ -9,15 +9,18 @@
     using System.Threading.Tasks;
     using Amazon.S3;
     using Amazon.S3.Model;
+    using VS.Abstractions;
     using VS.Abstractions.Storage;
     using VS.Abstractions.Storage.Paging;
 
     public class S3StorageClient : IStorageClient {
         private readonly IAmazonS3 s3;
+        private readonly ISerializer serializer;
         private Uri baseUri;
 
-        public S3StorageClient(IAmazonS3 s3) {
+        public S3StorageClient(IAmazonS3 s3, ISerializer serializer) {
             this.s3 = s3 ?? throw new ArgumentNullException(nameof(s3));
+            this.serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
         }
 
         public Uri BaseUri {
@@ -26,10 +29,19 @@
             }
         }
 
+        public async Task<Uri> CreateContainer(AccessLevel accessLevel, string containerName, CancellationToken cancel) {
+            await s3.EnsureBucketExistsAsync(containerName);
+            return new Uri(this.BaseUri, containerName);
+        }
+
         public async Task<bool> Exists(Uri uri, CancellationToken cancel) {
             var bucket = BucketNameFromUri(uri);
             if (!await s3.DoesS3BucketExistAsync(bucket)) {
                 return false;
+            }
+
+            if (!uri.IsAbsoluteUri) {
+                uri = new Uri(this.BaseUri, uri);
             }
 
             // Is it a bucket?
@@ -44,8 +56,13 @@
             return response.Count == 1;
         }
 
-        public async Task<Stream> Get(Uri uri, CancellationToken cancel) {
-            return await s3.GetObjectStreamAsync(BucketNameFromUri(uri), uri.LocalPath, null, cancel);
+        public Task<Stream> Get(Uri uri, CancellationToken cancel) {
+            return s3.GetObjectStreamAsync(BucketNameFromUri(uri), S3KeyFromUri(uri), null, cancel);
+        }
+
+        public async Task<T> GetObject<T>(Uri uri, CancellationToken cancel) where T : class {
+            using var objStream = await Get(uri, cancel);
+            return await this.serializer.Deserialize<T>(objStream, cancel).AsTask();
         }
 
         public async Task<PagedIndex> Index(Uri uri, int pageSize, string token, CancellationToken cancel) {
@@ -98,7 +115,18 @@
             return uri;
         }
 
+        public async Task<Uri> PutObject<T>(T @object, Uri uri, ContentDisposition contentDisposition, ContentType contentType, CancellationToken cancel) where T : class {
+            using var stream = new MemoryStream();
+            await serializer.SerializeToStream(@object, stream, cancel);
+            stream.Seek(0, SeekOrigin.Begin);
+            return await Put(stream, uri, contentDisposition, contentType, cancel);
+        }
+
         public async Task<bool> Remove(Uri uri, CancellationToken cancel) {
+            if (!uri.IsAbsoluteUri) {
+                uri = new Uri(this.BaseUri, uri);
+            }
+
             if (!await Exists(uri, cancel)) {
                 // Raise warning?
                 return false;
@@ -111,7 +139,7 @@
             return true;
         }
 
-        public Task<Uri> TemporaryLink(AccessLevel accessLevel, Uri uri, DateTime start, DateTime expiry, CancellationToken cancel) {
+        public Task<Uri> TemporaryLink(AccessLevel accessLevel, Uri uri, DateTimeOffset start, DateTimeOffset expiry, CancellationToken cancel) {
 
             if (!uri.IsAbsoluteUri) {
                 uri = new Uri(this.BaseUri, uri);
@@ -123,7 +151,7 @@
             var request = new GetPreSignedUrlRequest {
                 BucketName = bucket,
                 Key = key,
-                Expires = expiry,
+                Expires = expiry.LocalDateTime,
                 Verb = HttpVerb.GET // TODO: Tie up properly to access level
             };
 
@@ -146,7 +174,6 @@
             return parts[0];
         }
 
-
         private string S3KeyFromUri(Uri uri) {
             if (!uri.IsAbsoluteUri) {
                 uri = new Uri(this.BaseUri, uri);
@@ -159,8 +186,8 @@
                 return string.Empty;
             }
 
-            var trimmedParts = new string[parts.Length - 2];
-            parts.CopyTo(trimmedParts, 1);            
+            var trimmedParts = new string[parts.Length - 1];
+            Array.Copy(parts, 1, trimmedParts, 0, trimmedParts.Length);                  
             return string.Join('/', trimmedParts);
         }        
     }

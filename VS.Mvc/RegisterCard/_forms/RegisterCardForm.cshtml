@@ -1,0 +1,35 @@
+﻿@model RegisterCardFormModel
+
+@if (Model is object) {
+    <form action=@Model.CardFormAction method="POST" lang="en">
+        <input name="shopperResultUrl" type="hidden" value=@Model.ReturnUrl>
+        <section>
+            <label>Card holder</label>
+            <input autocomplete="off" type="text" name="card.holder" placeholder="Card holder">
+        </section>
+        <section>
+            <label>Card Number</label>
+            <input autocomplete="off" type="text" name="card.number" placeholder="Card Number">
+        </section>
+        <section>
+            <label>Expiry Date</label>
+            <input autocomplete="off" type="tel" name="card.expiryMonth" placeholder="MM"> /
+            <input autocomplete="off" type="tel" name="card.expiryYear" placeholder="YYYY">
+        </section>
+        <section>
+            <label>CVV</label>
+            <input autocomplete="off" type="number" name="card.cvv" placeholder="CVV">
+        </section>
+        <button type="submit">Add Card Details</button>
+    </form>
+
+
+    <script src="https://test.oppwa.com/v1/paymentWidgets.js?checkoutId=@Model.OppWaId" type="text/javascript"></script>
+
+
+    <section>
+        <form action=@Model.ReturnUrl class="paymentWidgets" data-brands="VISA MASTER AMEX"></form>
+    </section>
+} else {
+    <strong>Provider unavailable</strong>
+}

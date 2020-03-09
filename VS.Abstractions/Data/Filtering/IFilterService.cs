@@ -2,7 +2,7 @@
     
     public interface IFilterService<T> where T : class {
 
-        IFilter<T> GetFilter();
+        IFilter<T> Filter { get; }
 
         string GetQuery(IFilter<T> filter);
 

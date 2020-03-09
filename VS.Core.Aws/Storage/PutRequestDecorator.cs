@@ -1,13 +1,10 @@
 ﻿namespace VS.Core.Aws.Storage {
-    using Amazon.Runtime;
-    using Amazon.S3;
-    using MediatR;
-    using Microsoft.Extensions.Logging;
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+    using Amazon.Runtime;
+    using MediatR;
+    using Microsoft.Extensions.Logging;
     using VS.Abstractions.Storage;
     using VS.Core.Storage;
 

@@ -4,7 +4,11 @@
 
     public class Remove : IRequest<bool> {
 
-        public Uri Path { get; set; }
+        public Remove(Uri location) {
+            Location = location;
+        }
+
+        public Uri Location { get; private set; }
 
     }
 }

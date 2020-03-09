@@ -1,0 +1,20 @@
+﻿@model PagedList<RegisteredCard>
+
+@if (Model is null || Model.Total.Equals(0)) {
+
+    <strong>@sr["You have no registered cards. Please click here to register a card"]</strong>
+    @linkGen.GetPathByAction("RegisterCard", "Index");
+
+} else {
+    <ul>
+        @foreach (var card in Model) {
+            <li>
+                @card.CardProvider @card.CardHolder @card.Last4Digits <form asp-controller="RegisterCard" asp-action="Index" style="display:inline">
+                    <input type="hidden" name="registrationId" value=@card.ProviderReference />
+                    <button type="submit" asp-controller="RegisterCard" asp-action="Index">Forget this card</button>
+                </form>
+            </li>
+        }
+    </ul>
+
+}

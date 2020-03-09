@@ -1,23 +1,23 @@
 ﻿namespace VS.Core.Storage {
 
     using System;
-    using System.Collections.Generic;
-    using System.Text;
+    using MediatR;
+    using VS.Abstractions.Storage;
 
-    public class TempLink {
+    public class TempLink : IRequest<Uri> {
+        public TempLink(AccessLevel accessLevel, Uri path, DateTimeOffset starts, DateTimeOffset expires) {
+            AccessLevel = accessLevel;
+            Path = path;
+            Starts = starts;
+            Expires = expires;
+        }
 
+        public AccessLevel AccessLevel { get; set; }
 
-        // [Required]
-        public int AccessLevel { get; set; }
-
-        // [Required]
         public Uri Path { get; set; }
-
-        // [Required]
-        public DateTime Starts { get; set; }
-
-        // [Required]
-        public DateTime Expires { get; set; }
+        public DateTimeOffset Starts { get; }
+        public DateTimeOffset Expires { get; }
+   
 
     }
 }

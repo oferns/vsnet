@@ -15,12 +15,11 @@
     using VS.Abstractions.Data.Paging;
     using VS.Abstractions.Data.Sorting;
     using VS.Abstractions.Messaging;
-    using VS.Abstractions.Payment;
     using VS.Abstractions.Storage;
     using VS.Core;
+    using VS.Core.Local.Storage;
     using VS.Core.Messaging.Queue;
-    using VS.Core.Payment;
-    using VS.Core.Storage;
+    using VS.Core.Storage.Handlers;
     using VS.Data.PostGres.App.Meta;
     using VS.Mvc._Services;
 
@@ -86,10 +85,7 @@
             container.Register<IPager, QueryStringPager>();
             container.Register(typeof(IFilterService<>), typeof(QueryStringFilterService<>));
             container.Register(typeof(ISorterService<>), typeof(QueryStringSorterService<>));
-            container.Register<IFlashMessager, HttpFlashMessager>();
-
-            container.RegisterConditional<IPaymentProvider, NoOpPaymentProvider>(c => !c.Handled);
-
+            container.Register<IFlashMessager, HttpFlashMessager>();          
 
             // Fake Data Handlers
 #if DEBUG
@@ -104,10 +100,6 @@
                     IncludeComposites = true,
                     IncludeDecorators = true
                 });
-
-            foreach (var handlerType in requestHandlerTypes) {
-                container.RegisterDecorator(typeof(IRequestHandler<,>), handlerType);
-            }
 
             foreach (var handlerType in requestHandlerTypes) {
                 container.RegisterDecorator(typeof(IRequestHandler<,>), handlerType);

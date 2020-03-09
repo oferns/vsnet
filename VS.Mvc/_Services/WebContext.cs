@@ -8,10 +8,11 @@
     using System.Globalization;
     using System.Security.Claims;
     using VS.Abstractions;
+    using VS.Abstractions.Logging;
 
     public class WebContext : IContext {
 
-        public WebContext(IHttpContextAccessor contextAccessor) {
+        public WebContext(IHttpContextAccessor contextAccessor, ILog log) {
             if (contextAccessor is null) {
                 throw new ArgumentNullException(nameof(contextAccessor));
             }
@@ -27,6 +28,7 @@
 #endif
             this.UICulture = CultureInfo.CurrentUICulture;
             this.RequestId = Activity.Current?.RootId ?? contextAccessor.HttpContext?.TraceIdentifier;
+            Log = log ?? throw new ArgumentNullException(nameof(log));
         }
 
         public ClaimsPrincipal User { get; }
@@ -36,6 +38,7 @@
         public string RequestId { get; }
 
         public CultureInfo UICulture { get; }
-
+        
+        public ILog Log { get; }
     }
 }

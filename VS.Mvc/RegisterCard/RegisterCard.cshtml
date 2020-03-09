@@ -1,0 +1,51 @@
+﻿@section Title {
+    @sr["Register Card"]
+}
+
+
+<h1>@sr["Register Card"]</h1>
+
+<section>
+    <vc:registered-cards-list></vc:registered-cards-list>
+</section>
+
+<section>
+    <vc:register-card-form></vc:register-card-form>
+</section>
+
+<environment exclude="Production">
+    <section>
+        <strong>You can use the following test accounts in staging and development environments. 
+        Expiry date can be anything but must be in the future. CSV can be any 3 digit number.
+        
+        </strong>
+        <ul>
+            <li>
+                Mastercard
+                <ul>
+                    <li>5555555555554444</li>
+                    <li>5454545454545454</li>
+                </ul>
+            </li>
+            <li>
+                Visa
+                <ul>
+                    <li>4000000000000000</li>
+                    <li>4242424242424242</li>
+                    <li>4444333322221111</li>
+                    <li>4911830000000</li>
+                    <li>4917610000000000</li>
+                </ul>
+            </li>
+            <li>
+                AMEX
+                <ul>
+                    <li>34343434343434</li>
+                </ul>
+            </li>
+        </ul>      
+    </section>
+
+</environment>
+
+

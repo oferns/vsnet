@@ -7,18 +7,20 @@
     using System.Net.Mime;
     using System.Threading;
     using System.Threading.Tasks;
+    using VS.Abstractions;
     using VS.Abstractions.Storage;
     using VS.Abstractions.Storage.Paging;
 
     public class BlobStorageClient : IStorageClient {
         
         private readonly CloudBlobClient client;
-
+        private readonly ISerializer serializer;
         private OperationContext context;
         private BlobRequestOptions Options => new BlobRequestOptions { };
 
-        public BlobStorageClient(CloudBlobClient client) {
+        public BlobStorageClient(CloudBlobClient client, ISerializer serializer) {
             this.client = client ?? throw new ArgumentNullException(nameof(client));
+            this.serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
         }
 
         private OperationContext Context => context ?? (context = new OperationContext { LogLevel = (LogLevel)1 });
@@ -73,9 +75,7 @@
             foreach (var result in resultsSegment.Results) {
                 if (result is CloudBlockBlob blob) {
                     items.Add(new IndexItem(result.Uri, new ContentDisposition(blob.Properties.ContentDisposition), new ContentType(blob.Properties.ContentType)));
-                } // TODO: Is it always one of these?
-            
-            
+                } // TODO: Is it always one of these?                       
             }
 
             return new PagedIndex(items, pageSize, token, resultsSegment.ContinuationToken?.NextMarker);
@@ -102,7 +102,7 @@
             return await blobRef.DeleteIfExistsAsync();
         }
 
-        public async Task<Uri> TemporaryLink(AccessLevel accessLevel, Uri uri, DateTime start, DateTime expiry, CancellationToken cancel) {
+        public async Task<Uri> TemporaryLink(AccessLevel accessLevel, Uri uri, DateTimeOffset start, DateTimeOffset expiry, CancellationToken cancel) {
             if (!uri.IsAbsoluteUri) {
                 uri = new Uri(BaseUri, uri);
             }
@@ -110,7 +110,7 @@
             var sasConstraints = new SharedAccessBlobPolicy {
                 Permissions = (SharedAccessBlobPermissions)(int)accessLevel,
                 //SharedAccessStartTime = start,
-                SharedAccessExpiryTime = expiry
+                SharedAccessExpiryTime = expiry.LocalDateTime
             };
 
             var containername = this.ContainerNameFromUri(uri);
@@ -167,9 +167,25 @@
                 return string.Empty;
             }
 
-            var trimmedParts = new string[parts.Length - 2];
-            parts.CopyTo(trimmedParts, 1);
+            var trimmedParts = new string[parts.Length - 1];
+            Array.Copy(parts, 1, trimmedParts, 0, trimmedParts.Length);
             return string.Join('/', trimmedParts);
+        }
+
+        public Task<Uri> CreateContainer(AccessLevel accessLevel, string containerName, CancellationToken cancel) {
+            throw new NotImplementedException();
+        }
+
+
+        public async Task<T> GetObject<T>(Uri uri, CancellationToken cancel) where T : class {
+            using var objStream = await Get(uri, cancel);
+            return await this.serializer.Deserialize<T>(objStream, cancel).AsTask();
+        }
+
+        public async Task<Uri> PutObject<T>(T @object, Uri uri, ContentDisposition contentDisposition, ContentType contentType, CancellationToken cancel) where T : class {
+            using var stream = new MemoryStream();
+            await serializer.SerializeToStream(@object, stream, cancel);
+            return await Put(stream, uri, contentDisposition, contentType, cancel);
         }
     }
 }

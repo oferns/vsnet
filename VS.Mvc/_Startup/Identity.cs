@@ -7,9 +7,17 @@
     public static class Identity {
 
         public static IServiceCollection AddAppIdentity(this IServiceCollection services) {
-            return services
-                .AddAuthenticationCore()
-                .AddAuthorizationCore()
+            services.AddAuthentication(
+#if DEBUG                
+                "DEV"
+#endif                
+                )
+#if DEBUG                
+                .AddCookie("DEV")
+#endif
+                .AddCookie();
+
+            return services.AddAuthorization()
                 .AddScoped<IContext, WebContext>();
         }
 

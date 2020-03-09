@@ -1,8 +1,7 @@
 ﻿namespace VS.Abstractions {
-    using System.Collections.Generic;
     using System.Globalization;
     using System.Security.Claims;
-    using Microsoft.Extensions.Primitives;
+    using VS.Abstractions.Logging;
 
     public interface IContext {
 
@@ -14,6 +13,6 @@
 
         public string RequestId { get; }
 
-
+        public ILog Log { get; }
     }
 }

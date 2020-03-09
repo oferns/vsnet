@@ -6,6 +6,7 @@
     using Microsoft.Extensions.Configuration;
     using Serilog;
     using SimpleInjector;
+    using SimpleInjector.Diagnostics;
     using VS.Abstractions.Storage;
     using VS.Aws;
     using VS.Core.Aws.Messaging;
@@ -30,11 +31,18 @@
                 log.Information($"Creating MQ client for AWS region {region}");
                 container.Collection.Append<IAmazonMQ>(() => new AmazonMQClient(RegionEndpoint.GetBySystemName(region)), Lifestyle.Singleton);
             }
- 
-            container.RegisterConditional<IStorageClient, S3StorageClient>(c => c.Consumer.ImplementationType.FullName.StartsWith("VS.Core.Aws"));
+
+            container.RegisterConditional<IStorageClient, S3StorageClient>(c => true);
+            // c.Consumer.ImplementationType.FullName.StartsWith("VS.Core.Aws"));
 
             container.Register<IAmazonS3, RegionAwareAmazonS3Client>();
             container.Register<IAmazonMQ, RegionAwareAmazonMQClient>();
+
+            Registration s3reg = container.GetRegistration(typeof(IAmazonS3)).Registration;
+            Registration mqreq = container.GetRegistration(typeof(IAmazonMQ)).Registration;
+
+            s3reg.SuppressDiagnosticWarning(DiagnosticType.DisposableTransientComponent, "The Amazon s3 clients should be singletons but this class just selects which of those to use on a per-request basis");
+            mqreq.SuppressDiagnosticWarning(DiagnosticType.DisposableTransientComponent, "The Amazon MQ clients should be singletons but this class just selects which of those to use on a per-request basis");
 
             var assemblies = new[] { typeof(PutRequestDecorator).Assembly };
 

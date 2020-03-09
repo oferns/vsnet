@@ -1,5 +1,22 @@
-﻿@section Title {
-    "Oops!!"
+﻿@model Exception
+
+@section Title {
+    sr["Oops!!"]
 }
 
 <h1>Error!</h1>
+
+
+<environment exclude="Production">
+
+    @{
+        var ex = Model.InnerException;
+        @do {
+            <strong>@Model.Message</strong>
+            <pre>
+                    @Model.StackTrace
+            </pre>
+            ex = ex?.InnerException;
+        } while (ex is object);
+    }
+</environment>

@@ -4,14 +4,13 @@
 
     public class VwOrder {
 
-        public VwOrder(int orderId, string host, int userId, decimal amount, string currency, string providerCheckoutReference, DateTimeOffset? providerInitialTimestamp) {
+        public VwOrder(int orderId, string host, int userId, decimal amount, string currency, decimal balance) {
             OrderId = orderId;
             Host = host;
             UserId = userId;
             Amount = amount;
             Currency = currency;
-            ProviderCheckoutReference = providerCheckoutReference;
-            ProviderInitialTimestamp = providerInitialTimestamp;
+            Balance = balance;
         }
 
         public int OrderId { get; private set; }

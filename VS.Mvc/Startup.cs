@@ -48,7 +48,7 @@ namespace VS.Mvc {
                         container
                             .AddLogging()
                             .AddAwsServices(configuration, Log.Logger)
-                            .AddNoire(configuration, Log.Logger)
+                            .AddPayOn(configuration, Log.Logger)
                             .AddCoreServices()
                             .AddPostGresServices()
                             .AddSerializationServices();                                                     

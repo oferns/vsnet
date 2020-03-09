@@ -10,7 +10,7 @@
 
         public static Container AddSerializationServices(this Container container) {
             container.RegisterSingleton<MessagePackSerializerOptions>(
-                () => MessagePackSerializerOptions.Standard.WithResolver(TypelessContractlessStandardResolver.Instance)
+                () => MessagePackSerializerOptions.Standard.WithResolver(ContractlessStandardResolverAllowPrivate.Instance)
                 );
             container.RegisterSingleton<ISerializer, MPSerializer>();
             return container;

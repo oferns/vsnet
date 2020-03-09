@@ -6,7 +6,7 @@
 
     public class Update<T> : IRequest<IEnumerable<T>> where T : class {
 
-        public IEnumerable<KeyValuePair<string,object>> PropertiesToUpdate { get; set; }
+        public IDictionary<string,object> PropertiesToUpdate { get; set; }
 
         public IFilter<T> Filter { get; set; }
 

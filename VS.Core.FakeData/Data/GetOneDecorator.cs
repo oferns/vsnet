@@ -28,7 +28,7 @@
             if (context is object) {         // This is always true
                 var obj = this.faker.Generate<T>(config => config.WithLocale(context.UICulture.Name.Replace('-', '_')));
 
-                foreach (var entry in filterService.GetFilter()) {
+                foreach (var entry in filterService.Filter) {
                     if (entry.Clause is Clause<T> singleclause) {
                         singleclause.Property.SetValue(obj, singleclause.Value);
                     }

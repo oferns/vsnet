@@ -12,6 +12,7 @@
             return services
                    .AddMiniProfiler().Services
                    .AddSingleton<HostSwitchingMiddleware>()
+                   .AddSingleton<AutoLoginMiddleware>()
                    .AddSingleton<RouteGraphMiddleware>()
                    .AddScoped<IDbConnection, NoOpConnection>();
         }
@@ -19,6 +20,7 @@
         public static IApplicationBuilder UseDevTools(this IApplicationBuilder app) {
 
             return app
+                    .UseMiddleware<AutoLoginMiddleware>()
                     .UseMiniProfiler()
                     .Map("/cc", b => b.UseMiddleware<HostSwitchingMiddleware>())
                     .Map("/graph", b => b.UseMiddleware<RouteGraphMiddleware>())
