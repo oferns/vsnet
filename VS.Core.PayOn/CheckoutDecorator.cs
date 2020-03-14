@@ -33,8 +33,6 @@
                 return res;
             }
 
-            var currentCheckout = context.User.FindAll($"{IdClaimTypes.CheckoutRef}/{request.Reference}/");
-
             var cards = context.User.FindAll(IdClaimTypes.CardRef + "/PayOn");
 
             var list = new List<string>();
@@ -50,7 +48,7 @@
                    request.Currency,
                    PaymentType.Debit,
                    registrationIds: list,
-                   merchantTransactionId: request.Reference,
+                   merchantTransactionId: request.OrderId,
                    merchantInvoiceId: request.InvoiceId,
                    descriptor: context.Host,
                    transactionCategory: TransactionCategory.eCommerce

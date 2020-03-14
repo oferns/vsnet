@@ -61,7 +61,8 @@
 
             container.Collection.Register(typeof(IPipelineBehavior<,>), new[] {
                         typeof(RequestPreProcessorBehavior<,>),
-                        typeof(RequestPostProcessorBehavior<,>)
+                        typeof(RequestPostProcessorBehavior<,>),
+                        typeof(LoggingBehaviour<,>)
                     });
 
             container.Collection.Register(typeof(IRequestPreProcessor<>), Array.Empty<Type>());

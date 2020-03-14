@@ -26,12 +26,13 @@ namespace VS.Mvc {
         public void ConfigureServices(IServiceCollection services) {
 
             this.services = services
+                    .AddLog()
                     .AddSingleton<CultureOptions>(configuration.GetSection("CultureOptions").Get<CultureOptions>())
 #if DEBUG
                     .AddDevServices()
 #endif                    
                     .AddRequestCorrelation()
-                    .AddConstraints()                    
+                    .AddConstraints()
                     .AddSingleton<IActionContextAccessor, ActionContextAccessor>()
                     .AddHttpContextAccessor()
                     .AddHttpClient()
@@ -39,19 +40,19 @@ namespace VS.Mvc {
                     .AddAppIdentity()
                     .AddViewOptions(configuration.GetSection("AntiforgeryOptions").Get<AntiforgeryOptions>())
                     .AddSimpleInjector(container, options => {
-                        options                        
+                        options
                            .AddAspNetCore()
                            .AddControllerActivation()
                            .AddViewComponentActivation()
                            .AddTagHelperActivation();
 
-                        container
-                            .AddLogging()
+                        container                            
                             .AddAwsServices(configuration, Log.Logger)
                             .AddPayOn(configuration, Log.Logger)
                             .AddCoreServices()
+                            .AddCaching(configuration, Log.Logger)
                             .AddPostGresServices()
-                            .AddSerializationServices();                                                     
+                            .AddSerializationServices();
                     });
         }
 

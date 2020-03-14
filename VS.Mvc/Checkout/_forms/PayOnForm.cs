@@ -41,10 +41,10 @@
             }
 
 
-            var response = await mediator.Send(new CheckoutRequest(100, "GBP", order.OrderId.ToString(), order.OrderId.ToString()));
+            var response = await mediator.Send(new CheckoutRequest(order.OrderId.ToString(), 100, "GBP", order.OrderId.ToString()));
 
             if (!response.Success) {
-
+                return View();
             }
 
             var returnUri = new Uri(link.GetUriByAction(ViewContext.HttpContext, "Callback", "Checkout", new { orderId = order.OrderId }));

@@ -7,7 +7,7 @@ namespace VD.PayOn.Tests {
     using System.Net.Http;
     using System.Threading;
     using System.Threading.Tasks;
-    using Serilog;
+    using Microsoft.Extensions.Logging;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
     using Moq.Protected;
@@ -92,8 +92,8 @@ namespace VD.PayOn.Tests {
         }
 
 
-        private Mock<ILogger> GetLooseLog() {
-            return new Mock<ILogger>(MockBehavior.Loose);        
+        private Mock<ILogger<PayOnClient>> GetLooseLog() {
+            return new Mock<ILogger<PayOnClient>>(MockBehavior.Loose);        
         }
 
         [TestMethod]

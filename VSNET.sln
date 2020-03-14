@@ -52,7 +52,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Core.PayOn", "VS.Core.Pa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Core.Dapper", "VS.Core.Dapper\VS.Core.Dapper.csproj", "{382A4FA6-66FB-4172-A3EB-ABC5F08718E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VS.Core.Local", "VS.Core.Local\VS.Core.Local.csproj", "{4548EA48-05B8-43F5-8A99-88EA7D181E8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Core.Local", "VS.Core.Local\VS.Core.Local.csproj", "{4548EA48-05B8-43F5-8A99-88EA7D181E8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VS.Core.Yoti", "VS.Core.Yoti\VS.Core.Yoti.csproj", "{B1214B2C-2917-41AD-9195-CD8947302A61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VD.Yoti", "VD.Yoti\VD.Yoti.csproj", "{D7B3189A-EC4F-4A4D-8A72-330B334997E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -164,6 +168,14 @@ Global
 		{4548EA48-05B8-43F5-8A99-88EA7D181E8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4548EA48-05B8-43F5-8A99-88EA7D181E8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4548EA48-05B8-43F5-8A99-88EA7D181E8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1214B2C-2917-41AD-9195-CD8947302A61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1214B2C-2917-41AD-9195-CD8947302A61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1214B2C-2917-41AD-9195-CD8947302A61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1214B2C-2917-41AD-9195-CD8947302A61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7B3189A-EC4F-4A4D-8A72-330B334997E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7B3189A-EC4F-4A4D-8A72-330B334997E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7B3189A-EC4F-4A4D-8A72-330B334997E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7B3189A-EC4F-4A4D-8A72-330B334997E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

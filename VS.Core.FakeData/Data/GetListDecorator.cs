@@ -7,6 +7,7 @@
     using MediatR;
     using VS.Abstractions;
     using VS.Abstractions.Data.Paging;
+    using VS.Abstractions.Logging;
     using VS.Core.Data;
 
     public class GetListDecorator<T> : IRequestHandler<GetList<T>, PagedList<T>> where T : class {
@@ -24,7 +25,8 @@
 
         public Task<PagedList<T>> Handle(GetList<T> request, CancellationToken cancellationToken) {
 
-            if (true) {
+            if (context is object) {
+                context.Log.LogInfo($"Generating fake data list for {typeof(T).FullName}");
                 var pager = request.Pager ?? new Pager(0, 25);
                 var list = faker.Generate<T>(pager.PageSize, config => config.WithLocale(context.UICulture.Name.Replace('-', '_')));
                 return Task.FromResult(new PagedList<T>(list, pager.StartFrom, pager.PageSize, 200));

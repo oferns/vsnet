@@ -1,18 +1,27 @@
 ﻿@import './_Styles/_palette.scss';
 @import './_Styles/_typography.scss';
-@import './_Styles/_breakpoints.scss';
-@import './_Styles/_forms.scss';
+/*@import './_Styles/_breakpoints.scss';
+@import './_Styles/_forms.scss';*/
 
 
-html, body {
+html, body, * {
     padding:0;
     margin:0;
 }
 
 body {
     font-family: $open-sans-400;
-    line-height: 1.5em;
-    font-weight: 400;
+        
+}
+
+header {
+    background: url('https://images.unsplash.com/photo-1518176258769-f227c798150e') center;
+    background-size: cover;
+    padding: 4rem 2rem;
+    /* Grid styles */
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
 h1 {

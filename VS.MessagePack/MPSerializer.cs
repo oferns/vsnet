@@ -15,7 +15,7 @@
         }
 
         public ValueTask<T> Deserialize<T>(ReadOnlyMemory<byte> buffer, CancellationToken cancel) {
-            return new ValueTask<T>(MessagePackSerializer.Deserialize<T>(buffer));
+            return new ValueTask<T>(MessagePackSerializer.Deserialize<T>(buffer, options));
         }
 
         public ValueTask<T> Deserialize<T>(Stream stream, CancellationToken cancel) {
@@ -31,7 +31,8 @@
         }
 
         public ValueTask<object> DeserializeFromJson(string json, CancellationToken cancel) {
-            throw new NotImplementedException();
+            var bytes = MessagePackSerializer.ConvertFromJson(json, options, cancel);
+            return new ValueTask<object>(MessagePackSerializer.Deserialize<object>(bytes, options, cancel));
         }
 
         public ValueTask<T> DeserializeFromJson<T>(string json, CancellationToken cancel) {

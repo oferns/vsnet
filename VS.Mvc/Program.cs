@@ -9,12 +9,13 @@ namespace VS.Mvc {
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Hosting;
     using Serilog;
+    using Serilog.Filters.Expressions;
 
     public class Program {
         public static async Task Main(string[] args) {
 
             var config = new LoggerConfiguration();
-            config.Enrich.FromLogContext()            
+            config.Enrich.FromLogContext().Filter.ByExcluding("StartsWith(RequestPath, '/mini-profiler')")
             .WriteTo.Console();
 
             var seq = Environment.GetEnvironmentVariable("SEQ_URI");

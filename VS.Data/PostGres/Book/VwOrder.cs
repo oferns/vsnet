@@ -23,7 +23,6 @@
         
         public string Currency { get; private set; }
 
-        public string ProviderCheckoutReference { get; private set; }
-        public DateTimeOffset? ProviderInitialTimestamp { get; private set; }
+        public decimal Balance { get; private set; }
     }
 }

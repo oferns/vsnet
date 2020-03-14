@@ -7,7 +7,6 @@
     using Microsoft.AspNetCore.Mvc.Infrastructure;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
-    using VS.Core.Data;
     using VS.Core.Identity;
     using VS.Core.Payment;
 

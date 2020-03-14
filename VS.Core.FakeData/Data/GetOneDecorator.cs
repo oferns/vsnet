@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using VS.Abstractions;
     using VS.Abstractions.Data.Filtering;
+    using VS.Abstractions.Logging;
     using VS.Core.Data;
 
     public class GetOneDecorator<T> : IRequestHandler<GetOne<T>, T> where T : class {
@@ -26,6 +27,9 @@
         public async Task<T> Handle(GetOne<T> request, CancellationToken cancel) {
 
             if (context is object) {         // This is always true
+
+                context.Log.LogInfo($"Generating fake object with data for {typeof(T).FullName}");
+
                 var obj = this.faker.Generate<T>(config => config.WithLocale(context.UICulture.Name.Replace('-', '_')));
 
                 foreach (var entry in filterService.Filter) {

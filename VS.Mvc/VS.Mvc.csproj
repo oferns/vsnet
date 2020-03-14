@@ -27,6 +27,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.1.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="3.0.0" />
+    <PackageReference Include="Serilog.Filters.Expressions" Version="2.1.0" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="4.0.0" />
     <PackageReference Include="SimpleInjector.Integration.AspNetCore.Mvc" Version="4.9.1" />
     <PackageReference Include="UAParser.FormFactor" Version="3.0.2" />
@@ -46,8 +48,8 @@
     <ProjectReference Include="..\VS.Core\VS.Core.csproj" />
     <ProjectReference Include="..\VS.Data\VS.Data.csproj" />
     <ProjectReference Include="..\VS.MessagePack\VS.MPack.csproj" />
+    <ProjectReference Include="..\VS.Redis\VS.Redis.csproj" />
   </ItemGroup>
-
 
  
 </Project>

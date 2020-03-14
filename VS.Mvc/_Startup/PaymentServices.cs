@@ -1,9 +1,11 @@
 ﻿namespace VS.Mvc._Startup {
+    using System;
+    using System.Collections.Generic;
     using MediatR;
     using Microsoft.Extensions.Configuration;
     using Serilog;
     using SimpleInjector;
-    using VD.PayOn;    
+    using VD.PayOn;
     using VS.Core.PayOn;
 
     public static class PaymentServices {
@@ -27,8 +29,19 @@
                     IncludeDecorators = true
                 });
 
+
+            var cacheDecorators = new List<Type>();
+
             foreach (var handlerType in requestHandlerTypes) {
-                container.RegisterDecorator(typeof(IRequestHandler<,>), handlerType);
+                if (handlerType.Name.StartsWith("Cache")) {
+                    cacheDecorators.Add(handlerType);
+                } else {
+                    container.RegisterDecorator(typeof(IRequestHandler<,>), handlerType);
+                }
+            }
+
+            foreach (var decoratorType in cacheDecorators) {
+                container.RegisterDecorator(typeof(IRequestHandler<,>), decoratorType);
             }
 
 
@@ -42,7 +55,15 @@
                });
 
             foreach (var handlerType in requestHandlerTypes2) {
-                container.RegisterDecorator(typeof(IRequestHandler<>), handlerType);
+                if (handlerType.Name.StartsWith("Cache")) {
+                    cacheDecorators.Add(handlerType);
+                } else {
+                    container.RegisterDecorator(typeof(IRequestHandler<,>), handlerType);
+                }
+            }
+
+            foreach (var decoratorType in cacheDecorators) {
+                container.RegisterDecorator(typeof(IRequestHandler<,>), decoratorType);
             }
 
             container.RegisterInstance<PayOnOptions>(PayOnconfig);

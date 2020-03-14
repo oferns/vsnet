@@ -1,8 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace VS.Redis {
+    using System.Collections;
+    using System.Collections.Generic;
+    using StackExchange.Redis;
 
-namespace VS.Redis {
-    class RedisOptions {
+    public class RedisOptions {
+
+        public IEnumerable<string> Hosts { get; set; }
+
+        public ConfigurationOptions ConfigurationOptions { get; set; }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace VS.Mvc.Payment {
     using System;
+    using System.Dynamic;
     using System.Threading;
     using System.Threading.Tasks;
     using MediatR;
@@ -30,29 +31,70 @@
 
 
         [HttpGet]
-        public async Task<IActionResult> Callback(long orderId, string resourcePath, string id, CancellationToken cancel) {
+        public async Task<IActionResult> Callback(string orderId, string resourcePath, string id, CancellationToken cancel) {
 
             if (orderId.Equals(0) || string.IsNullOrEmpty(id)) {
                 return new BadRequestResult();
             }
 
-            var paymentStatus = await mediator.Send(new CheckoutStatusRequest(id), cancel);
+            var paymentStatus = await mediator.Send(new CheckoutStatusRequest(orderId, id, true), cancel);
 
             if (paymentStatus.Success) {
-                new RedirectToActionResult("Complete", "Checkout", new { orderId = orderId });
-            }
+
+                if (paymentStatus.Complete) {
+                  return new RedirectToActionResult("Complete", "Checkout", new { id = orderId, @ref = id });
+                }
+
+                return new RedirectToActionResult("Pending", "Checkout", new { id = orderId, @ref = id });
+            }                                                                            
             
-            return new RedirectToActionResult("Pending", "Checkout", new { orderId = orderId });
+            return new RedirectToActionResult("Failed", "Checkout", new { id = orderId, @ref = id });
         }
+
+
+
 
 
 
         [HttpGet]
-        public IActionResult Status(long orderId) {
+        public IActionResult Complete(string id, string @ref) {
 
-            return new ViewResult { ViewName = "Status" };
+            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(@ref)) {
+                return new BadRequestResult();
+            }
+
+            context.ActionContext.RouteData.Values.Add("orderId", id);
+            context.ActionContext.RouteData.Values.Add("paymentRef", @ref);
+
+            return new ViewResult { ViewName = "Complete" };
         }
 
+
+        [HttpGet]
+        public IActionResult Pending(string id, string @ref) {
+
+            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(@ref)) {
+                return new BadRequestResult();
+            }
+
+            context.ActionContext.RouteData.Values.Add("orderId", id);
+            context.ActionContext.RouteData.Values.Add("paymentRef", @ref);
+
+            return new ViewResult { ViewName = "Pending" };
+        }
+
+        [HttpGet]
+        public IActionResult Failed(string id, string @ref) {
+
+            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(@ref)) {
+                return new BadRequestResult();
+            }
+
+            context.ActionContext.RouteData.Values.Add("orderId", id);
+            context.ActionContext.RouteData.Values.Add("paymentRef", @ref);
+
+            return new ViewResult { ViewName = "Failed" };
+        }
 
     }
 }

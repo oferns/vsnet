@@ -18,7 +18,7 @@
 
         public Task<CheckoutResponse> Handle(CheckoutRequest request, CancellationToken cancel) {
                         
-            context.Log.Log($"Checkout {request.Reference} Requested by user {context.User.FindFirstValue(IdClaimTypes.UserIdentifier)}");
+            context.Log.Log($"Checkout {request.OrderId} Requested by user {context.User.FindFirstValue(IdClaimTypes.UserIdentifier)}");
             return Task.FromResult<CheckoutResponse>(default);            
         }
     }

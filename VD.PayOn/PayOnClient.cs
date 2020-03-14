@@ -8,7 +8,7 @@
     using System.Text.Json;
     using System.Threading;
     using System.Threading.Tasks;
-    using Serilog;
+    using Microsoft.Extensions.Logging;
     using VD.PayOn.BackOffice;
 
     public class PayOnClient : IPayOnClient {
@@ -20,7 +20,7 @@
 
         public Uri BaseUri => options.BaseUri;
 
-        public PayOnClient(IHttpClientFactory factory, PayOnOptions options,  ILogger log, JsonSerializerOptions jsonOptions = default) {
+        public PayOnClient(IHttpClientFactory factory, PayOnOptions options,  ILogger<PayOnClient> log, JsonSerializerOptions jsonOptions = default) {
             this.factory = factory ?? throw new ArgumentNullException(nameof(factory));
             this.options = options ?? throw new ArgumentNullException(nameof(options));
             this.log = log ?? throw new ArgumentNullException(nameof(log));
@@ -44,19 +44,19 @@
             content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             httprequest.Content = content;
 
-            log.Information($"PayOn-{options.EntityId} sending CreateCheckout request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
+            log.LogInformation($"PayOn-{options.EntityId} sending CreateCheckout request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
             
             using var client = this.factory.CreateClient($"PayOn-{options.EntityId}");
             using var response = await client.SendAsync(httprequest, HttpCompletionOption.ResponseHeadersRead, cancel)
                 .ConfigureAwait(false);
 
-            log.Information($"PayOn-{options.EntityId} received HTTP {response.StatusCode} CreateCheckout response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
+            log.LogInformation($"PayOn-{options.EntityId} received HTTP {response.StatusCode} CreateCheckout response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
 
 
             if (response.IsSuccessStatusCode || response.StatusCode.Equals(HttpStatusCode.BadRequest)) {
                 var responseString = await response.Content.ReadAsStringAsync();
 
-                log.Information($"PayOn-{options.EntityId} received CreateCheckout response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
+                log.LogInformation($"PayOn-{options.EntityId} received CreateCheckout response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
                 var result = JsonSerializer.Deserialize<PayOnResponse>(responseString, this.jsonOptions);
                 result.OriginalResponse = responseString;
                 return result;
@@ -76,18 +76,18 @@
             var httprequest = new HttpRequestMessage(HttpMethod.Get, requestUri);
             httprequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", options.Token);
 
-            log.Information($"PayOn-{options.EntityId} sending CheckoutStatus request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
+            log.LogInformation($"PayOn-{options.EntityId} sending CheckoutStatus request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
 
             using var client = this.factory.CreateClient($"PayOn-{options.EntityId}");
             using var response = await client.SendAsync(httprequest, HttpCompletionOption.ResponseHeadersRead, cancel)
                 .ConfigureAwait(false);
 
-            log.Information($"PayOn-{options.EntityId} received HTTP {response.StatusCode} CheckoutStatus response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
+            log.LogInformation($"PayOn-{options.EntityId} received HTTP {response.StatusCode} CheckoutStatus response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
 
             if (response.IsSuccessStatusCode || response.StatusCode.Equals(HttpStatusCode.BadRequest)) {
                 var responseString = await response.Content.ReadAsStringAsync();
 
-                log.Information($"PayOn-{options.EntityId} received CheckoutStatus response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
+                log.LogInformation($"PayOn-{options.EntityId} received CheckoutStatus response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
                 var result = JsonSerializer.Deserialize<PayOnResponse>(responseString, this.jsonOptions);
                 result.OriginalResponse = responseString;
                 return result;
@@ -111,18 +111,18 @@
             content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             httprequest.Content = content;
 
-            log.Information($"PayOn-{options.EntityId} sending Capture request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
+            log.LogInformation($"PayOn-{options.EntityId} sending Capture request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
 
             using var client = this.factory.CreateClient($"PayOn-{options.EntityId}");
             using var response = await client.SendAsync(httprequest, HttpCompletionOption.ResponseHeadersRead, cancel)
                 .ConfigureAwait(false);
 
-            log.Information($"PayOn-{options.EntityId} received HTTP {response.StatusCode} Capture response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
+            log.LogInformation($"PayOn-{options.EntityId} received HTTP {response.StatusCode} Capture response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
 
             if (response.IsSuccessStatusCode || response.StatusCode.Equals(HttpStatusCode.BadRequest)) {
                 var responseString = await response.Content.ReadAsStringAsync();
 
-                log.Information($"PayOn-{options.EntityId} received Capture response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
+                log.LogInformation($"PayOn-{options.EntityId} received Capture response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
                 var result = JsonSerializer.Deserialize<PayOnResponse>(responseString, this.jsonOptions);
                 result.OriginalResponse = responseString;
                 return result;
@@ -146,18 +146,18 @@
             content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             httprequest.Content = content;
 
-            log.Information($"PayOn-{options.EntityId} sending Refund request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
+            log.LogInformation($"PayOn-{options.EntityId} sending Refund request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
 
             using var client = this.factory.CreateClient($"PayOn-{options.EntityId}");
             using var response = await client.SendAsync(httprequest, HttpCompletionOption.ResponseHeadersRead, cancel)
                 .ConfigureAwait(false);
 
-            log.Information($"PayOn-{options.EntityId} received HTTP {response.StatusCode} Refund response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
+            log.LogInformation($"PayOn-{options.EntityId} received HTTP {response.StatusCode} Refund response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
 
             if (response.IsSuccessStatusCode || response.StatusCode.Equals(HttpStatusCode.BadRequest)) {
                 var responseString = await response.Content.ReadAsStringAsync();
 
-                log.Information($"PayOn-{options.EntityId} received Capture response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
+                log.LogInformation($"PayOn-{options.EntityId} received Capture response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
                 var result = JsonSerializer.Deserialize<PayOnResponse>(responseString, this.jsonOptions);
                 result.OriginalResponse = responseString;
                 return result;
@@ -183,18 +183,18 @@
             httprequest.Content = content;
 
 
-            log.Information($"PayOn-{options.EntityId} sending Refund request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}. {credit}");
+            log.LogInformation($"PayOn-{options.EntityId} sending Refund request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}. {credit}");
 
             using var client = this.factory.CreateClient($"PayOn-{options.EntityId}");
             using var response = await client.SendAsync(httprequest, HttpCompletionOption.ResponseHeadersRead, cancel)
                 .ConfigureAwait(false);
 
-            log.Information($"PayOn-{options.EntityId} received HTTP {response.StatusCode} Refund response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
+            log.LogInformation($"PayOn-{options.EntityId} received HTTP {response.StatusCode} Refund response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
 
             if (response.IsSuccessStatusCode || response.StatusCode.Equals(HttpStatusCode.BadRequest)) {
                 var responseString = await response.Content.ReadAsStringAsync();
 
-                log.Information($"PayOn-{options.EntityId} received Refund response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
+                log.LogInformation($"PayOn-{options.EntityId} received Refund response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
 
                 var result = JsonSerializer.Deserialize<PayOnResponse>(responseString, this.jsonOptions);
                 result.OriginalResponse = responseString;
@@ -219,18 +219,18 @@
             content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             httprequest.Content = content;
 
-            log.Information($"PayOn-{options.EntityId} sending Rebill request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}. {rebill}");
+            log.LogInformation($"PayOn-{options.EntityId} sending Rebill request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}. {rebill}");
 
             using var client = this.factory.CreateClient($"PayOn-{options.EntityId}");
             using var response = await client.SendAsync(httprequest, HttpCompletionOption.ResponseHeadersRead, cancel)
                 .ConfigureAwait(false);
 
 
-            log.Information($"PayOn-{options.EntityId} received HTTP {response.StatusCode} Rebill response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
+            log.LogInformation($"PayOn-{options.EntityId} received HTTP {response.StatusCode} Rebill response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
 
             if (response.IsSuccessStatusCode || response.StatusCode.Equals(HttpStatusCode.BadRequest)) {
                 var responseString = await response.Content.ReadAsStringAsync();
-                log.Information($"PayOn-{options.EntityId} received Rebill response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
+                log.LogInformation($"PayOn-{options.EntityId} received Rebill response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
 
                 var result = JsonSerializer.Deserialize<PayOnResponse>(responseString, this.jsonOptions);
                 result.OriginalResponse = responseString;
@@ -254,17 +254,17 @@
             content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             httprequest.Content = content;
 
-            log.Information($"PayOn-{options.EntityId} sending RegisterCard request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}. {registerCard}");
+            log.LogInformation($"PayOn-{options.EntityId} sending RegisterCard request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}. {registerCard}");
 
             using var client = this.factory.CreateClient($"PayOn-{options.EntityId}");
             using var response = await client.SendAsync(httprequest, HttpCompletionOption.ResponseHeadersRead, cancel)
                 .ConfigureAwait(false);
 
-            log.Information($"PayOn-{options.EntityId} received HTTP {response.StatusCode} RegisterCard response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
+            log.LogInformation($"PayOn-{options.EntityId} received HTTP {response.StatusCode} RegisterCard response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
 
             if (response.IsSuccessStatusCode || response.StatusCode.Equals(HttpStatusCode.BadRequest)) {
                 var responseString = await response.Content.ReadAsStringAsync();
-                log.Information($"PayOn-{options.EntityId} received RegisterCard response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
+                log.LogInformation($"PayOn-{options.EntityId} received RegisterCard response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
                 var result = JsonSerializer.Deserialize<PayOnResponse>(responseString, this.jsonOptions);
                 result.OriginalResponse = responseString;
                 return result;
@@ -283,17 +283,17 @@
             var httprequest = new HttpRequestMessage(HttpMethod.Get, requestUri);
             httprequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", options.Token);
 
-            log.Information($"PayOn-{options.EntityId} sending RegisterCardStatus request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
+            log.LogInformation($"PayOn-{options.EntityId} sending RegisterCardStatus request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
 
             using var client = this.factory.CreateClient($"PayOn-{options.EntityId}");
             using var response = await client.SendAsync(httprequest, HttpCompletionOption.ResponseHeadersRead, cancel)
                 .ConfigureAwait(false);
 
-            log.Information($"PayOn-{options.EntityId} received HTTP {response.StatusCode} RegisterCardStatus response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
+            log.LogInformation($"PayOn-{options.EntityId} received HTTP {response.StatusCode} RegisterCardStatus response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
 
             if (response.IsSuccessStatusCode || response.StatusCode.Equals(HttpStatusCode.BadRequest)) {
                 var responseString = await response.Content.ReadAsStringAsync();
-                log.Information($"PayOn-{options.EntityId} received RegisterCard response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
+                log.LogInformation($"PayOn-{options.EntityId} received RegisterCard response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
                 var result = JsonSerializer.Deserialize<RegisterCardResponse>(responseString, this.jsonOptions);
                 result.OriginalResponse = responseString;
                 return result;
@@ -316,17 +316,17 @@
             content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             httprequest.Content = content;
 
-            log.Information($"PayOn-{options.EntityId} sending DeRegisterCard request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}. {deregisterCard}");
+            log.LogInformation($"PayOn-{options.EntityId} sending DeRegisterCard request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}. {deregisterCard}");
 
             using var client = this.factory.CreateClient($"PayOn-{options.EntityId}");
             using var response = await client.SendAsync(httprequest, HttpCompletionOption.ResponseHeadersRead, cancel)
                 .ConfigureAwait(false);
 
-            log.Information($"PayOn-{options.EntityId} received HTTP {response.StatusCode} DeRegisterCard response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
+            log.LogInformation($"PayOn-{options.EntityId} received HTTP {response.StatusCode} DeRegisterCard response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
 
             if (response.IsSuccessStatusCode || response.StatusCode.Equals(HttpStatusCode.BadRequest)) {
                 var responseString = await response.Content.ReadAsStringAsync();
-                log.Information($"PayOn-{options.EntityId} received DeRegisterCard response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
+                log.LogInformation($"PayOn-{options.EntityId} received DeRegisterCard response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
                 var result = JsonSerializer.Deserialize<RegisterCardResponse>(responseString, this.jsonOptions);
                 result.OriginalResponse = responseString;
                 return result;
@@ -350,18 +350,18 @@
             content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             httprequest.Content = content;
 
-            log.Information($"PayOn-{options.EntityId} sending Reversal request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}. {reversal}");
+            log.LogInformation($"PayOn-{options.EntityId} sending Reversal request to {requestUri.AbsoluteUri} at {DateTimeOffset.Now}. {reversal}");
 
             using var client = this.factory.CreateClient($"PayOn-{options.EntityId}");
             using var response = await client.SendAsync(httprequest, HttpCompletionOption.ResponseHeadersRead, cancel)
                 .ConfigureAwait(false);
 
 
-            log.Information($"PayOn-{options.EntityId} received HTTP {response.StatusCode} Reversal response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
+            log.LogInformation($"PayOn-{options.EntityId} received HTTP {response.StatusCode} Reversal response from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.");
 
             if (response.IsSuccessStatusCode || response.StatusCode.Equals(HttpStatusCode.BadRequest)) {
                 var responseString = await response.Content.ReadAsStringAsync();
-                log.Information($"PayOn-{options.EntityId} received Reversal response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
+                log.LogInformation($"PayOn-{options.EntityId} received Reversal response JSON from {requestUri.AbsoluteUri} at {DateTimeOffset.Now}.{responseString}");
                 return JsonSerializer.Deserialize<PayOnResponse>(responseString, this.jsonOptions);
             }
 

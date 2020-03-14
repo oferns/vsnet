@@ -23,9 +23,11 @@ namespace VS.Core.PayOn {
 
         public async Task<CheckoutStatusResponse> Handle(CheckoutStatusRequest request, CancellationToken cancellationToken) {
 
-            var PayOnResponse = await client.CheckoutStatus(request.CheckoutId, cancellationToken);
+            _ = await wrappedHandler.Handle(request, cancellationToken);
 
-            var obj = new CheckoutStatusResponse(PayOnResponse.Result.IsSuccess(), PayOnResponse.Id, PayOnResponse.Timestamp);
+            var payOnResponse = await client.CheckoutStatus(request.ProviderId, cancellationToken); ;
+
+            var obj = new CheckoutStatusResponse(payOnResponse.Result.DidntFail(), payOnResponse.Id, payOnResponse.Timestamp, payOnResponse.Result.IsSuccess());
 
             return obj;
         }
