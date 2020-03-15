@@ -24,5 +24,14 @@
         [AllowAnonymous]
         public IActionResult About() => new ViewResult { ViewName = "About" };
 
+
+
+#if DEBUG
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Throw() => throw new ApplicationException("Test Error");
+#endif
+
+
     }
 }

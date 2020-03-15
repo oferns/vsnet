@@ -1,0 +1,36 @@
+
+nav#topNav{
+    position: absolute;
+    top:0;
+    width: 100%;     
+    transition: opacity 0.25s ease-out;    
+    opacity: 0;        
+    @include for-desktop-up {
+        position: relative;
+        opacity: 100;
+        text-align:center;        
+        grid-template-columns: repeat(auto-fit, minmax(3rem, 1fr));
+    }            
+}
+
+input#menuToggle {
+    position: absolute; // Hide the checkbox used to toggle the menu off screen
+    left:-2000px;
+    height: 0;
+    width: 0;
+    visibility: hidden;
+    // Show the menu when the checkbox is checked
+    &:checked ~ nav#topNav {       
+        overflow:auto;                       
+        transition: opacity 0.25s ease-out;
+        opacity: 100;        
+    }
+
+}
+
+
+@include for-desktop-up {
+    label[for=menuToggle] {
+        display: none;
+    }
+}

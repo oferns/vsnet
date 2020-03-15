@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 
-<html lang="@CultureInfo.CurrentCulture.TextInfo.CultureName">
+<html lang=@CultureInfo.CurrentUICulture.TextInfo.CultureName>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@RenderSection("Title", true)</title>
@@ -9,37 +9,70 @@
 </head>
 <body>
     <header>
-
-
-        @RenderSection("Header", false)
+        <section>
+            <div>
+                <label for="menuToggle">OPEN</label>
+                <a id='home' href=''>VivaStreet</a>
+            
+            </div>
+            <form>
+                <input type="search" name="q"  />
+                <button asp-action="Index" asp-controller="Search">Search</button>
+            </form>
+            <nav id="user"> 
+                <a href=''>Login</a>
+                <a href=''>Register</a>
+            </nav>
+        </section>
+        <section>
+                @RenderSection("Header", false)
+        </section>
     </header>
-    <aside>
-        @RenderSection("Aside", false)
-    </aside>
     <main>
-        @RenderBody()
+        <input type="checkbox" id="menuToggle" name="menuToggle" />
+        <nav id="topNav">
+            <label for="menuToggle">CLOSE</label>
+            <a href=''>Login</a>
+            <a href=''>Register</a>
+            <a href=''>Login</a>
+            <a href=''>Register</a>        
+            <a href=''>Login</a>    
+            <a href=''>Register</a>
+        </nav>
+        <section>
+            <aside>
+            </aside>
+            <div>
+                @RenderBody()
+            </div>
+            <aside>                
+            </aside>
+        </section>
     </main>
 
-
-    <environment include="Development">
-        <vc:host-picker></vc:host-picker>
-        <vc:language-picker></vc:language-picker>
-        @CultureInfo.CurrentCulture
-        <br />
-        @CultureInfo.CurrentUICulture
-        <br />
-        <vc:user-agent-info></vc:user-agent-info>
-        <client-info>
-            <strong slot="languageslabel">@sr["Client Languages"]</strong>
-            <strong slot="languagelabel">@sr["Client Language"]</strong>
-            <strong slot="agentlabel">@sr["User Agent"]</strong>
-        </client-info>
-        <vc:build-info></vc:build-info>
-        <mini-profiler position="RenderPosition.BottomRight" />
-    </environment>
     <footer>
+        <section>
+            <strong>Some sort of footer</strong>
+        </section>
+        <section>
+            @* <environment include="Development">
+                <vc:host-picker></vc:host-picker>
+                <vc:language-picker></vc:language-picker>
+                @CultureInfo.CurrentCulture
+                <br />
+                @CultureInfo.CurrentUICulture
+                <br />
+                <vc:user-agent-info></vc:user-agent-info>
+                <client-info>
+                    <strong slot="languageslabel">@sr["Client Languages"]</strong>
+                    <strong slot="languagelabel">@sr["Client Language"]</strong>
+                    <strong slot="agentlabel">@sr["User Agent"]</strong>
+                </client-info>
+                <vc:build-info></vc:build-info>
+                <mini-profiler position="RenderPosition.BottomRight" />
+            </environment> *@
+        </section>
     </footer>
-
 
     <script src="/js/webcomponentsjs/custom-elements-es5-adapter.js"></script>
     <script src="/js/webcomponentsjs/webcomponents-loader.js"></script>

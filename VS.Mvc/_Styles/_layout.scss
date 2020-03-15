@@ -1,0 +1,79 @@
+body {
+    
+    display: grid;
+    grid-template-columns: 1fr; // 1 Column
+    grid-template-rows: auto 1fr auto; // Header - Main - Footer   
+    min-height: 100vh;
+    
+    @include for-desktop-up {
+        margin:0 20%!important;
+    }
+
+
+    > header {
+        display: grid;
+        grid-template-columns: 1fr;        
+        > section {
+            display: grid;
+            grid-template-columns: 1fr 3fr 1fr;
+            
+            align-items: center;
+            text-align: center;
+
+            > :first-child {
+                text-align: left;                
+            }
+
+            > :last-child {
+                text-align: right;
+            }
+        }        
+    }
+
+    > main {                        
+        display: grid;        
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+                   
+        > nav {
+            display: grid;    
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+            text-align:left;                            
+        }
+        
+        > section {
+            padding: 0 0.25em;
+            display: grid;
+            grid-template-columns: 0fr 3fr 0fr;
+            
+            @include for-desktop-up {
+                grid-template-columns: 1fr 3fr 1fr;
+                grid-template-rows: auto 1fr;
+            }     
+
+        } 
+    }
+
+    > footer {
+        display: grid;
+        > section {
+            padding: 0 0.25em;
+            display: grid;
+        }
+    }
+}
+
+
+a, label {
+    padding: 0 0.25em;
+    line-height: 1.5em;
+}
+
+a#home {
+    display: none;
+
+    @include for-desktop-up {
+        display: block;
+    }        
+}       

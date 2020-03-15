@@ -1,31 +1,24 @@
 ﻿@import './_Styles/_palette.scss';
 @import './_Styles/_typography.scss';
-/*@import './_Styles/_breakpoints.scss';
-@import './_Styles/_forms.scss';*/
+@import './_Styles/_breakpoints.scss';
+@import './_Styles/_nav.scss';
+@import './_Styles/_layout.scss';
+
+/*@import './_Styles/_forms.scss';*/
 
 
 html, body, * {
-    padding:0;
-    margin:0;
+    padding: 0;
+    margin: 0;
+    font-family: $open-sans-400;    
+    // border:1px dotted black;
+
 }
 
-body {
-    font-family: $open-sans-400;
-        
-}
 
-header {
-    background: url('https://images.unsplash.com/photo-1518176258769-f227c798150e') center;
-    background-size: cover;
-    padding: 4rem 2rem;
-    /* Grid styles */
-    display: grid;
-    align-items: center;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-}
 
-h1 {
-    color: $vs-green;
-}
+
+
+
 
 
