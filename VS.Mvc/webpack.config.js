@@ -1,7 +1,6 @@
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const RemovePlugin = require("remove-files-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const path = require("path");
 
@@ -57,21 +56,12 @@ module.exports = env => {
       path: path.resolve(__dirname, "wwwroot")
     },
     plugins: [
-      // new CleanWebpackPlugin({
-      //     exclude: [path.resolve(__dirname,"js/webcomponentsjs/**/*")],
-      //    }),  // Delete everything in wwwroot except the webcomponents
-
       new RemovePlugin({
         before: {
-            include :[path.resolve(__dirname)],
-            exclude : [path.resolve(__dirname, "js/webcomponents")]
-          // parameters for "before normal compilation" stage.
+          root: [path.resolve(__dirname, "wwwroot/")]
         },
         watch: {
-          // parameters for "before watch compilation" stage.
-        },
-        after: {
-          // parameters for "after normal and watch compilation" stage.
+          exclude: [path.resolve(__dirname, "wwwroot/js/webcomponents")]
         }
       }),
       new webpack.SourceMapDevToolPlugin({
