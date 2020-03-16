@@ -76,6 +76,7 @@ module.exports = env => {
       }),
       new CopyPlugin([
         // Copy the webcomponents polyfill & any assets
+        // This wont run when using webpack -w
         {
           from: "**/*.js",
           to: "js/webcomponentsjs",
