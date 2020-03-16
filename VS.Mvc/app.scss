@@ -1,24 +1,37 @@
-﻿@import './_Styles/_palette.scss';
-@import './_Styles/_typography.scss';
-@import './_Styles/_breakpoints.scss';
-@import './_Styles/_nav.scss';
-@import './_Styles/_layout.scss';
+﻿@import "./_Styles/_palette.scss";
+@import "./_Styles/_typography.scss";
+@import "./_Styles/_breakpoints.scss";
+@import "./_Styles/_nav.scss";
+@import "./_Styles/_layout.scss";
 
 /*@import './_Styles/_forms.scss';*/
 
-
-html, body, * {
-    padding: 0;
-    margin: 0;
-    font-family: $open-sans-400;    
-    // border:1px dotted black;
-
+body {
+  font-family: $open-sans-400;
+  line-height: 1.5em;
 }
 
+// div#topNavWrap {
+//   background-color: grey;
+
+//   label[for=menuToggle] {
+//     background-color: black;
+//     color: white;
+//   }
+// }
+
+// nav#topNav {
+//   z-index: 3;
+//   > a {    
+//     background-color: yellow;
+//   }
+// }
 
 
 
 
-
-
-
+// THIS HAS TO BE THE LAST ENTRY
+html {
+    visibility: visible;
+    opacity: 1;
+}

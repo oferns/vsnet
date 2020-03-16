@@ -1,79 +1,108 @@
-body {
-    
-    display: grid;
-    grid-template-columns: 1fr; // 1 Column
-    grid-template-rows: auto 1fr auto; // Header - Main - Footer   
-    min-height: 100vh;
-    
-    @include for-desktop-up {
-        margin:0 20%!important;
-    }
+* {
+  padding: 0;
+  margin: 0;
+}
 
-
-    > header {
-        display: grid;
-        grid-template-columns: 1fr;        
-        > section {
-            display: grid;
-            grid-template-columns: 1fr 3fr 1fr;
-            
-            align-items: center;
-            text-align: center;
-
-            > :first-child {
-                text-align: left;                
-            }
-
-            > :last-child {
-                text-align: right;
-            }
-        }        
-    }
-
-    > main {                        
-        display: grid;        
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr;
-                   
-        > nav {
-            display: grid;    
-            grid-template-columns: 1fr;
-            grid-template-rows: auto;
-            text-align:left;                            
-        }
-        
-        > section {
-            padding: 0 0.25em;
-            display: grid;
-            grid-template-columns: 0fr 3fr 0fr;
-            
-            @include for-desktop-up {
-                grid-template-columns: 1fr 3fr 1fr;
-                grid-template-rows: auto 1fr;
-            }     
-
-        } 
-    }
-
-    > footer {
-        display: grid;
-        > section {
-            padding: 0 0.25em;
-            display: grid;
-        }
-    }
+a {
+    text-decoration: none;
 }
 
 
-a, label {
-    padding: 0 0.25em;
-    line-height: 1.5em;
+body {
+  display: grid;
+  grid-template-columns: 1fr; // 1 Column
+  grid-template-rows: auto 1fr auto; // Header - Main - Footer
+  min-height: 100vh;
+
+  @include for-desktop-up {
+    margin: 0 20% 0;
+  }
+
+  > header {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 0 0.25em 0 0.25em;
+    line-height: 2em;
+    align-items: center;
+    > section {
+      display: grid;
+      grid-template-columns: 1fr 3fr 1fr;
+
+      text-align: center;
+
+      > :first-child {
+        text-align: left;
+      }
+
+      > :last-child {
+        text-align: right;
+      }
+    }
+  }
+
+  > main {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+
+    > div#topNavWrap {
+      > label[for="menuToggle"] {
+        display: inline-block;
+        padding: 0.25em;
+
+        @include for-desktop-up {
+          display: none;
+        }
+      }
+      > nav {
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        text-align: left;
+
+        a {
+          padding: 0 0.25em;
+        }
+
+        @include for-desktop-up {
+          padding: 0 0.25em;
+          display: grid;
+          align-items: center;
+          text-align: center;
+          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+          line-height: 4em;
+          a {
+            padding: 0;
+          }
+        }
+      }
+    }
+
+    > section {
+      padding: 0 0.25em;
+      display: grid;
+      grid-template-columns: 1fr;
+
+      @include for-desktop-up {
+        grid-template-rows: auto 1fr;
+      }
+    }
+  }
+
+  > footer {
+    display: grid;
+    > section {
+      padding: 0 0.25em;
+      display: grid;
+    }
+  }
 }
 
 a#home {
-    display: none;
+  display: none;
 
-    @include for-desktop-up {
-        display: block;
-    }        
-}       
+  @include for-desktop-up {
+    display: inline-block;
+  }
+}

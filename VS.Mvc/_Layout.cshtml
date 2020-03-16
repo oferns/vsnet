@@ -2,51 +2,63 @@
 
 <html lang=@CultureInfo.CurrentUICulture.TextInfo.CultureName>
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <style>html{visibility: hidden;opacity:0;}</style>
     <title>@RenderSection("Title", true)</title>
+
+    <meta name="viewport" content="width=device-width" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <link rel="stylesheet" type="text/css" href="/css/app.css" asp-append-version="true" />
+
     @RenderSection("Styles", false)
+
+    <script src="/js/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+    <script src="/js/webcomponentsjs/webcomponents-loader.js"></script>
+    <script async src="/js/app.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", false)
+
 </head>
 <body>
+    
     <header>
         <section>
             <div>
-                <label for="menuToggle">OPEN</label>
-                <a id='home' href=''>VivaStreet</a>
-            
+                <label id="menuOpenLabel" for="menuToggle">MENU</label>
+                <a id='home' href='/'>Viva Station</a>            
             </div>
-            <form>
-                <input type="search" name="q"  />
-                <button asp-action="Index" asp-controller="Search">Search</button>
+            <form method="GET" asp-action="Index" asp-controller="Search">
+                <input type="search" name="q" id="searchBox"  />
+                <button type=submit formmethod="GET" asp-action="Index" asp-controller="Search">
+                    <label id='searchLabel' for='searchBox'>Search</label>
+                </button>
             </form>
             <nav id="user"> 
-                <a href=''>Login</a>
-                <a href=''>Register</a>
+                <a href='/login'>Login</a>
             </nav>
         </section>
-        <section>
-                @RenderSection("Header", false)
-        </section>
+        
+        @RenderSection("Header", false)
+        
     </header>
     <main>
         <input type="checkbox" id="menuToggle" name="menuToggle" />
-        <nav id="topNav">
-            <label for="menuToggle">CLOSE</label>
-            <a href=''>Login</a>
-            <a href=''>Register</a>
-            <a href=''>Login</a>
-            <a href=''>Register</a>        
-            <a href=''>Login</a>    
-            <a href=''>Register</a>
-        </nav>
-        <section>
-            <aside>
-            </aside>
-            <div>
-                @RenderBody()
-            </div>
-            <aside>                
-            </aside>
+        <div id="topNavWrap"> 
+            <label id="menuCloseLabel" for="menuToggle">CLOSE</label>
+            <nav id="topNav">
+                <a href='/'>Item1</a>
+                <a href='/'>Item2</a>
+                <a href='/'>Item3</a>
+                <a href='/'>Item4</a>        
+                <a href='/'>Item5</a>    
+                <a href='/'>Item6</a>
+            </nav>
+        </div>
+        
+        <section>          
+            @RenderBody()
         </section>
     </main>
 
@@ -54,8 +66,8 @@
         <section>
             <strong>Some sort of footer</strong>
         </section>
-        <section>
-            @* <environment include="Development">
+        @*<section>
+             <environment include="Development">
                 <vc:host-picker></vc:host-picker>
                 <vc:language-picker></vc:language-picker>
                 @CultureInfo.CurrentCulture
@@ -70,14 +82,10 @@
                 </client-info>
                 <vc:build-info></vc:build-info>
                 <mini-profiler position="RenderPosition.BottomRight" />
-            </environment> *@
-        </section>
+            </environment> 
+        </section>*@
     </footer>
 
-    <script src="/js/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-    <script src="/js/webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="/js/app.js" type="text/javascript" asp-append-version="true"></script>
 
-    @RenderSection("Scripts", false)
 </body>
 </html>

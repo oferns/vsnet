@@ -1,9 +1,11 @@
 
-nav#topNav{
+div#topNavWrap {
     position: absolute;
+    display: block;
+    z-index: -1;
     top:0;
-    width: 100%;     
-    transition: opacity 0.25s ease-out;    
+    width: 100%;    
+    height:100%; 
     opacity: 0;        
     @include for-desktop-up {
         position: relative;
@@ -20,14 +22,15 @@ input#menuToggle {
     width: 0;
     visibility: hidden;
     // Show the menu when the checkbox is checked
-    &:checked ~ nav#topNav {       
+    &:checked ~ div#topNavWrap {  
+        z-index: 2;     
         overflow:auto;                       
         transition: opacity 0.25s ease-out;
-        opacity: 100;        
+        opacity: 0.9;            
+
     }
 
 }
-
 
 @include for-desktop-up {
     label[for=menuToggle] {
