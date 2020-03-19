@@ -1,12 +1,13 @@
 ﻿@model StringValues
 
 
-<form method="get" asp-controller="Search" asp-action="Index">
+    <form method="get" asp-controller="Search" asp-action="Index" >
 
-    @foreach (var term in Model) {
-        <input type="hidden" name="q" value=@term />
-    }
-    
-    <input type="text" name="q" />
-    <button type="submit" formmethod="get" asp-controller="Search" asp-action="Index">Submit</button>
-</form>
+        @foreach (var term in Model) {
+            <input type="hidden" name="q" value=@term />
+        }
+
+        <label id='searchLabel' for='searchBox'>Search</label>
+        <input type="search" name="q" id="searchBox" />
+        <button id='searchButton' type="submit" formmethod="get" asp-controller="Search" asp-action="Index">@sr["Search"]</button>
+    </form>

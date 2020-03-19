@@ -1,37 +1,78 @@
-﻿@import "./_Styles/_palette.scss";
+﻿$fa-font-path: "/webfonts/fa";
+
+@import "./_Styles/_palette.scss";
 @import "./_Styles/_typography.scss";
 @import "./_Styles/_breakpoints.scss";
 @import "./_Styles/_nav.scss";
 @import "./_Styles/_layout.scss";
+@import "./_Styles/_forms.scss";
 
-/*@import './_Styles/_forms.scss';*/
+
+@import "./_Styles/fa/fontawesome.scss";
+@import "./_Styles/fa/solid.scss";
+@import "./_Styles/fa/brands.scss";
+
+@include font("Open-Sans", "/webfonts/os/OpenSans-Light");
 
 body {
-  font-family: $open-sans-400;
+  font-family: Open-Sans;
   line-height: 1.5em;
 }
 
-// div#topNavWrap {
-//   background-color: grey;
+nav#topNav {
+  > a {
+    background-color: white;
+    border: 1px solid black;
+  }
+}
 
-//   label[for=menuToggle] {
-//     background-color: black;
-//     color: white;
-//   }
-// }
+label#searchLabel {
+  display: none;
+}
 
-// nav#topNav {
-//   z-index: 3;
-//   > a {    
-//     background-color: yellow;
-//   }
-// }
+label#menuOpenLabel{
+
+  border: none;
+  background-color: transparent;
+  color: transparent; 
+  &::before {
+    color: black;
+    font-size: 1.5em;
+    margin-left: 0.1em;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: fa-content($fa-var-bars);
+  }
+}
+
+label#menuCloseLabel {
+
+  border: none;
+  background-color: transparent;
+  color: transparent;   
+  &::before {
+    background-color: white;
+    color: black;
+    font-size: 2em;
+    padding-right: 0.1em;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: fa-content($fa-var-times);
+  }
+
+}
 
 
 
-
-// THIS HAS TO BE THE LAST ENTRY
+// THIS HAS TO BE THE LAST ENTRY TO PREVENT FOUC
 html {
-    visibility: visible;
-    opacity: 1;
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.15s ease-out;
 }

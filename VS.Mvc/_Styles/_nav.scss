@@ -1,39 +1,72 @@
+div#topNavWrap {  
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: -1;
+  
+  nav {
+    position: relative;
+  }
 
-div#topNavWrap {
-    position: absolute;
-    display: block;
-    z-index: -1;
-    top:0;
-    width: 100%;    
-    height:100%; 
-    opacity: 0;        
-    @include for-desktop-up {
-        position: relative;
-        opacity: 100;
-        text-align:center;        
-        grid-template-columns: repeat(auto-fit, minmax(3rem, 1fr));
-    }            
+
+  a,
+  label {
+    display: none;
+    visibility: hidden;
+  }
+
+  @include for-desktop-up {
+    position: relative;
+    opacity: 100;
+    text-align: center;
+    grid-template-columns: repeat(auto-fit, minmax(3rem, 1fr));
+
+    a,
+    label {
+      display: inline-block;
+      visibility: visible;
+    }
+  }
 }
 
 input#menuToggle {
-    position: absolute; // Hide the checkbox used to toggle the menu off screen
-    left:-2000px;
-    height: 0;
-    width: 0;
-    visibility: hidden;
-    // Show the menu when the checkbox is checked
-    &:checked ~ div#topNavWrap {  
-        z-index: 2;     
-        overflow:auto;                       
-        transition: opacity 0.25s ease-out;
-        opacity: 0.9;            
-
+  position: absolute; // Hide the checkbox used to toggle the menu off screen
+  left: -2000px;
+  height: 0;
+  width: 0;
+  visibility: hidden;
+  // Show the menu when the checkbox is checked
+  &:checked ~ div#topNavWrap {
+    overflow: auto;
+    transition: opacity 0.15s ease-out;
+    opacity: 0.9;
+    z-index: 0;
+    nav {
+      z-index: 4;
     }
 
+    a,
+    label {
+      display: inline-block;
+      visibility: visible;
+    }
+  }
+
+  // Fade the menu when the checkbox is unchecked
+  &:not(:checked) ~ div#topNavWrap {
+    transition: opacity 0.15s ease-out;
+    opacity: 0;
+
+    @include for-desktop-up {
+      opacity: 1;
+    }
+  }
 }
 
 @include for-desktop-up {
-    label[for=menuToggle] {
-        display: none;
-    }
+  label[for="menuToggle"] {
+    display: none;
+  }
 }

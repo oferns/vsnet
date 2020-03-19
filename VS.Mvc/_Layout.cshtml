@@ -26,15 +26,10 @@
     <header>
         <section>
             <div>
-                <label id="menuOpenLabel" for="menuToggle">MENU</label>
+                <label id="menuOpenLabel" for="menuToggle">@sr["MENU"]</label>
                 <a id='home' href='/'>Viva Station</a>            
             </div>
-            <form method="GET" asp-action="Index" asp-controller="Search">
-                <input type="search" name="q" id="searchBox"  />
-                <button type=submit formmethod="GET" asp-action="Index" asp-controller="Search">
-                    <label id='searchLabel' for='searchBox'>Search</label>
-                </button>
-            </form>
+            <vc:search-form></vc:search-form>
             <nav id="user"> 
                 <a href='/login'>Login</a>
             </nav>
@@ -46,26 +41,26 @@
     <main>
         <input type="checkbox" id="menuToggle" name="menuToggle" />
         <div id="topNavWrap"> 
-            <label id="menuCloseLabel" for="menuToggle">CLOSE</label>
+            <label id="menuCloseLabel" for="menuToggle">@sr["CLOSE"]</label>
             <nav id="topNav">
-                <a href='/'>Item1</a>
-                <a href='/'>Item2</a>
-                <a href='/'>Item3</a>
-                <a href='/'>Item4</a>        
-                <a href='/'>Item5</a>    
-                <a href='/'>Item6</a>
+                <a href='/home'>Item1</a>
+                <a href='/home'>Item2</a>
+                <a href='/home'>Item3</a>
+                <a href='/home'>Item4</a>        
+                <a href='/home'>Item5</a>    
+                <a href='/home'>Item6</a>
             </nav>
         </div>
         
-        <section>          
+        <div id="mainBody">          
             @RenderBody()
-        </section>
+        </div>
     </main>
 
     <footer>
-        <section>
+        <div>
             <strong>Some sort of footer</strong>
-        </section>
+        </div>
         @*<section>
              <environment include="Development">
                 <vc:host-picker></vc:host-picker>

@@ -1,26 +1,31 @@
+@import "./_Styles/_breakpoints.scss";
+
 * {
   padding: 0;
   margin: 0;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
-
 
 body {
   display: grid;
   grid-template-columns: 1fr; // 1 Column
   grid-template-rows: auto 1fr auto; // Header - Main - Footer
-  min-height: 100vh;
+  min-height: 100vh; // At least as high as the viewport
 
   @include for-desktop-up {
-    margin: 0 20% 0;
+    margin: 0 10% 0; // Add side panels
+  }
+
+  @include for-big-desktop-up {
+    margin: 0 20% 0; // Add side panels
   }
 
   > header {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; // 1 Column
     padding: 0 0.25em 0 0.25em;
     line-height: 2em;
     align-items: center;
@@ -54,24 +59,23 @@ body {
           display: none;
         }
       }
-      > nav {
-        padding: 0;
+      > nav#topNav {
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: auto;
         text-align: left;
-
+        line-height: 2.5em;
         a {
-          padding: 0 0.25em;
+          padding: 0 0.25em 0 0.25em;
         }
 
         @include for-desktop-up {
-          padding: 0 0.25em;
+          padding: 0 0.25em 0 0.25em;
           display: grid;
           align-items: center;
           text-align: center;
           grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-          line-height: 4em;
+          opacity: 1;
           a {
             padding: 0;
           }
@@ -79,7 +83,7 @@ body {
       }
     }
 
-    > section {
+    > div#mainBody {
       padding: 0 0.25em;
       display: grid;
       grid-template-columns: 1fr;
@@ -92,7 +96,7 @@ body {
 
   > footer {
     display: grid;
-    > section {
+    > div {
       padding: 0 0.25em;
       display: grid;
     }
