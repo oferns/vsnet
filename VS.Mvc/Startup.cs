@@ -8,6 +8,8 @@ namespace VS.Mvc {
     using Microsoft.Extensions.DependencyInjection;
     using Serilog;
     using SimpleInjector;
+    using SimpleInjector.Lifestyles;
+    using VS.Mvc._Extensions;
     using VS.Mvc._Services;
     using VS.Mvc._Startup;
 
@@ -21,13 +23,16 @@ namespace VS.Mvc {
             this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             this.env = env ?? throw new ArgumentNullException(nameof(env));
             this.container = new Container();
+            container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
         }
 
         public void ConfigureServices(IServiceCollection services) {
-
+            
+            var cultureoptions = configuration.GetSection("CultureOptions").Get<CultureOptions>();
+            
             this.services = services
                     .AddLog()
-                    .AddSingleton<CultureOptions>(configuration.GetSection("CultureOptions").Get<CultureOptions>())
+                    .AddSingleton<CultureOptions>(cultureoptions)
 #if DEBUG
                     .AddDevServices()
 #endif                    
@@ -36,7 +41,7 @@ namespace VS.Mvc {
                     .AddSingleton<IActionContextAccessor, ActionContextAccessor>()
                     .AddHttpContextAccessor()
                     .AddHttpClient()
-                    .AddHostBasedLocalization()
+                    .AddHostBasedLocalization(cultureoptions.HostOptions)
                     .AddAppIdentity()
                     .AddViewOptions(configuration.GetSection("AntiforgeryOptions").Get<AntiforgeryOptions>())
                     .AddSimpleInjector(container, options => {
@@ -51,7 +56,7 @@ namespace VS.Mvc {
                             .AddPayOn(configuration, Log.Logger)
                             .AddCoreServices()
                             .AddCaching(configuration, Log.Logger)
-                            .AddPostGresServices()
+                            .AddPostGresServices(configuration, Log.Logger)
                             .AddSerializationServices();
                     });
         }
@@ -66,7 +71,7 @@ namespace VS.Mvc {
             _ = app
                 .UseSerilogRequestLogging()
                 .ProxyForwardHeaders()
-                .UseStaticFiles()
+                .UseStaticFiles(new StaticFileOptions() { ContentTypeProvider = new WebManifestTypeContentProvider() })
                 .UseRequestCorrelation()
                 .UseSimpleInjector(container)
                 .UseHostBasedLocalization()

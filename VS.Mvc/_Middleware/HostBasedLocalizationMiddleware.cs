@@ -19,6 +19,7 @@
         public HostBasedLocalizationMiddleware(CultureOptions options, IEnumerable<IRequestCultureProvider> providers) {
             this.options = options ?? throw new ArgumentNullException(nameof(options));
             this.providers = providers ?? throw new ArgumentNullException(nameof(providers));
+      
         }
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next) {
@@ -31,6 +32,9 @@
             }
 
             var host = context.Request.Host.Host;
+
+
+
 
 #if DEBUG
             if (context.Request.Cookies["vshost"] is object) {

@@ -13,7 +13,7 @@
         }
 
         public IViewComponentResult Invoke() {
-            return View(this.hostCultures.HostOptions ?? new HostCultureOptions[0]);
+            return View(this.hostCultures.HostOptions ?? Array.Empty<HostCultureOptions>());
         }
     }
 }

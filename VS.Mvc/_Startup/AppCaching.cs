@@ -9,10 +9,21 @@
     using VS.Core.Local.Cache;
     using VS.Redis;
 
-    public static class Caching {
+    public static class AppCaching {
 
 
         public static Container AddCaching(this Container container, IConfiguration config, ILogger log) {
+            if (container is null) {
+                throw new System.ArgumentNullException(nameof(container));
+            }
+
+            if (config is null) {
+                throw new System.ArgumentNullException(nameof(config));
+            }
+
+            if (log is null) {
+                throw new System.ArgumentNullException(nameof(log));
+            }
 
             var redisconfig = config.GetSection("RedisOptions").Get<RedisOptions>();
 
@@ -42,3 +53,4 @@
         }
     }
 }
+ 

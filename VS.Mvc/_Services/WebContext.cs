@@ -7,38 +7,65 @@
     using System.Diagnostics;
     using System.Globalization;
     using System.Security.Claims;
+    using TimeZoneConverter;
     using VS.Abstractions;
     using VS.Abstractions.Logging;
+    using VS.Core.Identity;
 
     public class WebContext : IContext {
 
-        public WebContext(IHttpContextAccessor contextAccessor, ILog log) {
+        public WebContext(IHttpContextAccessor contextAccessor, IEnumerable<ClaimsIdentity> hostIdentites, ILog log) {
             if (contextAccessor is null) {
                 throw new ArgumentNullException(nameof(contextAccessor));
             }
 
-            this.User = contextAccessor.HttpContext?.User as ClaimsPrincipal; 
-            this.Host = contextAccessor.HttpContext?.Request.Host.Host;
+            if (hostIdentites is null) {
+                throw new ArgumentNullException(nameof(hostIdentites));
+            }
+
+            Log = log ?? throw new ArgumentNullException(nameof(log));
+
+            this.User = contextAccessor.HttpContext?.User as ClaimsPrincipal;
+
+            var host = contextAccessor.HttpContext?.Request.Host.Host;
+
 
 #if DEBUG
             var hostoverride = this.User?.FindFirstValue("hostoverride");
             if (!string.IsNullOrEmpty(hostoverride)) {
-                this.Host = hostoverride;
+                host = hostoverride;
             }
 #endif
+
+            foreach (var hostId in hostIdentites) {
+                var claim = hostId.FindFirst(IdClaimTypes.HostIdentifier);
+
+                if (claim is object && claim.Value.Equals(host, StringComparison.InvariantCulture)) {
+                    this.Host = hostId;
+                }
+            }
+
+
             this.UICulture = CultureInfo.CurrentUICulture;
             this.RequestId = Activity.Current?.RootId ?? contextAccessor.HttpContext?.TraceIdentifier;
-            Log = log ?? throw new ArgumentNullException(nameof(log));
+            this.UserTimeZone = TZConvert.GetTimeZoneInfo("Europe/London");
+
+
+
+
+
         }
 
         public ClaimsPrincipal User { get; }
 
-        public string Host { get; }
+        public ClaimsIdentity Host { get; }
 
         public string RequestId { get; }
 
         public CultureInfo UICulture { get; }
-        
+
         public ILog Log { get; }
+
+        public TimeZoneInfo UserTimeZone { get; }
     }
 }

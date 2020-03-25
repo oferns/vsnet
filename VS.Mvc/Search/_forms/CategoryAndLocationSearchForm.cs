@@ -1,12 +1,18 @@
 ﻿namespace VS.Mvc.Search._Forms {
-
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using VS.Mvc._Extensions;
 
     [ViewComponent(Name = "CatAndLocSearchForm")]
     public class CategoryAndLocationSearchForm : LocalizedViewComponent {
 
-        public IViewComponentResult Invoke() => View();
+        public async Task<IViewComponentResult> InvokeAsync() {
+
+            //var categories = await med
+
+
+            return View();
+        } 
 
     }
 }

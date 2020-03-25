@@ -2,6 +2,8 @@
 
     using System;
     using System.Data;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// A generic database client that can be used with any IDbConnection
@@ -11,14 +13,14 @@
     public class DbClient : IDbClient {
 
         private readonly IDbConnection connection;
-        private int transactionCount;
-        private int commitCount;
+        protected internal int transactionCount;
+        protected internal int commitCount;
 
         public DbClient(IDbConnection connection) {
             this.connection = connection ?? throw new ArgumentNullException(nameof(connection));
         }
 
-        public IDbTransaction Transaction { get; private set; }
+        public IDbTransaction Transaction { get; protected internal set; }
         public IDbConnection Connection {
             get {
                 if (this.connection.State != ConnectionState.Open) {
@@ -28,27 +30,31 @@
             }
         }
 
-        public void BeginTransaction() {
+        public virtual ValueTask BeginTransaction(CancellationToken cancel) {
             transactionCount++;
             if (Transaction is null) {
                 Transaction = this.Connection.BeginTransaction();
             }
+            return new ValueTask();
         }
-        public void Commit() {
+        public virtual ValueTask Commit(CancellationToken cancel) {
             commitCount++;
             if (commitCount.Equals(transactionCount)) {
                 Transaction.Commit();
                 Transaction.Dispose();
                 Transaction = null;
             }
+            return new ValueTask();
+
         }
 
-        public void Rollback() {
+        public virtual ValueTask Rollback(CancellationToken cancel) {
             if (Transaction is object) {
                 Transaction.Rollback();
                 Transaction.Dispose();
                 Transaction = null;
             }
+            return new ValueTask();
         }
 
         public void Dispose() {
@@ -62,7 +68,7 @@
 #if DEBUG
                 if (this.commitCount != this.transactionCount) {
                     System.Diagnostics.Debug.WriteLine("You have left a DB transaction open. Look for a call to Begin() without a corresponding Commit(). This transaction will be rolled back");
-                    Rollback();
+                    Rollback(CancellationToken.None);
                 }
 #endif
                 if (this.connection is object) {

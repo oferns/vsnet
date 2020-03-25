@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="ico-logo-vs"
+   class="ico logo-header"
+   version="1.1"
+   sodipodi:docname="main-logo.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   width="157.79852"
+   height="54.274979">
+  <title
+     id="title1399">Viva Station</title>
+  <metadata
+     id="metadata842">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Viva Station</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs840" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="3840"
+     inkscape:window-height="2080"
+     id="namedview838"
+     showgrid="false"
+     inkscape:snap-page="true"
+     inkscape:snap-grids="true"
+     inkscape:zoom="12.433577"
+     inkscape:cx="63.358333"
+     inkscape:cy="8.2160262"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="ico-logo-vs" />
+  <g
+     id="g817"
+     style="fill:#9a4de3;fill-opacity:1"
+     transform="matrix(-1.225484,0,0,-1.0260649,157.05216,54.27194)"
+     inkscape:export-xdpi="81.778534"
+     inkscape:export-ydpi="81.778534">
+    <path
+       class="cls-1"
+       d="m 12.460234,0.6 c 7.606019,-1.65 15.353264,0.35 22.51543,2.82 7.827945,3 15.797116,5.71 23.201384,9.76 4.115724,2.32 8.18101,5.5 9.724406,10.22 1.785498,5.91 1.260945,12.87 -2.552152,17.86 C 60.023071,48.42 51.22672,51.89 42.672471,52.77 33.744982,53.19 24.403903,52.7 16.212805,48.71 8.6673118,45.02 4.208611,37.17 1.7270717,29.33 -0.35096535,23.06 -1.8842742,15.95 0.90997944,9.63 2.8669658,4.76 7.5677679,1.63 12.500584,0.63 Z"
+       id="path815"
+       style="fill:#9a4de3;fill-opacity:1;stroke-width:1.00436842"
+       inkscape:connector-curvature="0" />
+  </g>
+  <g
+     id="g835"
+     transform="matrix(1.225484,0,0,1.1558667,-7.8078954,-5.4541918)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:27.69445801px;line-height:1.25;font-family:'Leckerli One';-inkscape-font-specification:'Leckerli One, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#9a4de3;fill-opacity:1;stroke:none;stroke-width:0.69236147"
+       x="6.2241168"
+       y="36.080597"
+       id="text821"
+       transform="scale(1.0236432,0.97690289)"
+       inkscape:export-xdpi="81.778534"
+       inkscape:export-ydpi="81.778534"><tspan
+         sodipodi:role="line"
+         id="tspan819"
+         x="6.2241168"
+         y="36.080597"
+         style="fill:#9a4de3;fill-opacity:1;stroke-width:0.69236147">Viva</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.01028824px;line-height:1.25;font-family:'Gochi Hand';-inkscape-font-specification:'Gochi Hand, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.65025717"
+       x="81.083565"
+       y="28.9977"
+       id="text825"
+       transform="scale(0.82668376,1.2096524)"><tspan
+         sodipodi:role="line"
+         id="tspan823"
+         x="81.083565"
+         y="28.9977"
+         style="fill:#ffffff;fill-opacity:1;stroke-width:0.65025717">Station</tspan></text>
+  </g>
+</svg>

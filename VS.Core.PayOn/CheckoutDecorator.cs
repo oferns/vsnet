@@ -50,7 +50,7 @@
                    registrationIds: list,
                    merchantTransactionId: request.OrderId,
                    merchantInvoiceId: request.InvoiceId,
-                   descriptor: context.Host,
+                   descriptor: context.Host.FindFirst(IdClaimTypes.HostIdentifier).Value,
                    transactionCategory: TransactionCategory.eCommerce
                );
 

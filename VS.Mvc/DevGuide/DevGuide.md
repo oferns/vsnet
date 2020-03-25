@@ -17,23 +17,26 @@ It will also make several references to the .NET Core MVC codebase it sits in. H
 
 ### Philosophy
 
->"*Try to have a thought of your own; thinking is so important.*" - Lord Edmund Blackadder`
+> "*Try to have a thought of your own; thinking is so important.*" - Lord Edmund Blackadder`
 
 Sharing and defining development philosophy greatly eases the development friction for both new starters and colleagues alike. 
 Each area of the guide will have a section explaining the philosophy behind it, as well as establishing conceptual guidelines for
 further development. Below are the commandments for the project overall.
 
->2. Security is a first-class citizen.
->3. Documentation is .
+> 2. Security is a first-class citizen.
+> 3. Documentation is .
 
->1. Keep it simple, stupid! KISS.
->2. Dont repeat yourself.
->2. Security is a fist-class citizen.
->3. Testing is a first-class citizen.
->5. Performance is a first-class citizen.
->4. Documentation is a first-class citizen.
->5. Less code is better, but not at the expense of readability.
->6. If it is relational data, store it in a relational store.
+> 1. Keep it simple, stupid! KISS.
+> 2. Dont repeat yourself.
+> 3. Security is a fist-class citizen.
+> 4. Testing is a first-class citizen.
+> 5. Performance is a first-class citizen.
+> 6. Documentation is a first-class citizen.
+> 7. Less code is better, but not at the expense of readability.
+> 8. If it is relational data, store it in a relational store.
+
+
+
 
 
 The following terms will be used to describe the architecture in this guide.

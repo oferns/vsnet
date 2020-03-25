@@ -2,17 +2,21 @@
 @import "./fa/solid.scss";
 @import "./fa/brands.scss";
 
-header > section > form {
+header > section > div > form {
   position: relative;
   text-align: center;
+  display: grid;
+
+  @include for-desktop-up {
+      display: none;
+  }
 
   input[type="search"] {
-    border: 1px solid grey;
-    border-radius: 0.75em;
-    margin: 0.15em 0em 0.15em 1em;
-    padding: 0.15em 1em 0.15em 1em;
-    width: 80%;
-    max-width: 240px;
+    border: 1px solid $primary;
+    border-radius: 0.9em;
+    padding: 0.5em 1em 0.5em 1em;
+    width: 100%;
+    max-width: 480px;
   }
 
   button#searchButton {
@@ -20,11 +24,13 @@ header > section > form {
     border: none;
     background-color: transparent;
     color: transparent;
-    margin: 0.7em 0;
+    margin: 1em 0;
+
     height: 0;
     width: 0;
     &::before {
-      color: black;
+      font-size: 1.2em;
+      color: $primary;
       font-style: normal;
       font-variant: normal;
       text-rendering: auto;

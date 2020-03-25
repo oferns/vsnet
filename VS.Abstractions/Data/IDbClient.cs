@@ -1,6 +1,8 @@
 ﻿namespace VS.Abstractions.Data {
     using System;
     using System.Data;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// An interface to represent a transactional database client.
@@ -13,11 +15,11 @@
 
         IDbTransaction Transaction { get; }
 
-        void BeginTransaction();
+        ValueTask BeginTransaction(CancellationToken cancel);
 
-        void Commit();
+        ValueTask Commit(CancellationToken cancel);
 
-        void Rollback();
+        ValueTask Rollback(CancellationToken cancel);
 
     }
 }

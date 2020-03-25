@@ -2,15 +2,19 @@
   "profiles": {
     "VS.Mvc": {
       "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:5000/",
       "environmentVariables": {
+        "PG_USER": "postgres",
         "YOTI_SDK_ID": "80bd1050-57f1-45c8-bdf6-8f9284a62952",
         "AWS_ACCESS_KEY_ID": "AKIAIODGVLXS42Z5D7BQ",
         "SEQ_API_KEY": "bFzpkR6P5P0tQndkpgIn",
         "ASPNETCORE_ENVIRONMENT": "Development",
+        "PG_PWD": "Cubew0rks*",
         "SEQ_URI": "http://localhost:5341",
         "AWS_SECRET_KEY": "PnZejFgZ+I606NZ+0hged3nTihIc7iLxxEPDpaii"
       },
-      "applicationUrl": ""
+      "applicationUrl": "http://localhost:5000"
     }
   }
 }

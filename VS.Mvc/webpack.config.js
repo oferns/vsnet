@@ -24,16 +24,27 @@ module.exports = env => {
         },
         {
           test: /\.(sa|sc|c)ss$/,
-          use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-              options: {
-                hmr: env.MODE === "development" // Hot module reload
-              }
-            },
-            "css-loader",
-            "sass-loader"
-          ],
+            use: [
+                {
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        sourceMap: true,
+                    },
+                },
+                {
+                    loader: 'css-loader',
+                    options: {
+                        sourceMap: true,
+                    },
+                },
+                {
+                    loader: 'sass-loader',
+                    options: {
+                        sourceMap: true,
+                       
+                    },
+                },
+            ],
           exclude: /node_modules|bin|obj|wwwroot/
         },
         {
@@ -53,7 +64,7 @@ module.exports = env => {
     },
     output: {
       filename: "js/app.js",
-      path: path.resolve(__dirname, "wwwroot")
+      path: path.resolve(__dirname, "wwwroot/")
     },
     plugins: [
       new RemovePlugin({
@@ -64,16 +75,19 @@ module.exports = env => {
           exclude: [path.resolve(__dirname, "wwwroot/js/webcomponents")]
         }
       }),
-      new webpack.SourceMapDevToolPlugin({
-        // generate source maps
-        filename: "[file].map",
-        fallbackModuleFilenameTemplate: "[absolute-resource-path]",
-        moduleFilenameTemplate: "[absolute-resource-path]"
-      }),
       new MiniCssExtractPlugin({
         // extract the styles imported in app.scss into app.css
         filename: "css/app.css"
       }),
+      new webpack.SourceMapDevToolPlugin({
+        // generate source maps
+        filename: "[file].map",
+        fallbackModuleFilenameTemplate: "[absolute-resource-path]",
+        moduleFilenameTemplate: "[absolute-resource-path]",
+        
+
+      }),
+
       new CopyPlugin([
         // Copy the webcomponents polyfill & any assets
         // This wont run when using webpack -w

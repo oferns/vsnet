@@ -1,34 +1,35 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "module": "umd",
-    "allowJs": false,
-    "jsx": "preserve",
-    "sourceMap": true,
-    "outDir": "./wwwroot/js",
-    "removeComments": true, 
-    "noEmit": true,
-    "strict": true, 
-    "noImplicitAny": true, 
-    "strictNullChecks": true, 
-    "strictFunctionTypes": true, 
-    "strictBindCallApply": true, 
-    "strictPropertyInitialization": true, 
-    "noImplicitThis": true, 
-    "alwaysStrict": true,
-    "noUnusedLocals": true, 
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "baseUrl": "./",
-    "paths": {},
-    "typeRoots": [
-      "./node_modules/@types"
-    ], 
-    
-    "esModuleInterop": true,
-    "experimentalDecorators": true
-  },
+    "compilerOptions": {
+        "target": "es5",
+        "module": "umd",
+        "allowJs": false,
+        "jsx": "preserve",
+        "inlineSourceMap": true,
+        "inlineSources": true,
+        "outDir": "./wwwroot/js",
+        "removeComments": true,
+        "noEmit": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strictBindCallApply": true,
+        "strictPropertyInitialization": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "baseUrl": "./",
+        "paths": {},
+        "typeRoots": [
+            "./node_modules/@types"
+        ],
+
+        "esModuleInterop": true,
+        "experimentalDecorators": true
+    },
   "include": [
     "./**/*"
   ],

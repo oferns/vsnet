@@ -6,8 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="Amazon.AspNetCore.DataProtection.SSM" Version="1.1.0" />
-    <PackageReference Include="AWSSDK.MQ" Version="3.3.105.30" />
-    <PackageReference Include="AWSSDK.S3" Version="3.3.110.34" />
+    <PackageReference Include="AWSSDK.MQ" Version="3.3.105.34" />
+    <PackageReference Include="AWSSDK.S3" Version="3.3.110.38" />
     <PackageReference Include="Nito.AsyncEx" Version="5.0.0" />
   </ItemGroup>
 

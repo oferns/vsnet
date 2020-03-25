@@ -21,7 +21,7 @@
             var host = ViewContext.HttpContext.Request.Host.Host;
 
 #if DEBUG
-            host = ViewContext.HttpContext.Request.Cookies["vshost"]?.ToString() ?? host;
+            host = ViewContext.HttpContext.Request.Cookies["vshost"]?.ToString(CultureInfo.InvariantCulture) ?? host;
 #endif
 
           //  var cultures = new List<CultureInfo>();

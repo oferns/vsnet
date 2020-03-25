@@ -2,7 +2,15 @@
 
 <html lang=@CultureInfo.CurrentUICulture.TextInfo.CultureName>
 <head>
-    <style>html{visibility: hidden;opacity:0;}</style>
+    <style>
+        html {
+            visibility: hidden;
+            opacity: 0;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="/css/app.css" asp-append-version="true" />
+
+
     <title>@RenderSection("Title", true)</title>
 
     <meta name="viewport" content="width=device-width" />
@@ -10,7 +18,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" type="text/css" href="/css/app.css" asp-append-version="true" />
 
     @RenderSection("Styles", false)
 
@@ -27,10 +34,12 @@
         <section>
             <div>
                 <label id="menuOpenLabel" for="menuToggle">@sr["MENU"]</label>
-                <a id='home' href='/'>Viva Station</a>            
+                <a id='root' href='/'>Viva Station</a>            
             </div>
+            <div>
             <vc:search-form></vc:search-form>
-            <nav id="user"> 
+            </div>
+            <nav id="userMenu"> 
                 <a href='/login'>Login</a>
             </nav>
         </section>
@@ -40,29 +49,24 @@
     </header>
     <main>
         <input type="checkbox" id="menuToggle" name="menuToggle" />
-        <div id="topNavWrap"> 
-            <label id="menuCloseLabel" for="menuToggle">@sr["CLOSE"]</label>
-            <nav id="topNav">
-                <a href='/home'>Item1</a>
-                <a href='/home'>Item2</a>
-                <a href='/home'>Item3</a>
-                <a href='/home'>Item4</a>        
-                <a href='/home'>Item5</a>    
-                <a href='/home'>Item6</a>
-            </nav>
-        </div>
-        
-        <div id="mainBody">          
+
+        <label id="menuCloseLabel" for="menuToggle">@sr["CLOSE"]</label>
+        <nav id="topNav">
+            <a href='/home'>Item1</a>
+            <a href='/home'>Item2</a>
+            <a href='/home'>Item3</a>
+            <a href='/home'>Item4</a>
+            <a href='/home'>Item5</a>
+            <a href='/home'>Item6</a>
+            <a href='/home'>Item7</a>
+            <a href='/home' title="Item8">Item8</a>
+        </nav>
+
+        <div id="mainBody">
             @RenderBody()
         </div>
-    </main>
-
-    <footer>
         <div>
-            <strong>Some sort of footer</strong>
-        </div>
-        @*<section>
-             <environment include="Development">
+            <environment include="Development">
                 <vc:host-picker></vc:host-picker>
                 <vc:language-picker></vc:language-picker>
                 @CultureInfo.CurrentCulture
@@ -77,8 +81,15 @@
                 </client-info>
                 <vc:build-info></vc:build-info>
                 <mini-profiler position="RenderPosition.BottomRight" />
-            </environment> 
-        </section>*@
+            </environment>
+        </div>
+
+    </main>
+
+    <footer>
+        <div>
+            <strong>Some sort of footer</strong>
+        </div>
     </footer>
 
 

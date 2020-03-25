@@ -11,8 +11,8 @@ namespace VS.Mvc {
     using Serilog;
     using Serilog.Filters.Expressions;
 
-    public class Program {
-        public static async Task Main(string[] args) {
+    public static class Program {
+        public static  Task Main(string[] args) {
 
             var config = new LoggerConfiguration();
             config.Enrich.FromLogContext().Filter.ByExcluding("StartsWith(RequestPath, '/mini-profiler')")
@@ -27,15 +27,17 @@ namespace VS.Mvc {
 
             try {
                 Log.Information("Starting up");
-                await CreateHostBuilder(args)
+                return CreateHostBuilder(args)
                       .Build()
                       .RunAsync();
 
             } catch (Exception ex) {
                 Log.Fatal(ex, "Application failed!");
+                throw;
             } finally {
                 Log.CloseAndFlush();
             }
+
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -46,7 +48,7 @@ namespace VS.Mvc {
 
                     webBuilder.ConfigureKestrel(serverOptions => {
                         serverOptions.Limits.Http2.MaxStreamsPerConnection = 100;
-                        serverOptions.Limits.MaxConcurrentConnections = 100;
+                        serverOptions.Limits.MaxConcurrentConnections = 100;                                            
                         serverOptions.Limits.MaxConcurrentUpgradedConnections = 100;
                         serverOptions.Limits.MaxRequestBodySize = 10 * 1024;
                         serverOptions.Limits.MinRequestBodyDataRate =
@@ -55,7 +57,7 @@ namespace VS.Mvc {
                         serverOptions.Limits.MinResponseDataRate =
                            new MinDataRate(bytesPerSecond: 100,
                                gracePeriod: TimeSpan.FromSeconds(10));
-                        serverOptions.Listen(IPAddress.Loopback, 5000,
+                        serverOptions.Listen(IPAddress.Any, 5000,
                             listenOptions => {
                                 listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
                                 //listenOptions.UseHttps("localhost.pfx",

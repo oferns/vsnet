@@ -14,9 +14,11 @@ body {
   grid-template-columns: 1fr; // 1 Column
   grid-template-rows: auto 1fr auto; // Header - Main - Footer
   min-height: 100vh; // At least as high as the viewport
+  font-size: 1em;
 
   @include for-desktop-up {
     margin: 0 10% 0; // Add side panels
+    font-size: 1.2em;
   }
 
   @include for-big-desktop-up {
@@ -27,7 +29,7 @@ body {
     display: grid;
     grid-template-columns: 1fr; // 1 Column
     padding: 0 0.25em 0 0.25em;
-    line-height: 2em;
+    line-height: 2.5em;
     align-items: center;
     > section {
       display: grid;
@@ -50,36 +52,31 @@ body {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
 
-    > div#topNavWrap {
-      > label[for="menuToggle"] {
-        display: inline-block;
-        padding: 0.25em;
+    > label[for="menuToggle"] {
+      display: inline-block;
+      padding: 0.25em;
 
-        @include for-desktop-up {
-          display: none;
-        }
+      @include for-desktop-up {
+        display: none;
       }
-      > nav#topNav {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-        text-align: left;
-        line-height: 2.5em;
-        a {
-          padding: 0 0.25em 0 0.25em;
-        }
+    }
+    > nav#topNav {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      text-align: left;
+      line-height: 2.5em;
+      a {
+        padding: 0 0.25em 0 0.25em;
+      }
 
-        @include for-desktop-up {
-          padding: 0 0.25em 0 0.25em;
-          display: grid;
-          align-items: center;
-          text-align: center;
-          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-          opacity: 1;
-          a {
-            padding: 0;
-          }
-        }
+      @include for-desktop-up {
+        line-height: 4em;
+        display: grid;
+        align-items: center;
+        text-align: center;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        opacity: 1;
       }
     }
 
@@ -103,10 +100,16 @@ body {
   }
 }
 
-a#home {
+a#root {
   display: none;
 
   @include for-desktop-up {
-    display: inline-block;
+    display: inline-block;        
+    min-width: 15em;
+    background-image: url("/logo_80x240.png");
+    background-repeat: no-repeat;    
+    background-position: left;
+    color: transparent;
+
   }
 }
