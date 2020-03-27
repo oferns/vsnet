@@ -4,8 +4,6 @@
     public enum TransactionCategory  {
         
         [Description("eCommerce")]
-        NONE,
-        [Description("eCommerce")]
         eCommerce,
         [Description("Mail Order")]
         MailOrder,

@@ -9,18 +9,19 @@
     public readonly struct Checkout {
 
         public Checkout(decimal amount,
-                                string currency, 
+                                string currency,
                                 PaymentType paymentType,
                                 IEnumerable<string> registrationIds = default,
                                 string paymentBrand = default,
-                                IDictionary<string, PaymentType> paymentTypeOverrides = default, 
+                                IDictionary<string, PaymentType> paymentTypeOverrides = default,
                                 decimal taxAmount = default,
-                                string descriptor = default, 
-                                string merchantTransactionId = default, 
+                                string descriptor = default,
+                                string merchantTransactionId = default,
                                 string merchantInvoiceId = default,
                                 string merchantMemo = default,
+                                RecurringType? recurringType = default,
                                 bool createRegistration = true,
-                                TransactionCategory transactionCategory = TransactionCategory.NONE) {
+                                TransactionCategory? transactionCategory = default) {
             Amount = amount;
             Currency = currency;
             PaymentType = paymentType;
@@ -32,6 +33,7 @@
             MerchantTransactionId = merchantTransactionId;
             MerchantInvoiceId = merchantInvoiceId;
             MerchantMemo = merchantMemo;
+            RecurringType = recurringType;
             CreateRegistration = createRegistration;
             TransactionCategory = transactionCategory;
         }
@@ -43,12 +45,12 @@
         [Range(0, 9999999999.99, ErrorMessage = "Amount should be a positive decimal with 0-2 decimal places.")]
         [DisplayName("Amount")]
         public readonly decimal Amount { get; }
-               
-        [Required]     
+
+        [Required]
         [Description("The currency code of the payment request's amount (ISO 4217).")]
         [DisplayName("Currency")]
         public readonly string Currency { get; }
-                
+
         [Required]
         [Description("The payment type for the request.")]
         [DisplayName("Payment Type")]
@@ -100,26 +102,26 @@
         [Description(@"Merchant-provided additional information. The information provided is not transaction processing relevant. It will appear in reporting only.")]
         [DisplayName("Merchant Memo")]
         public readonly string MerchantMemo { get; }
-
+        public RecurringType? RecurringType { get; }
         public bool CreateRegistration { get; }
 
 
-        [Description(@"The category of the transaction.")]        
+        [Description(@"The category of the transaction.")]
         [DisplayName("Transaction Category")]
-        public readonly TransactionCategory TransactionCategory { get; }
+        public readonly TransactionCategory? TransactionCategory { get; }
 
 
         public override string ToString() {
 
             var sb = new StringBuilder().Append($"amount={Amount}&currency={Currency}&paymentType={PaymentCode(PaymentType)}");
-            
+
             if (PaymentBrand is object) {
                 sb.Append($"paymentBrand={PaymentBrand}");
             }
 
             if (PaymentTypeOverrides is IDictionary<string, PaymentType>) {
                 foreach (var @override in PaymentTypeOverrides) {
-                    sb.Append($"overridePaymentType[{@override.Key}]={PaymentCode(@override.Value)}");
+                    sb.Append($"overridePaymentType[{@override.Key}]={@override.Value.ToPayOnString()}");
                 }
             }
 
@@ -154,43 +156,35 @@
                 sb.Append("&createRegistration=true");
             }
 
-            if (TransactionCategory != TransactionCategory.NONE) {
-                sb.Append($"&transactionCategory={TransactionCategoryCode(TransactionCategory)}");
+            if (TransactionCategory.HasValue) {
+                sb.Append($"&transactionCategory={TransactionCategory.Value.ToPayOnString()}");
+            }
+
+            // Recurring type
+            if (RecurringType.HasValue) {
+                sb.Append($"&recurringType={RecurringType.Value.ToPayOnString()}");
             }
 
             return sb.ToString();
-        }        
+        }
 
         private string TransactionCategoryCode(TransactionCategory category) {
             return category switch
             {
-                TransactionCategory.NONE => null,
-                TransactionCategory.eCommerce => "EC",
-                TransactionCategory.Installment => "IN",
-                TransactionCategory.MailOrder => "MO",
-                TransactionCategory.Recurring => "RC",
-                TransactionCategory.PoS => "PO",
-                TransactionCategory.mPoS => "PM",
-                TransactionCategory.TelephoneOrder => "TO",
+                PayOn.TransactionCategory.eCommerce => "EC",
+                PayOn.TransactionCategory.Installment => "IN",
+                PayOn.TransactionCategory.MailOrder => "MO",
+                PayOn.TransactionCategory.Recurring => "RC",
+                PayOn.TransactionCategory.PoS => "PO",
+                PayOn.TransactionCategory.mPoS => "PM",
+                PayOn.TransactionCategory.TelephoneOrder => "TO",
                 _ => throw new NotSupportedException($"The transaction category {category} was not recognised"),
             };
         }
 
 
-        private string PaymentCode(PaymentType type) {
-            return type switch
-            {
-                PaymentType.PreAuthorization => "PA",
-                PaymentType.Debit => "DB",
-                PaymentType.Credit => "CD",
-                PaymentType.Capture => "CP",
-                PaymentType.Reversal => "RV",
-                PaymentType.Refund => "RF",
-                _ => throw new NotSupportedException($"The payment type {type} was not recognised"),
-            };
-        }
-
         public override bool Equals(object obj) {
+
             return obj is Checkout checkout && checkout.ToString().Equals(ToString());
         }
 

@@ -1,8 +1,10 @@
 ﻿
 export default class SearchBox extends HTMLElement {
 
+
+    
     constructor() {
-        super()
+        super();
     }
 
     public connectedCallback(): void {
@@ -21,11 +23,13 @@ export default class SearchBox extends HTMLElement {
 
 
     public adoptedCallback(): void {
-
+        this.connectedCallback(); 
     }
 
 
     private keyUp(ev: KeyboardEvent): void {
-        const t = ev.keyCode;
+        const t = ev.keyCode;  
+
+        const r = this.textContent;
     }
 }
