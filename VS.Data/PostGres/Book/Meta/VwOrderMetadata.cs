@@ -12,8 +12,8 @@
         public Type ArgumentType => default;
 
         public IList<int> PrimaryKeys => Array.Empty<int>();
-        public IDictionary<Type, IEnumerable<int>> ForeignKeys => new Dictionary<Type, IEnumerable<int>>();
-        
+        public IList<ForeignKeyInfo> ForeignKeys => Array.Empty<ForeignKeyInfo>();
+
         public IList<IndexInfo> Indices => Array.Empty<IndexInfo>();
 
         public IList<DbFieldInfo> Fields => new[] {

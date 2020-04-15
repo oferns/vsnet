@@ -5,11 +5,11 @@
     @foreach (var term in Model) {
         <input type="hidden" name="q" value=@term />
     }
-    <section>
+    <div>
         <label id='searchLabel' for='searchBox'>Search</label>
         <search-box>
             <input type="search" name="q" id="searchBox" />
         </search-box>
         <button id='searchButton' type="submit" formmethod="get" asp-controller="Search" asp-action="Index">@sr["Search"]</button>
-    </section>
+    </div>
 </form>

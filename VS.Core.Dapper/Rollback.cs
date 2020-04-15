@@ -16,11 +16,9 @@
             this.db = db ?? throw new ArgumentNullException(nameof(db));
         }
 
-        public Task<Unit> Handle(Rollback request, CancellationToken cancellationToken) {
-            return new Task<Unit>(() => {
-                db.Rollback();
-                return default;
-            });
+        public async Task<Unit> Handle(Rollback request, CancellationToken cancellationToken) {
+            await db.Rollback(cancellationToken);
+            return default;
         }
     }
 }

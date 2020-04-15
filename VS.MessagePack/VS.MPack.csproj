@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MessagePack" Version="2.1.90" />
-    <PackageReference Include="System.Text.Json" Version="5.0.0-preview.1.20120.5" />
+    <PackageReference Include="MessagePack" Version="2.1.115" />
+    <PackageReference Include="System.Text.Json" Version="5.0.0-preview.2.20160.6" />
   </ItemGroup>
 
   <ItemGroup>

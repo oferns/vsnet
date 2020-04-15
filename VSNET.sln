@@ -54,9 +54,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Core.Dapper", "VS.Core.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Core.Local", "VS.Core.Local\VS.Core.Local.csproj", "{4548EA48-05B8-43F5-8A99-88EA7D181E8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VS.Core.Yoti", "VS.Core.Yoti\VS.Core.Yoti.csproj", "{B1214B2C-2917-41AD-9195-CD8947302A61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Core.Yoti", "VS.Core.Yoti\VS.Core.Yoti.csproj", "{B1214B2C-2917-41AD-9195-CD8947302A61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VD.Yoti", "VD.Yoti\VD.Yoti.csproj", "{D7B3189A-EC4F-4A4D-8A72-330B334997E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VD.Yoti", "VD.Yoti\VD.Yoti.csproj", "{D7B3189A-EC4F-4A4D-8A72-330B334997E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{952E7BB1-5EB2-494E-A129-9B261EED61A8}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

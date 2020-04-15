@@ -16,11 +16,9 @@
             this.db = db ?? throw new ArgumentNullException(nameof(db));
         }
 
-        public Task<Unit> Handle(Begin request, CancellationToken cancellationToken) {
-            return new Task<Unit>(() => {
-                db.BeginTransaction();
-                return default;
-            });
+        public async Task<Unit> Handle(Begin request, CancellationToken cancellationToken) {
+            await db.BeginTransaction(cancellationToken);
+            return default;
         }
     }
 }

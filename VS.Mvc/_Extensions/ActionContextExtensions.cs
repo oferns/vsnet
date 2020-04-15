@@ -2,6 +2,7 @@
     using System;
     using System.Security.Claims;
     using System.Security.Principal;
+    using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Http;
@@ -65,7 +66,17 @@
         /// <param name="allowRefresh">Allow refresh of cookie on subsequent requests</param>
         /// <param name="persistent">Issue a persistent cookie</param>
         /// <returns>Task</returns>
-        public static async Task SignInAsync(this ActionContext actionContext, IIdentity identity, string authenticationScheme, bool allowRefresh, bool persistent) {
+        public static async Task SignInAsync(this ActionContext actionContext, IIdentity identity, string authenticationScheme, bool allowRefresh, bool persistent, CancellationToken cancel) {
+            if (actionContext is null) {
+                throw new ArgumentNullException(nameof(actionContext));
+            }
+
+            if (identity is null) {
+                throw new ArgumentNullException(nameof(identity));
+            }
+
+            cancel.ThrowIfCancellationRequested();
+
             var principal = new ClaimsPrincipal(identity);
             await actionContext.HttpContext.SignInAsync(
              authenticationScheme,
@@ -85,7 +96,12 @@
         /// <param name="actionContext">The action context</param>
         /// <param name="authenticationScheme">The authentication scheme</param>
         /// <returns>Task</returns>
-        public static async Task SignOutAsync(this ActionContext actionContext, string authenticationScheme ) {
+        public static async Task SignOutAsync(this ActionContext actionContext, string authenticationScheme, CancellationToken cancel) {
+            if (actionContext is null) {
+                throw new ArgumentNullException(nameof(actionContext));
+            }
+
+            cancel.ThrowIfCancellationRequested();
             await actionContext.HttpContext.SignOutAsync(authenticationScheme);
         }
 
@@ -96,9 +112,15 @@
         /// <param name="identity"></param>
         /// <param name="authenticationScheme"></param>
         /// <returns></returns>
-        public static async Task RefreshLocalIdentityAsync(this ActionContext actionContext, IIdentity identity, string authenticationScheme) {
-            await actionContext.SignOutAsync(authenticationScheme);
-            await actionContext.SignInAsync(identity, authenticationScheme, true, true); // TODO: Add a claim(?) saying whether they were persistent before or not
+        public static async Task RefreshLocalIdentityAsync(this ActionContext actionContext, IIdentity identity, string authenticationScheme, CancellationToken cancel) {
+            if (actionContext is null) {
+                throw new ArgumentNullException(nameof(actionContext));
+            }
+
+            cancel.ThrowIfCancellationRequested();
+
+            await actionContext.SignOutAsync(authenticationScheme, cancel);
+            await actionContext.SignInAsync(identity, authenticationScheme, true, true, cancel); // TODO: Add a claim(?) saying whether they were persistent before or not
         }
     }
 }

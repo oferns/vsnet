@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoBogus" Version="2.8.1" />
-    <PackageReference Include="Bogus" Version="29.0.1" />
+    <PackageReference Include="Bogus" Version="29.0.2" />
     <PackageReference Include="MediatR" Version="8.0.1" />
   </ItemGroup>
 

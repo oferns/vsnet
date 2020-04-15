@@ -14,8 +14,8 @@
         IList<DbFieldInfo> Fields { get; }
 
         IList<int> PrimaryKeys { get;}
-
-        IDictionary<Type, IEnumerable<int>> ForeignKeys { get;  }
+        
+        IList<ForeignKeyInfo> ForeignKeys { get;  }
 
         IList<IndexInfo> Indices { get; }
 

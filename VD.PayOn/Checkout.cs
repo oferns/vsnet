@@ -113,7 +113,7 @@
 
         public override string ToString() {
 
-            var sb = new StringBuilder().Append($"amount={Amount}&currency={Currency}&paymentType={PaymentCode(PaymentType)}");
+            var sb = new StringBuilder().Append($"amount={Amount}&currency={Currency}&paymentType={PaymentType.ToPayOnString()}");
 
             if (PaymentBrand is object) {
                 sb.Append($"paymentBrand={PaymentBrand}");

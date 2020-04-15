@@ -3,11 +3,12 @@
     using Microsoft.AspNetCore.Mvc.ApplicationModels;
     using Microsoft.AspNetCore.Mvc.Razor;
     using Microsoft.Extensions.DependencyInjection;
+    using SimpleInjector;
     using VS.Mvc._Extensions;
 
     public static class ViewOptions {
 
-        public static IServiceCollection AddViewOptions(this IServiceCollection services, AntiforgeryOptions antiforgeryOptions) {
+        public static IServiceCollection AddViewOptions(this IServiceCollection services, Container container, AntiforgeryOptions antiforgeryOptions) {
 
             return services.Configure<RazorViewEngineOptions>(options => {
                 // Clear the defaults
@@ -17,23 +18,26 @@
                 // {2} is the area, {3} is the subarea {1} is the controller, {0} is the action
                 options.ViewLocationExpanders.Add(new SubAreaViewLocationExpander());
                 options.ViewLocationExpanders.Add(new UICultureViewLocationExpander());
-                
+
                 // {2} is area, {1} is controller {0} is the action            
                 options.AreaViewLocationFormats.Add("/{2}/{1}/{0}" + RazorViewEngine.ViewExtension);
                 options.AreaViewLocationFormats.Add("/{2}/{0}" + RazorViewEngine.ViewExtension);
                 options.AreaViewLocationFormats.Add("/{0}" + RazorViewEngine.ViewExtension);
                 options.ViewLocationFormats.Add("/{1}/{0}" + RazorViewEngine.ViewExtension);
                 options.ViewLocationFormats.Add("/{0}" + RazorViewEngine.ViewExtension);
-
-            }).AddControllersWithViews(o => {
-                o.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
-            })
+                })                
+                .AddControllersWithViews(o => {
+                    o.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
+                })
+                .ConfigureApplicationPartManager(p => { 
+                    p.FeatureProviders.Add(new DataRouteFeatureProvider()); 
+                })
 #if DEBUG
                 .AddRazorRuntimeCompilation()
 #endif
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.SubFolder).Services
-                .AddAntiforgery(o => o = antiforgeryOptions); 
-                
+                .AddAntiforgery(o => o = antiforgeryOptions);
+
         }
     }
 }

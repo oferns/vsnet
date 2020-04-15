@@ -12,7 +12,7 @@
 
 
         public IList<int> PrimaryKeys => new[] { 0 };
-        public IDictionary<Type, IEnumerable<int>> ForeignKeys => new Dictionary<Type, IEnumerable<int>>();
+        public IList<ForeignKeyInfo> ForeignKeys => Array.Empty<ForeignKeyInfo>();
 
         public IList<IndexInfo> Indices => new List<IndexInfo> { new IndexInfo("ix_stamp_unique", true, new int[] { 1 }) };
 

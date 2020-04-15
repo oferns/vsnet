@@ -35,7 +35,7 @@
 
 
             container.Register(typeof(ICacheClient<>), typeof(CombinedCacheClient<>));
-            //container.Collection.Append(typeof(ICacheClient<>), typeof(MemoryCacheClient<>));
+            container.Collection.Append(typeof(ICacheClient<>), typeof(MemoryCacheClient<>));
 
             if (redisconfig is object) {
 
@@ -43,8 +43,8 @@
                     redisconfig.ConfigurationOptions.EndPoints.Add(host);
                 }
 
-                container.RegisterSingleton<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(redisconfig.ConfigurationOptions));
-                container.Register<IDatabase>(() => container.GetInstance<ConnectionMultiplexer>().GetDatabase());
+                container.RegisterSingleton<IConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(redisconfig.ConfigurationOptions));
+                container.Register<IDatabase>(() => container.GetInstance<IConnectionMultiplexer>().GetDatabase());
 
                 container.Collection.Append(typeof(ICacheClient<>), typeof(RedisCacheClient<>));
             }

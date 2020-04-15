@@ -1,5 +1,6 @@
 namespace VS.Mvc {
     using System;
+    using MediatR;
     using Microsoft.AspNetCore.Antiforgery;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -37,13 +38,14 @@ namespace VS.Mvc {
                     .AddDevServices()
 #endif                    
                     .AddRequestCorrelation()
+                    .AddMediatR(typeof(Startup).Assembly)
                     .AddConstraints()
                     .AddSingleton<IActionContextAccessor, ActionContextAccessor>()
                     .AddHttpContextAccessor()
                     .AddHttpClient()
                     .AddHostBasedLocalization(cultureoptions.HostOptions)
                     .AddAppIdentity()
-                    .AddViewOptions(configuration.GetSection("AntiforgeryOptions").Get<AntiforgeryOptions>())
+                    .AddViewOptions(container, configuration.GetSection("AntiforgeryOptions").Get<AntiforgeryOptions>())
                     .AddSimpleInjector(container, options => {
                         options
                            .AddAspNetCore()
@@ -77,11 +79,11 @@ namespace VS.Mvc {
                 .UseHostBasedLocalization()
                 .UseExceptionHandler("/error")
                 .UseStatusCodePagesWithReExecute("/error", "?sc={0}")
-                .UseRouting()
-                .UseAppIdentity()
 #if DEBUG
                 .UseDevTools()
 #endif    
+                .UseRouting()
+                .UseAppIdentity()
                 .UseEndpoints(e => e.AddMvcEndpoints());
 
 #pragma warning restore ASP0001 // Authorization middleware is incorrectly configured.

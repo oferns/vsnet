@@ -1,4 +1,4 @@
-﻿namespace VS.Mvc.Search._Forms {
+﻿namespace VS.Mvc.Search._forms {
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using VS.Mvc._Extensions;

@@ -1,0 +1,12 @@
+﻿@model Exception
+
+@{
+    var ex = Model;
+    @do {
+        <strong>@ex.Message</strong>
+        <pre>
+                    @ex.StackTrace
+            </pre>
+        ex = ex?.InnerException;
+    } while (ex is object);
+}

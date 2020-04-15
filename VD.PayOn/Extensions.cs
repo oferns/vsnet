@@ -21,7 +21,7 @@
             {
                 RecurringType.Initial => "INITIAL",
                 RecurringType.Repeated => "REPEATED",
-                _ => throw new NotSupportedException($"The recurring type {type} was not recognised"),
+                _ => throw new NotSupportedException($"The recurring type {recurringType} was not recognised"),
             };
         }
 
@@ -35,7 +35,7 @@
                 TransactionCategory.PoS => "PO",
                 TransactionCategory.mPoS => "PM",
                 TransactionCategory.TelephoneOrder => "TO",
-                _ => throw new NotSupportedException($"The transaction category {category} was not recognised"),
+                _ => throw new NotSupportedException($"The transaction category {transactionCategory} was not recognised"),
             };
         }
     }

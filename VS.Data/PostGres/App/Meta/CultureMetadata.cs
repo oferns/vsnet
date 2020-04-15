@@ -10,10 +10,13 @@
         public Type ReturnType => typeof(Culture);
         public Type ArgumentType => default;
 
-        public IList<int> PrimaryKeys => new[] { 0 };
-        public IDictionary<Type, IEnumerable<int>> ForeignKeys => new Dictionary<Type, IEnumerable<int>>();
+//        public IList<int> PrimaryKeys => new[] { 0 };
+        public IList<int> PrimaryKeys => Array.Empty<int>();
 
-        public IList<IndexInfo> Indices => new List<IndexInfo> { new IndexInfo("ix_culture_specific_culture", true, new int[] { 1 }) };
+
+        public IList<ForeignKeyInfo> ForeignKeys => new[] { new ForeignKeyInfo(new Dictionary<int, string> { { 1, "Id" }, { 2, "Name" } }, typeof(Culture)), new ForeignKeyInfo(new Dictionary<int, string> { { 1, "Id" }, { 2, "Name" } }, typeof(Culture)) };
+
+        public IList<IndexInfo> Indices => new [] { new IndexInfo("ix_culture_specific_culture", true, new int[] { 1 }) };
 
         public IList<DbFieldInfo> Fields => new[] {
 

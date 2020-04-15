@@ -69,7 +69,9 @@
             var componentName = ViewName ?? context.ViewComponentDescriptor.TypeInfo.Name;
             var culturedComponentName = $"{componentName}.{CultureInfo.CurrentCulture.Name}";
             var baseNs = context.ViewComponentDescriptor.TypeInfo.Assembly.GetName().Name;
-            var viewPath = context.ViewComponentDescriptor.TypeInfo.FullName.Replace(baseNs, string.Empty).Replace(componentName, string.Empty).Replace('.', '/');
+            var viewPath = context.ViewComponentDescriptor.TypeInfo.FullName.Replace(baseNs, string.Empty, StringComparison.OrdinalIgnoreCase)
+                .Replace(componentName, string.Empty, StringComparison.OrdinalIgnoreCase)
+                .Replace('.', '/');
 
             var culturedPath = Path.Combine(viewPath, culturedComponentName) + ".cshtml";
             var basePath = Path.Combine(viewPath, componentName) + ".cshtml";
@@ -95,6 +97,9 @@
                 ViewName = culturedComponentName;
             }
 
+            //if (result == null || !result.Success) {
+            //    throw new 
+            //}
 
             using (result.View as IDisposable) {
 
@@ -103,7 +108,7 @@
                     result.View,
                     ViewData ?? context.ViewData,
                     context.Writer);
-                await result.View.RenderAsync(childViewContext);
+                await result.View.RenderAsync(childViewContext).ConfigureAwait(false);
 
             }
         }

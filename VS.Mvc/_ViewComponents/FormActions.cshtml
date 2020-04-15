@@ -1,0 +1,10 @@
+﻿@model FormActionsModel
+
+
+@if (Model is object) {
+
+    @foreach (var action in Model.Actions) {
+        <button type="submit" formmethod=@action.Method asp-all-route-data="@action.RouteValues">@action.Title</button>
+    }
+ 
+}

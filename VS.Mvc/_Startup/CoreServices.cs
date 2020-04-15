@@ -20,19 +20,23 @@
     using VS.Core.Local.Storage;
     using VS.Core.Messaging.Queue;
     using VS.Core.Storage.Handlers;
-    using VS.Data.PostGres.App.Meta;
+    using VS.Data.PostGres.App.Meta;                                                                                                                                                                                                          
     using VS.Mvc._Services;
 
     public static class CoreServices {
 
 
         public static Container AddCoreServices(this Container container) {
+            if (container is null) {
+                throw new ArgumentNullException(nameof(container));
+            }
 
             container.Register(() => new ServiceFactory(container.GetInstance), Lifestyle.Singleton);
 
-            var coreAssemblies = new[] { typeof(CoreServices).Assembly, typeof(GetIndexHandler).Assembly };
 
-            container.RegisterSingleton<IMediator, Mediator>();
+
+            // TODO: Tidy this lot into an extension method
+            var coreAssemblies = new[] { typeof(CoreServices).Assembly, typeof(GetIndexHandler).Assembly };
 
             var coreRequestHandlers = container.GetTypesToRegister(
                 typeof(IRequestHandler<,>),
@@ -72,8 +76,8 @@
             
             container.Collection.Append(typeof(INotificationHandler<>), typeof(ChangeNotificationHandler<>));
 
-
-            container.Register(typeof(IMetaData<>), typeof(CultureMetadata).Assembly);
+            
+            container.RegisterSingleton(typeof(IMetaData<>), typeof(CultureMetadata).Assembly);
             container.RegisterConditional<IDbClient, DbClient>(Lifestyle.Scoped, c => !c.Handled);
 
 
@@ -86,7 +90,11 @@
             container.Register<IPager, QueryStringPager>();
             container.Register(typeof(IFilterService<>), typeof(QueryStringFilterService<>));
             container.Register(typeof(ISorterService<>), typeof(QueryStringSorterService<>));
-            container.Register<IFlashMessager, HttpFlashMessager>();          
+            container.Register<IFlashMessager, HttpFlashMessager>();
+
+            container.Register<INavLinkProvider, AnchorNavLinkProvider>();
+            container.Register<IActionProvider, FormActionProvider>();
+
 
             // Fake Data Handlers
 #if DEBUG

@@ -16,11 +16,10 @@
             this.db = db ?? throw new ArgumentNullException(nameof(db));
         }
 
-        public Task<Unit> Handle(Commit request, CancellationToken cancellationToken) {
-            return new Task<Unit>(() => {
-                db.Commit();
-                return default;
-            });
-        }        
+        public async Task<Unit> Handle(Commit request, CancellationToken cancellationToken) {
+            await db.Commit(cancellationToken);
+            return default;
+
+        }
     }
 }

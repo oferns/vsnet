@@ -19,6 +19,7 @@ body {
   background-color: $white;
   background: url("https://media-eu.viva-images.com/vivastreet_uk/home/Homepage_Static3.jpg")
     no-repeat;
+  background-attachment: fixed;
   background-size: 100% 20em;
   @include for-desktop-up {
     background-size: 100% 31em;

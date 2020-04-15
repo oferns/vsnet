@@ -7,6 +7,7 @@ namespace VD.PayOn.Tests {
     using System.Net.Http;
     using System.Threading;
     using System.Threading.Tasks;
+    using Castle.Core.Logging;
     using Microsoft.Extensions.Logging;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
@@ -46,6 +47,7 @@ namespace VD.PayOn.Tests {
                         "TEST",
                         "TEST",
                         "TEST",
+                        default,
                         true,
                         TransactionCategory.eCommerce);
 
@@ -138,6 +140,7 @@ namespace VD.PayOn.Tests {
                 "TEST",
                 "TEST",
                 "TEST",
+                null,
                 true,
                 TransactionCategory.eCommerce);
 
