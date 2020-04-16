@@ -31,5 +31,8 @@ export default class SearchBox extends HTMLElement {
     private keyUp(ev: KeyboardEvent): void {
         const t = ev.keyCode;  
         const r = this.searchBox.value;
+        console.log(t);
+        console.log(r);
+
     }
 }

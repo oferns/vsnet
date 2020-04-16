@@ -11,7 +11,7 @@
                 throw new ArgumentNullException(nameof(controller));
             }
 
-            if (controller.ControllerType.GetGenericTypeDefinition() == typeof(DataController<>)) {
+            if (controller.ControllerType.GetGenericTypeDefinition() == typeof(ApiController<>)) {
                 var entityType = controller.ControllerType.GenericTypeArguments[0];
                 controller.RouteValues["typename"] = entityType.Name;
                 controller.ControllerName = "Data";

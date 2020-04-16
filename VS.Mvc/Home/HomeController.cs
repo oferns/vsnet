@@ -25,6 +25,10 @@
         public IActionResult About() => new ViewResult { ViewName = "About" };
 
 
+        [HttpGet]
+        public IActionResult Component(string componentName) {
+            return new ViewComponentResult() { ViewComponentName = componentName };
+        }
 
 #if DEBUG
         [HttpGet]

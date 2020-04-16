@@ -12,6 +12,8 @@
 
         public static string HostIdentifier => "vs://host";
 
+        public static string ViewLibrary => "vs://viewlib";
+
 
     }
 }

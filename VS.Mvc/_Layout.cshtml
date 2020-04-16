@@ -67,19 +67,20 @@
         </div>
         <div>
             <environment include="Development">
-                @*<vc:host-picker></vc:host-picker>
+                <vc:host-picker></vc:host-picker>
                 <vc:language-picker></vc:language-picker>
-                @CultureInfo.CurrentCulture
-                <br />
-                @CultureInfo.CurrentUICulture
-                <br />
-                <vc:user-agent-info></vc:user-agent-info>
-                <client-info>
-                    <strong slot="languageslabel">@sr["Client Languages"]</strong>
-                    <strong slot="languagelabel">@sr["Client Language"]</strong>
-                    <strong slot="agentlabel">@sr["User Agent"]</strong>
-                </client-info>
-                <vc:build-info></vc:build-info>*@
+                @*<vc:language-picker></vc:language-picker>
+        @CultureInfo.CurrentCulture
+        <br />
+        @CultureInfo.CurrentUICulture
+        <br />
+        <vc:user-agent-info></vc:user-agent-info>
+        <client-info>
+            <strong slot="languageslabel">@sr["Client Languages"]</strong>
+            <strong slot="languagelabel">@sr["Client Language"]</strong>
+            <strong slot="agentlabel">@sr["User Agent"]</strong>
+        </client-info>
+        <vc:build-info></vc:build-info>*@
                 <mini-profiler position="RenderPosition.BottomRight" />
             </environment>
         </div>

@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+
+<html lang=@CultureInfo.CurrentUICulture.TextInfo.CultureName>
+<head>
+    <style>
+        html {
+            visibility: hidden;
+            opacity: 0;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="/css/app.css" asp-append-version="true" />
+
+
+    <title>@RenderSection("Title", true)</title>
+
+    <meta name="viewport" content="width=device-width" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    @RenderSection("Styles", false)
+
+    <script src="/js/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+    <script src="/js/webcomponentsjs/webcomponents-loader.js"></script>
+    <script async src="/js/app.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", false)
+
+</head>
+<body>
+    
+    <header>
+        <section>
+            <div>
+                <label id="menuOpenLabel" for="menuToggle">@sr["MENU"]</label>
+                <a id='root' href='/'>Viva Station</a>            
+            </div>
+            <div>
+            <vc:search-form></vc:search-form>
+            </div>
+            <nav id="userMenu"> 
+                <a href='/login'>Login</a>
+            </nav>
+        </section>
+        
+        @RenderSection("Header", false)
+        
+    </header>
+    <main>
+        <input type="checkbox" id="menuToggle" name="menuToggle" />
+
+        <label id="menuCloseLabel" for="menuToggle">@sr["CLOSE"]</label>
+        <nav id="topNav">
+            <a href='/home'>Item1</a>
+            <a href='/home'>Item2</a>
+            <a href='/home'>Item3</a>
+            <a href='/home'>Item4</a>
+            <a href='/home'>Item5</a>
+            <a href='/home'>Item6</a>
+            <a href='/home'>Item7</a>
+            <a href='/home' title="Item8">Item8</a>
+        </nav>
+                               
+        <div id="mainBody">
+            <h1>Vivastreet_com LIBRARY</h1>
+            @RenderBody()
+        </div>
+        <div>
+            <environment include="Development">
+                <vc:host-picker></vc:host-picker>
+                <vc:language-picker></vc:language-picker>
+                @*<vc:language-picker></vc:language-picker>
+        @CultureInfo.CurrentCulture
+        <br />
+        @CultureInfo.CurrentUICulture
+        <br />
+        <vc:user-agent-info></vc:user-agent-info>
+        <client-info>
+            <strong slot="languageslabel">@sr["Client Languages"]</strong>
+            <strong slot="languagelabel">@sr["Client Language"]</strong>
+            <strong slot="agentlabel">@sr["User Agent"]</strong>
+        </client-info>
+        <vc:build-info></vc:build-info>*@
+                <mini-profiler position="RenderPosition.BottomRight" />
+            </environment>
+        </div>
+
+    </main>
+
+    <footer>
+        <div>
+            <strong>Some sort of footer</strong>
+        </div>
+    </footer>
+
+
+</body>
+</html>

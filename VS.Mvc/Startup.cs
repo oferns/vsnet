@@ -38,14 +38,14 @@ namespace VS.Mvc {
                     .AddDevServices()
 #endif                    
                     .AddRequestCorrelation()
-                    .AddMediatR(typeof(Startup).Assembly)
+                    .AddSingleton<IMediator>((c) => container.GetInstance<IMediator>()) // Makes the mediator available to asp.net componetns for DI
                     .AddConstraints()
                     .AddSingleton<IActionContextAccessor, ActionContextAccessor>()
                     .AddHttpContextAccessor()
                     .AddHttpClient()
                     .AddHostBasedLocalization(cultureoptions.HostOptions)
                     .AddAppIdentity()
-                    .AddViewOptions(container, configuration.GetSection("AntiforgeryOptions").Get<AntiforgeryOptions>())
+                    .AddViewOptions(configuration.GetSection("AntiforgeryOptions").Get<AntiforgeryOptions>())
                     .AddSimpleInjector(container, options => {
                         options
                            .AddAspNetCore()
@@ -66,6 +66,9 @@ namespace VS.Mvc {
         // OJF: ORDER IS IMPORTANT. ONLY CHANGE IF YOU KNOW WHAT YOU ARE DOING AND WHY AND IT BETTER BE IN THE COMMIT MESSAGE (and yes, I did mean to shout that).
         public void Configure(IApplicationBuilder app) {
 
+
+         
+
             // I believe it is correctly configured but the analyzer can't cope with chained methods
             // Remove the pragma clause and make your own mind up.
 #pragma warning disable     
@@ -77,8 +80,8 @@ namespace VS.Mvc {
                 .UseRequestCorrelation()
                 .UseSimpleInjector(container)
                 .UseHostBasedLocalization()
-                .UseExceptionHandler("/error")
-                .UseStatusCodePagesWithReExecute("/error", "?sc={0}")
+                .UseExceptionHandler("/error") // Handles 500s 
+                .UseStatusCodePagesWithReExecute("/error", "?sc={0}") // Handles 400-499s
 #if DEBUG
                 .UseDevTools()
 #endif    

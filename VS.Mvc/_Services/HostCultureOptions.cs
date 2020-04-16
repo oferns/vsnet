@@ -6,6 +6,8 @@
 
         public string Host { get; set; }
 
+        public string ViewLibrary { get; set; }
+
         public CultureInfo DefaultCulture {get;set;}
         public CultureInfo DefaultUICulture { get; set; }
 

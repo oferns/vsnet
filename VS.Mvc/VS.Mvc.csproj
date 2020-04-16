@@ -57,12 +57,12 @@
     <ProjectReference Include="..\VS.Core\VS.Core.csproj" />
     <ProjectReference Include="..\VS.Data\VS.Data.csproj" />
     <ProjectReference Include="..\VS.MessagePack\VS.MPack.csproj" />
+    <ProjectReference Include="..\VS.Mvc.Vivastreet_Com\VS.Mvc.Vivastreet_Com.csproj" />
     <ProjectReference Include="..\VS.Redis\VS.Redis.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Search\_lists\" />
+    <Folder Include="DevGuide\Blog\" />
   </ItemGroup>
 
- 
 </Project>

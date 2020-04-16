@@ -14,7 +14,7 @@
 
     [Area("Api")]
     [DataRouteConvention]
-    public class DataController<T> : IExceptionFilter where T : class {
+    public class ApiController<T> : IExceptionFilter where T : class {
         
         private readonly IMediator mediator;
         private readonly IMetaData<T> metaData;
@@ -23,7 +23,7 @@
         private static object requestCacheLock = new object();
 
 
-        public DataController(IMediator mediator, IMetaData<T> metaData) {
+        public ApiController(IMediator mediator, IMetaData<T> metaData) {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             this.metaData = metaData ?? throw new ArgumentNullException(nameof(metaData));
         }
@@ -41,10 +41,7 @@
         }
 
 
-
-
-
-
+        [NonAction]
         public void OnException(ExceptionContext context) {
             if (context is object) {
                 context.ModelState.AddModelError("", "Oops!");

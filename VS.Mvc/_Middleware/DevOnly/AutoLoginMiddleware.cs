@@ -19,7 +19,7 @@ namespace VS.Mvc._Middleware.DevOnly {
 
         public async Task InvokeAsync(HttpContext httpcontext, RequestDelegate next) {
 
-            if (context.User.Identity.IsAuthenticated) {
+            if (context.User is object && context.User.Identity.IsAuthenticated) {
                 await next(httpcontext);
                 return;
             }

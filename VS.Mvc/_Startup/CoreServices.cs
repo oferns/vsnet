@@ -31,6 +31,7 @@
                 throw new ArgumentNullException(nameof(container));
             }
 
+            container.RegisterSingleton<IMediator, Mediator>();
             container.Register(() => new ServiceFactory(container.GetInstance), Lifestyle.Singleton);
 
 
