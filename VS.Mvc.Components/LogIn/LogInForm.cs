@@ -1,9 +1,9 @@
-﻿namespace VS.Mvc.LogIn._forms {
+﻿namespace VS.Mvc.Components.LogIn {
 
     using Microsoft.AspNetCore.Mvc;
-    using VS.Mvc._Extensions;
+    using VS.Mvc.Components;
 
-    [ViewComponent(Name = LogInForm.Name)]
+    [ViewComponent(Name = Name)]
     public class LogInForm : LocalizedViewComponent {
 
         public const string Name = "LoginForm";

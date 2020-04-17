@@ -1,11 +1,9 @@
-﻿namespace VS.Mvc._ViewComponents {
-
+﻿namespace VS.Mvc.Components {
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using Microsoft.AspNetCore.Mvc;
-    using VS.Mvc._Extensions;
-    using VS.Mvc._Services;
+    using VS.Abstractions.Culture;
 
     [ViewComponent(Name ="LanguagePicker")]
     public class LanguagePicker : LocalizedViewComponent {

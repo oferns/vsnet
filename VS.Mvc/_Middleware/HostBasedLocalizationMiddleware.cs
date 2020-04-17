@@ -10,7 +10,7 @@
     using Microsoft.AspNetCore.Localization;
     using Microsoft.Net.Http.Headers;
     using VS.Core.Identity;
-    using VS.Mvc._Services;
+    using VS.Abstractions.Culture;
 
     public class HostBasedLocalizationMiddleware : IMiddleware {
 
@@ -51,7 +51,7 @@
                 }
             }
 
-            context.Items["HostUdentity"] = identity ?? hostIdentities.First();
+            context.Items["HostIdentity"] = identity ?? hostIdentities.First();
             
             
             HostCultureOptions hostOptions = default;

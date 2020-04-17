@@ -4,8 +4,8 @@
     using Microsoft.Net.Http.Headers;
     using System;
     using System.Threading.Tasks;
+    using VS.Abstractions.Culture;
     using VS.Mvc._Extensions;
-    using VS.Mvc._Services;
 
     public class HostSwitchingMiddleware : IMiddleware {
         private readonly CultureOptions options;

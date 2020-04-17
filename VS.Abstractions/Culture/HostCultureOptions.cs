@@ -1,4 +1,4 @@
-﻿namespace VS.Mvc._Services {
+﻿namespace VS.Abstractions.Culture {
     using System.Collections.Generic;
     using System.Globalization;
 

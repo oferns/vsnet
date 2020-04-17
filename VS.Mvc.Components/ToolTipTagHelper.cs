@@ -1,8 +1,9 @@
-﻿namespace VS.Mvc._TagHelpers {
+﻿namespace VS.Mvc.Components {
 
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.AspNetCore.Razor.TagHelpers;
+    using System;
     using System.ComponentModel;
 
     [HtmlTargetElement("select", Attributes = ForAttributeName)]
@@ -21,11 +22,11 @@
 
         public override void Process(TagHelperContext context, TagHelperOutput output) {
             if (context is null) {
-                throw new System.ArgumentNullException(nameof(context));
+                throw new ArgumentNullException(nameof(context));
             }
 
             if (output is null) {
-                throw new System.ArgumentNullException(nameof(output));
+                throw new ArgumentNullException(nameof(output));
             }
 
             if (For != null) {

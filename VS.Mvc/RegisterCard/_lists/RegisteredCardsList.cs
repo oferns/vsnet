@@ -5,7 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
     using VS.Abstractions;
     using VS.Core.Payment;
-    using VS.Mvc._Extensions;
+    using VS.Mvc.Components;
 
     [ViewComponent(Name = "RegisteredCardsList")]
     public class RegisteredCardsList : LocalizedViewComponent {

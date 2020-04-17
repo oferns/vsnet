@@ -5,7 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Routing;
     using VS.Core.Payment;
-    using VS.Mvc._Extensions;
+    using VS.Mvc.Components;
 
 
     [ViewComponent(Name = "RegisterCardForm")]

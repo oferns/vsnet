@@ -22,7 +22,7 @@
             Log = log ?? throw new ArgumentNullException(nameof(log));
 
             this.User = contextAccessor.HttpContext?.User;
-            this.Host = contextAccessor.HttpContext?.Items["HostUdentity"] as ClaimsIdentity;
+            this.Host = contextAccessor.HttpContext?.Items["HostIdentity"] as ClaimsIdentity;
             this.UICulture = CultureInfo.CurrentUICulture;
             this.RequestId = Activity.Current?.RootId ?? contextAccessor.HttpContext?.TraceIdentifier;
             this.UserTimeZone = TZConvert.GetTimeZoneInfo("Europe/London");

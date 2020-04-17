@@ -1,9 +1,9 @@
-﻿namespace VS.Mvc.Search._forms {
-    using MediatR;
+﻿namespace VS.Mvc.Components.Search {
+    
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Primitives;
-    using VS.Mvc._Extensions;
-        
+    using VS.Mvc.Components;
+
     [ViewComponent(Name="SearchForm")]
     public class SearchForm : LocalizedViewComponent {
 

@@ -1,4 +1,4 @@
-﻿namespace VS.Mvc._ViewComponents {
+﻿namespace VS.Mvc.Components {
 
     using System.Collections.Generic;
     using VS.Abstractions;

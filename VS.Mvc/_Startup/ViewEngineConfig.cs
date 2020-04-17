@@ -12,7 +12,7 @@
         public static IServiceCollection AddViewOptions(this IServiceCollection services, AntiforgeryOptions antiforgeryOptions) {
 
 
-            // services.AddSingleton<IRazorViewEngine, MultiTenantRazorViewEngine>();
+            services.AddSingleton<IRazorViewEngine, MultiTenantRazorViewEngine>();
            // services.AddTransient<IRazorPageFactoryProvider, MultiTenantRazorPageFactoryProvider>();
             services.AddTransient<IViewCompilerProvider, MultiTenantViewCompilerProvider>();
 
@@ -46,7 +46,7 @@
                     p.FeatureProviders.Add(new DataRouteFeatureProvider()); 
                 })
 #if DEBUG
-                //.AddRazorRuntimeCompilation()
+                .AddRazorRuntimeCompilation()
 #endif
 
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.SubFolder).Services

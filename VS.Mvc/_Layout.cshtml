@@ -29,23 +29,23 @@
 
 </head>
 <body>
-    
+
     <header>
         <section>
             <div>
                 <label id="menuOpenLabel" for="menuToggle">@sr["MENU"]</label>
-                <a id='root' href='/'>Viva Station</a>            
+                <a id='root' href='/'>Viva Station</a>
             </div>
             <div>
-            <vc:search-form></vc:search-form>
+                <vc:search-form></vc:search-form>
             </div>
-            <nav id="userMenu"> 
+            <nav id="userMenu">
                 <a href='/login'>Login</a>
             </nav>
         </section>
-        
+
         @RenderSection("Header", false)
-        
+
     </header>
     <main>
         <input type="checkbox" id="menuToggle" name="menuToggle" />
@@ -69,18 +69,17 @@
             <environment include="Development">
                 <vc:host-picker></vc:host-picker>
                 <vc:language-picker></vc:language-picker>
-                @*<vc:language-picker></vc:language-picker>
-        @CultureInfo.CurrentCulture
-        <br />
-        @CultureInfo.CurrentUICulture
-        <br />
-        <vc:user-agent-info></vc:user-agent-info>
-        <client-info>
-            <strong slot="languageslabel">@sr["Client Languages"]</strong>
-            <strong slot="languagelabel">@sr["Client Language"]</strong>
-            <strong slot="agentlabel">@sr["User Agent"]</strong>
-        </client-info>
-        <vc:build-info></vc:build-info>*@
+                @CultureInfo.CurrentCulture
+                <br />
+                @CultureInfo.CurrentUICulture
+                <br />
+                <vc:user-agent-info></vc:user-agent-info>
+                <client-info>
+                    <strong slot="languageslabel">@sr["Client Languages"]</strong>
+                    <strong slot="languagelabel">@sr["Client Language"]</strong>
+                    <strong slot="agentlabel">@sr["User Agent"]</strong>
+                </client-info>
+                <vc:build-info></vc:build-info>
                 <mini-profiler position="RenderPosition.BottomRight" />
             </environment>
         </div>

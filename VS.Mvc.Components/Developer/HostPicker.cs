@@ -1,8 +1,9 @@
-﻿namespace VS.Mvc._ViewComponents.DevOnly {
+﻿namespace VS.Mvc.Components.Developer {
+
     using System;
     using Microsoft.AspNetCore.Mvc;
-    using VS.Mvc._Extensions;
-    using VS.Mvc._Services;
+    using VS.Abstractions.Culture;
+    using VS.Mvc.Components;
 
     public class HostPicker : LocalizedViewComponent {
 

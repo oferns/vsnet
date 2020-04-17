@@ -1,4 +1,4 @@
-﻿namespace VS.Mvc._Extensions {
+﻿namespace VS.Mvc.Components {
 
     using System;
     using System.Security.Claims;
@@ -11,9 +11,10 @@
     using Microsoft.AspNetCore.Mvc.ViewComponents;
     using Microsoft.AspNetCore.Mvc.ViewEngines;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
+    using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
     using Microsoft.AspNetCore.Routing;
     using Microsoft.Extensions.DependencyInjection;
-    using VS.Mvc._Extensions;
+    
 
     /// <summary>
     /// A base class for view components.

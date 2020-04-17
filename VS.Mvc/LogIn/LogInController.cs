@@ -9,7 +9,7 @@
     using System.Threading.Tasks;
     using VS.Core.Identity;
     using VS.Mvc._Extensions;
-    using VS.Mvc.LogIn._forms;
+    using VS.Mvc.Components.LogIn;
 
     [Controller]
     public class LogInController {

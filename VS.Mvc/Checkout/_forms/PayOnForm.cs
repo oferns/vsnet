@@ -10,7 +10,7 @@
     using VS.Core.Data;
     using VS.Core.Payment;
     using VS.Data.PostGres.Book;
-    using VS.Mvc._Extensions;
+    using VS.Mvc.Components;
 
     [ViewComponent(Name = "PayOnForm")]
     public class PayOnForm : LocalizedViewComponent {

@@ -4,7 +4,7 @@
     using Microsoft.AspNetCore.Mvc.Infrastructure;
     using Microsoft.Extensions.Localization;
     using System;
-    using VS.Mvc._Extensions;
+    using VS.Mvc.Components;
 
     [ViewComponent(Name = "ExceptionView")]
     public class ExceptionView : LocalizedViewComponent {

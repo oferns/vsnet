@@ -1,10 +1,10 @@
-﻿namespace VS.Mvc._ViewComponents {
+﻿namespace VS.Mvc.Components {
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
     using VS.Abstractions;
-    using VS.Mvc._Extensions;
+    
 
     [ViewComponent(Name="FormActions")]
     public class FormActions : LocalizedViewComponent {

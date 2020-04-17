@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
     using VS.Abstractions;
     using VS.Core.Storage;
-    using VS.Mvc._Extensions;
+    using VS.Mvc.Components;
 
     [ViewComponent(Name = "ExampleMessageList")]
     public class ExampleMessageList : LocalizedViewComponent {

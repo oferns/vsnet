@@ -1,4 +1,4 @@
-﻿namespace VS.Mvc._Extensions {
+﻿namespace VS.Mvc.Components {
 
     using System;
     using System.Globalization;
@@ -73,13 +73,14 @@
                 .Replace(componentName, string.Empty, StringComparison.OrdinalIgnoreCase)
                 .Replace('.', '/');
 
+
             var culturedPath = Path.Combine(viewPath, culturedComponentName) + ".cshtml";
             var basePath = Path.Combine(viewPath, componentName) + ".cshtml";
 
             ViewEngineResult result = viewEngine.GetView(viewPath, culturedPath, isMainPage: false);
 
             if (result == null || !result.Success) {
-                result = viewEngine.GetView(viewPath, basePath, isMainPage: false);
+                result = viewEngine.GetView(null, basePath, isMainPage: false);
 
             } else {
                 ViewName = culturedComponentName;
@@ -108,7 +109,7 @@
                     result.View,
                     ViewData ?? context.ViewData,
                     context.Writer);
-                await result.View.RenderAsync(childViewContext).ConfigureAwait(false);
+                await result.View.RenderAsync(childViewContext);
 
             }
         }

@@ -1,7 +1,7 @@
-﻿namespace VS.Mvc._ViewComponents.DevOnly {
-    using System.Reflection;
+﻿namespace VS.Mvc.Components.Developer {
     using Microsoft.AspNetCore.Mvc;
-    using VS.Mvc._Extensions;
+    using System.Reflection;
+    using VS.Mvc.Components;
 
     [ViewComponent(Name = "BuildInfo")]
     public class BuildInfo : LocalizedViewComponent {
@@ -16,7 +16,7 @@
 
             referencedassemblies.CopyTo(assemblies, 0);
 
-            return View(assemblies);   
-        }	
+            return View(assemblies);
+        }
     }
 }

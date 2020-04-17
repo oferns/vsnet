@@ -1,5 +1,4 @@
 namespace VS.Mvc {
-    using System;
     using MediatR;
     using Microsoft.AspNetCore.Antiforgery;
     using Microsoft.AspNetCore.Builder;
@@ -10,8 +9,9 @@ namespace VS.Mvc {
     using Serilog;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
+    using System;
+    using VS.Abstractions.Culture;
     using VS.Mvc._Extensions;
-    using VS.Mvc._Services;
     using VS.Mvc._Startup;
 
     public class Startup {

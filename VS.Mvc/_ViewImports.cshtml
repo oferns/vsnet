@@ -1,16 +1,22 @@
-﻿@using System.Globalization
+﻿@inherits VS.Mvc._Extensions.DebugPage<TModel>
+
+@using System.Globalization
 @using Microsoft.AspNetCore.Routing
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.Extensions.Primitives
 
 @using VS.Abstractions.Storage.Paging
-@using VS.Abstractions.Data.Paging 
+@using VS.Abstractions.Data.Paging
+@using VS.Mvc._Services
+@using VS.Mvc.Components
+@using VS.Abstractions.Culture
 
 @inject IViewLocalizer sr
 @inject LinkGenerator linkGen
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper *, VS.Mvc
+@addTagHelper *, VS.Mvc.Components
 @addTagHelper *, Westwind.AspNetCore.Markdown
 
 <environment include="Development">

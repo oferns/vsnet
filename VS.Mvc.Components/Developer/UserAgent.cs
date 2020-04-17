@@ -1,7 +1,8 @@
-﻿namespace VS.Mvc._ViewComponents.DevOnly {
+﻿namespace VS.Mvc.Components.Developer {
+
     using Microsoft.AspNetCore.Mvc;
     using UAParser.FormFactor;
-    using VS.Mvc._Extensions;
+    using VS.Mvc.Components;
 
     [ViewComponent(Name="UserAgentInfo")]
     public class UserAgent : LocalizedViewComponent {

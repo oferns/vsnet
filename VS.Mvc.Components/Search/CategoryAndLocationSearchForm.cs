@@ -1,7 +1,7 @@
-﻿namespace VS.Mvc.Search._forms {
+﻿namespace VS.Mvc.Components.Search {
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using VS.Mvc._Extensions;
+    using VS.Mvc.Components;
 
     [ViewComponent(Name = "CatAndLocSearchForm")]
     public class CategoryAndLocationSearchForm : LocalizedViewComponent {

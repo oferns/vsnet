@@ -1,17 +1,14 @@
-﻿
-namespace VS.Mvc._Extensions {
+﻿    namespace VS.Mvc._Extensions {
+
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.ApplicationParts;
     using Microsoft.AspNetCore.Mvc.Razor.Compilation;
-    using Microsoft.Extensions.Logging;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
-    using System.Threading.Tasks;
-    using VS.Abstractions;
+    using VS.Abstractions.Culture;
     using VS.Core.Identity;
-    using VS.Mvc._Services;
 
     public class MultiTenantViewCompilerProvider : IViewCompilerProvider {
         private readonly ApplicationPartManager applicationPartManager;
@@ -66,7 +63,7 @@ namespace VS.Mvc._Extensions {
 
 
         public IViewCompiler GetCompiler() {            
-             if (contextAccessor.HttpContext.Items["HostUdentity"] is ClaimsIdentity hostId) {
+             if (contextAccessor.HttpContext.Items["HostIdentity"] is ClaimsIdentity hostId) {
                 var host = hostId.FindFirst(IdClaimTypes.HostIdentifier);
                 if (host is object && compilers.ContainsKey(host.Value)) {
                     return compilers[host.Value];
