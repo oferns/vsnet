@@ -1,4 +1,4 @@
-﻿@model HostCultureOptions[]
+﻿@model VS.Abstractions.Culture.HostCultureOptions[]
 
 @if (Model is null || Model.Length == 0) { } else {
     var host = ViewContext.HttpContext.Request.Cookies["vshost"]?.ToString();

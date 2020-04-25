@@ -8,6 +8,10 @@
 
         public string ViewLibrary { get; set; }
 
+#if DEBUG
+        public string RelativePathToViewLibrarySource { get; set; }
+#endif
+
         public CultureInfo DefaultCulture {get;set;}
         public CultureInfo DefaultUICulture { get; set; }
 

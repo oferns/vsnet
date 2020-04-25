@@ -5,99 +5,104 @@
   margin: 0;
 }
 
-a {
-  text-decoration: none;
-}
 
 body {
-  display: grid;
-  grid-template-columns: 1fr; // 1 Column
-  grid-template-rows: auto 1fr auto; // Header - Main - Footer
-  min-height: 100vh; // At least as high as the viewport
-  font-size: 1em;
-
-  @include for-desktop-up {
-    margin: 0 10% 0; // Add side panels
-    font-size: 1.2em;
-  }
-
-  @include for-big-desktop-up {
-    margin: 0 20% 0; // Add side panels
-  }
-
-  > header {
     display: grid;
     grid-template-columns: 1fr; // 1 Column
-    padding: 0 0.25em 0 0.25em;
-    line-height: 2.5em;
-    align-items: center;
-    > section {
-      display: grid;
-      grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: auto 1fr auto; // Header - Main - Footer
+    min-height: 100vh; // At least as high as the viewport
+    font-size: 1em;
 
-      text-align: center;
-
-      > :first-child {
-        text-align: left;
-      }
-
-      > :last-child {
-        text-align: right;
-      }
+    @include for-desktop-up {
+        margin: 0 10% 0; // Add side panels
+        font-size: 1.2em;
     }
-  }
 
-  > main {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
-
-    > label[for="menuToggle"] {
-      display: inline-block;
-      padding: 0.25em;
-
-      @include for-desktop-up {
-        display: none;
-      }
+    @include for-big-desktop-up {
+        margin: 0 20% 0; // Add side panels
+        font-size: 1.4em;
     }
-    > nav#topNav {
-      display: grid;
-      grid-template-columns: 1fr;
-      grid-template-rows: auto;
-      text-align: left;
-      line-height: 2.5em;
-      a {
-        padding: 0 0.25em 0 0.25em;
-      }
 
-      @include for-desktop-up {
-        line-height: 4em;
+    > header {
         display: grid;
+        grid-template-columns: 1fr; // 1 Column
+        padding: 0 0.25em 0 0.25em;
+        line-height: 2.5em;
         align-items: center;
-        text-align: center;
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        opacity: 1;
-      }
+
+        @include for-desktop-up {
+            line-height: 5em;
+        }
+
+        > section {
+            display: grid;
+            grid-template-columns: 1fr 3fr 1fr;
+            text-align: center;
+
+            > :first-child {
+                text-align: left;
+            }
+
+            > :last-child {
+                text-align: right;
+            }
+        }
     }
 
-    > div#mainBody {
-      padding: 0 0.25em;
-      display: grid;
-      grid-template-columns: 1fr;
-
-      @include for-desktop-up {
+    > main {
+        display: grid;
+        grid-template-columns: 1fr;
         grid-template-rows: auto 1fr;
-      }
-    }
-  }
 
-  > footer {
-    display: grid;
-    > div {
-      padding: 0 0.25em;
-      display: grid;
+        > label[for="menuToggle"] {
+            display: inline-block;
+            padding: 0.25em;
+
+            @include for-desktop-up {
+                display: none;
+            }
+        }
+
+        > nav#topNav {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+            text-align: left;
+            line-height: 2.5em;
+
+            a {
+                padding: 0 0.25em 0 0.25em;
+            }
+
+            @include for-desktop-up {
+                line-height: 4em;
+                display: grid;
+                align-items: center;
+                text-align: center;
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                opacity: 1;
+            }
+        }
+
+        > div#mainBody {
+            padding: 0 0.25em;
+            display: grid;
+            grid-template-columns: 1fr;
+
+            @include for-desktop-up {
+                grid-template-rows: auto 1fr;
+            }
+        }
     }
-  }
+
+    > footer {
+        display: grid;
+
+        > div {
+            padding: 0 0.25em;
+            display: grid;
+        }
+    }
 }
 
 a#root {

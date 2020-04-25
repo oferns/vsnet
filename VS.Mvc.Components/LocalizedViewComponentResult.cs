@@ -109,8 +109,8 @@
                     result.View,
                     ViewData ?? context.ViewData,
                     context.Writer);
-                await result.View.RenderAsync(childViewContext);
 
+                await result.View.RenderAsync(childViewContext);
             }
         }
 

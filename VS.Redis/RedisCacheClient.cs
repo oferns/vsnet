@@ -48,7 +48,7 @@ namespace VS.Redis {
             }
             context.Log.LogInfo($"Key NOT found in Removal of {typeof(T).FullName} from Redis Cache with key {key} for user {context.User.Identity.Name}.");
             
-            return default(T);
+            return default;
         }
 
         public async ValueTask<T> Retrieve(string key, CancellationToken cancel) {

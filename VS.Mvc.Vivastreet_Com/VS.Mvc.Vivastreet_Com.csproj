@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
@@ -28,14 +28,6 @@
   
   <ItemGroup>
     <Content Remove="wwwroot\site.js" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <None Remove="_Layout.cshtml.old" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Content Include="_Layout.cshtml.old" />
   </ItemGroup>
   
 </Project>

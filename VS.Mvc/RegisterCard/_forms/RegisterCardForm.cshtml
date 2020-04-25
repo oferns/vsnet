@@ -1,5 +1,6 @@
 ﻿@model RegisterCardFormModel
 
+<h1> helllo from the form!</h1>
 @if (Model is object) {
     <form action=@Model.CardFormAction method="POST" lang="en">
         <input name="shopperResultUrl" type="hidden" value=@Model.ReturnUrl>

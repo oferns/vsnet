@@ -4,7 +4,6 @@
 @import "_Styles/_typography.scss";
 @import "_Styles/_breakpoints.scss";
 @import "_Styles/_nav.scss";
-@import "_Styles/_layout.scss";
 @import "_Styles/_forms.scss";
 
 @import "_Styles/fa/fontawesome.scss";
@@ -13,46 +12,55 @@
 
 @include font("Open-Sans", "/webfonts/os/OpenSans-Light");
 
+html:before{
+    background: transparent url("https://media-eu.viva-images.com/vivastreet_uk/home/Homepage_Static3.jpg") repeat-x;
+    background-size: 100% 100%;
+    content: " ";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin:-5em 0 0 0;
+    height:45em;
+    border:0;
+}
+
 body {
-  font-family: Open-Sans;
-  line-height: 1.5em;
-  background-color: $white;
-  background: url("https://media-eu.viva-images.com/vivastreet_uk/home/Homepage_Static3.jpg")
-    no-repeat;
-  background-attachment: fixed;
-  background-size: 100% 20em;
-  @include for-desktop-up {
-    background-size: 100% 31em;
-    background-position: unset;
-  }
+    position: relative;
+    font-family: Open-Sans;
+    line-height: 1.5em;
+    background-color: $white;
 
-  > header {
-    background-color: $primary;
 
-    @include for-desktop-up {
-      background-color: transparent;
-      line-height: 5em;
-    }
-  }
 
-  > main {
-    input#menuToggle:not(:checked) ~ nav#topNav {
-      opacity: 0.8;
-    }
+    > header {
+        background-color: $primary;
 
-    > nav#topNav {
-      @include for-desktop-up {
-        margin-top: 22em;
-        background-color: $grey;
-
-        opacity: 0.8;
-
-        a {
-          color: $white;
+        @include for-desktop-up {
+            background-color: transparent;
+            line-height: 5em;
         }
-      }
     }
-  }
+
+    > main {
+        input#menuToggle:not(:checked) ~ nav#topNav {
+            opacity: 0.8;
+        }
+
+        > nav#topNav {
+            @include for-desktop-up {
+                margin-top: 22em;
+                background-color: $grey;
+                opacity: 0.8;
+
+                a {
+                    color: $white;
+                }
+            }
+        }
+    }
 }
 
 label#searchLabel {
@@ -94,9 +102,13 @@ label#menuCloseLabel {
   }
 }
 
+@import "_Styles/_layout.scss";
+
+
 // THIS HAS TO BE THE LAST ENTRY TO PREVENT FOUC
 html {
   visibility: visible;
   opacity: 1;
   transition: opacity 0.15s ease-out;
 }
+

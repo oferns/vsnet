@@ -45,7 +45,7 @@ namespace VS.Mvc {
                     .AddHttpClient()
                     .AddHostBasedLocalization(cultureoptions.HostOptions)
                     .AddAppIdentity()
-                    .AddViewOptions(configuration.GetSection("AntiforgeryOptions").Get<AntiforgeryOptions>())
+                    .AddViewOptions(configuration.GetSection("AntiforgeryOptions").Get<AntiforgeryOptions>(), cultureoptions, env)
                     .AddSimpleInjector(container, options => {
                         options
                            .AddAspNetCore()

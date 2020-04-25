@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "~/_Layout.cshtml";
+}
+
+
+@section Title {
+    @RenderSection("Title", true)
+}
+
+@section Header {
+    @RenderSection("Header", false)
+}
+
+
+<h1>Extra Layout</h1>
+
+@RenderBody()

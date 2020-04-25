@@ -1,4 +1,4 @@
-﻿    namespace VS.Mvc._Extensions {
+﻿namespace VS.Mvc.Components.Razor {
 
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.ApplicationParts;
@@ -11,31 +11,36 @@
     using VS.Core.Identity;
 
     public class MultiTenantViewCompilerProvider : IViewCompilerProvider {
-        private readonly ApplicationPartManager applicationPartManager;
+        
         private readonly IHttpContextAccessor contextAccessor;
-        private readonly CultureOptions cultureOptions;
-
+       
 
         private readonly IDictionary<string, IViewCompiler> compilers = new Dictionary<string, IViewCompiler>();
 
-        public MultiTenantViewCompilerProvider(
-            ApplicationPartManager applicationPartManager,
-            IHttpContextAccessor contextAccessor,            
-            CultureOptions cultureOptions) {
+        public MultiTenantViewCompilerProvider(ApplicationPartManager applicationPartManager, IHttpContextAccessor contextAccessor,  CultureOptions cultureOptions) {
 
-            this.applicationPartManager = applicationPartManager ?? throw new ArgumentNullException(nameof(applicationPartManager));
+            if (applicationPartManager is null) {
+                throw new ArgumentNullException(nameof(applicationPartManager));
+            }
+
+            if (cultureOptions is null) {
+                throw new ArgumentNullException(nameof(cultureOptions));
+            }
+
             this.contextAccessor = contextAccessor ?? throw new ArgumentNullException(nameof(contextAccessor));
-            this.cultureOptions = cultureOptions ?? throw new ArgumentNullException(nameof(cultureOptions));
 
             var feature = new ViewsFeature();
             applicationPartManager.PopulateFeature(feature);
+                       
+            var defaultViews = new List<CompiledViewDescriptor>();
 
-            var defaultViews = feature.ViewDescriptors.Where(d => d.Item.Type.Assembly.GetName().Name.Equals($"{this.GetType().Assembly.GetName().Name}.Views"));
+            foreach (var descriptor in feature.ViewDescriptors) {
+                if (!defaultViews.Any(v => v.RelativePath.Equals(descriptor.RelativePath))) {
+                    defaultViews.Add(descriptor);
+                }
+            }
 
-            compilers.Add("default", new MultiTenantViewCompiler(defaultViews.ToList()));
-
-            var viewLibs = applicationPartManager.ApplicationParts.Where(p => p is CompiledRazorAssemblyPart).Select(p => p as CompiledRazorAssemblyPart);
-            var viewFeatures = applicationPartManager.ApplicationParts.OfType<IRazorCompiledItemProvider>();
+            compilers.Add("default", new MultiTenantViewCompiler(defaultViews));
 
 
             foreach (var host in cultureOptions.HostOptions) {
@@ -60,7 +65,6 @@
                 compilers.Add(host.Host, new MultiTenantViewCompiler(viewDescriptors));
             }
         }
-
 
         public IViewCompiler GetCompiler() {            
              if (contextAccessor.HttpContext.Items["HostIdentity"] is ClaimsIdentity hostId) {

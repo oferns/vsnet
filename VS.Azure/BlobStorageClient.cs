@@ -23,7 +23,7 @@
             this.serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
         }
 
-        private OperationContext Context => context ?? (context = new OperationContext { LogLevel = (LogLevel)1 });
+        private OperationContext Context => context ??= new OperationContext { LogLevel = (LogLevel)1 };
 
         public Uri BaseUri => client.BaseUri;
 

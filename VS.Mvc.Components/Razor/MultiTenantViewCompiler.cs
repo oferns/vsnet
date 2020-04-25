@@ -1,5 +1,4 @@
-﻿
-namespace VS.Mvc._Extensions {
+﻿namespace VS.Mvc.Components.Razor {
 
     using Microsoft.AspNetCore.Mvc.Razor.Compilation;
     using Microsoft.Extensions.Primitives;
@@ -77,7 +76,7 @@ namespace VS.Mvc._Extensions {
 
             return normalizedPath;
         }
-        
+
         private static string NormalizePath(string path) {
             var addLeadingSlash = path[0] != '\\' && path[0] != '/';
             var transformSlashes = path.IndexOf('\\') != -1;
