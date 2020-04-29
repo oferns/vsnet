@@ -48,21 +48,6 @@
                 if (!this.precompiledViews.ContainsKey(compiledView.RelativePath)) {
                     this.precompiledViews.Add(compiledView.RelativePath, compiledView);
                 }
-
-
-
-                //if (!this.cache.TryGetValue(normalizedPath, out _)) {
-
-                //    logger.LogInformation($"Adding {normalizedPath} to the cache");
-                //    var item = CreatePrecompiledWorkItem(normalizedPath, compiledView);
-
-                //    var cacheEntryOptions = new MemoryCacheEntryOptions();
-                //    foreach (var token in item.ExpirationTokens) {
-                //        cacheEntryOptions.ExpirationTokens.Add(token);
-                //    }
-
-                //    this.cache.Set(compiledView.RelativePath, Task.FromResult(item.Descriptor), cacheEntryOptions);
-                //}
             }
         }
 
@@ -71,39 +56,26 @@
                 throw new ArgumentNullException(nameof(relativePath));
             }
 
-            logger.LogInformation($"Compiling {relativePath}");
+            logger.LogInformation($"{relativePath} - RelPath Looking in the Compiler Live Memory Cache"); 
 
             // Attempt to lookup the cache entry using the passed in path. This will succeed if the path is already
             // normalized and a cache entry exists.
             if (cache.TryGetValue(relativePath, out Task<CompiledViewDescriptor> cachedResult)) {
-                logger.LogInformation($"{relativePath} found in the cache");
+                logger.LogInformation($"{relativePath} - RelPath Found in the Compiler Live Memory Cache");
                 return cachedResult;
             }
 
-            logger.LogInformation($"Missed {relativePath}");
+            logger.LogInformation($"{relativePath} - RelPath Not found in the Compiler Live Memory Cache");
 
             var normalizedPath = GetNormalizedPath(relativePath);
 
+
             if (!(normalizedPath.Equals(relativePath)) && cache.TryGetValue(normalizedPath, out cachedResult)) {
-                logger.LogInformation($"{normalizedPath} found in the cache");
+                logger.LogInformation($"{relativePath} - NormPath Looking in the Compiler Live Memory Cache");                
                 return cachedResult;
             }
 
-            //if (precompiledViews.ContainsKey(normalizedPath)) {
-            //    var view = precompiledViews[normalizedPath];
-            //    var item = CreatePrecompiledWorkItem(normalizedPath, view);
-
-            //    var cacheEntryOptions = new MemoryCacheEntryOptions();
-            //    foreach (var token in item.ExpirationTokens) {
-            //        cacheEntryOptions.ExpirationTokens.Add(token);
-            //    }
-
-            //    var task = Task.FromResult(item.Descriptor);
-            //    this.cache.Set(normalizedPath, task, cacheEntryOptions);               
-            //    return task;
-            //}
-
-            logger.LogInformation($"{normalizedPath} not found in the cache");
+            logger.LogInformation($"{normalizedPath} NormPath Not found in the Compiler Live Memory Cache");
 
             // Entry does not exist. Attempt to create one.
             cachedResult = OnCacheMiss(normalizedPath);
@@ -330,8 +302,7 @@
         }
 
         internal Assembly CompileAndEmit(RazorCodeDocument codeDocument, string generatedCode, RazorProjectEngine engine) {
-            // _logger.GeneratedCodeToAssemblyCompilationStart(codeDocument.Source.FilePath);
-
+            
             var startTimestamp = logger.IsEnabled(LogLevel.Debug) ? Stopwatch.GetTimestamp() : 0;
 
             var assemblyName = Path.GetRandomFileName();
@@ -423,7 +394,5 @@
             public CompiledViewDescriptor Descriptor { get; set; }
         }
 
-
-        private class CacheResult { }
     }
 }

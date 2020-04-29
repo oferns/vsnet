@@ -1,11 +1,10 @@
 ﻿namespace VS.Mvc.Components.Razor {
 
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;    
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Razor;
     using Microsoft.AspNetCore.Mvc.ViewEngines;
     using Microsoft.Extensions.Caching.Memory;
-    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using Microsoft.Extensions.Primitives;
     using System;
@@ -25,7 +24,7 @@
         private const string ControllerKey = "controller";
         private const string PageKey = "page";
 
-        private static readonly TimeSpan _cacheExpirationDuration = TimeSpan.FromSeconds(20);    // TODO CHANGE THIS BACK TO MINUTES
+        private static readonly TimeSpan _cacheExpirationDuration = TimeSpan.FromMinutes(20);    // TODO CHANGE THIS BACK TO MINUTES
 
         private readonly IRazorPageFactoryProvider pageFactory;
         private readonly IRazorPageActivator pageActivator;

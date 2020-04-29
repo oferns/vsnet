@@ -1,17 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.CodeAnalysis;
-using Microsoft.Extensions.Options;
+﻿namespace VS.Mvc.Components.Razor.Runtime {
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc.ApplicationParts;
+    using Microsoft.CodeAnalysis;
+    using Microsoft.Extensions.Options;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection.PortableExecutable;
+    using System.Threading;
 
-namespace VS.Mvc.Components.Razor.Runtime {
     public class RazorReferenceManager {
         private readonly ApplicationPartManager _partManager;
         private readonly MvcRazorRuntimeCompilationOptions _options;

@@ -12,9 +12,6 @@
     using Microsoft.CodeAnalysis.Razor;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
-    using Microsoft.Extensions.Options;
-    using Microsoft.VisualBasic;
-    using SimpleInjector;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -119,26 +116,7 @@
                 return dictionary;
             });
 
-            return services.Configure<RazorViewEngineOptions>(options => {
-
-                // Clear the defaults
-                options.AreaViewLocationFormats.Clear();
-                options.ViewLocationFormats.Clear();
-                options.ViewLocationExpanders.Clear();
-
-                options.ViewLocationExpanders.Add(new SubAreaViewLocationExpander());
-                options.ViewLocationExpanders.Add(new UICultureViewLocationExpander());
-
-                // {2} is area, {1} is controller {0} is the action            
-                options.AreaViewLocationFormats.Add("/{2}/{1}/{0}" + RazorViewEngine.ViewExtension);
-                options.AreaViewLocationFormats.Add("/{2}/{0}" + RazorViewEngine.ViewExtension);
-                options.AreaViewLocationFormats.Add("/{0}" + RazorViewEngine.ViewExtension);
-
-                // {1} is controller {0} is the action
-                options.ViewLocationFormats.Add("/{1}/{0}" + RazorViewEngine.ViewExtension);
-                options.ViewLocationFormats.Add("/{0}" + RazorViewEngine.ViewExtension);
-            })
-                .AddControllersWithViews(o => {
+            return services.AddControllersWithViews(o => {
                     o.EnableEndpointRouting = true;
                     o.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
                 })
@@ -148,8 +126,26 @@
                 })
 
                 .AddDataAnnotationsLocalization().Services
-                .AddAntiforgery(o => o = antiforgeryOptions);
+                .AddAntiforgery(o => o = antiforgeryOptions)
+                .Configure<RazorViewEngineOptions>(options => {
 
+                    // Clear the defaults
+                    options.AreaViewLocationFormats.Clear();
+                    options.ViewLocationFormats.Clear();
+                    options.ViewLocationExpanders.Clear();
+
+                    options.ViewLocationExpanders.Add(new SubAreaViewLocationExpander());
+                    options.ViewLocationExpanders.Add(new UICultureViewLocationExpander());
+
+                    // {2} is area, {1} is controller {0} is the action            
+                    options.AreaViewLocationFormats.Add("/{2}/{1}/{0}" + RazorViewEngine.ViewExtension);
+                    options.AreaViewLocationFormats.Add("/{2}/{0}" + RazorViewEngine.ViewExtension);
+                    options.AreaViewLocationFormats.Add("/{0}" + RazorViewEngine.ViewExtension);
+
+                    // {1} is controller {0} is the action
+                    options.ViewLocationFormats.Add("/{1}/{0}" + RazorViewEngine.ViewExtension);
+                    options.ViewLocationFormats.Add("/{0}" + RazorViewEngine.ViewExtension);
+                });
         }
     }
 }
