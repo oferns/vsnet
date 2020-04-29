@@ -89,21 +89,19 @@
                 return cachedResult;
             }
 
+            //if (precompiledViews.ContainsKey(normalizedPath)) {
+            //    var view = precompiledViews[normalizedPath];
+            //    var item = CreatePrecompiledWorkItem(normalizedPath, view);
 
-            if (precompiledViews.ContainsKey(normalizedPath)) {
-                var view = precompiledViews[normalizedPath];
-                var item = CreatePrecompiledWorkItem(normalizedPath, view);
+            //    var cacheEntryOptions = new MemoryCacheEntryOptions();
+            //    foreach (var token in item.ExpirationTokens) {
+            //        cacheEntryOptions.ExpirationTokens.Add(token);
+            //    }
 
-                var cacheEntryOptions = new MemoryCacheEntryOptions();
-                foreach (var token in item.ExpirationTokens) {
-                    cacheEntryOptions.ExpirationTokens.Add(token);
-                }
-
-                var task = Task.FromResult(item.Descriptor);
-                this.cache.Set(normalizedPath, task, cacheEntryOptions);
-                // precompiledViews.Remove(normalizedPath);
-                return task;
-            }
+            //    var task = Task.FromResult(item.Descriptor);
+            //    this.cache.Set(normalizedPath, task, cacheEntryOptions);               
+            //    return task;
+            //}
 
             logger.LogInformation($"{normalizedPath} not found in the cache");
 
@@ -131,8 +129,13 @@
                 if (cache.TryGetValue(normalizedPath, out Task<CompiledViewDescriptor> result)) {
                     return result;
                 }
-             
-                item = CreateRuntimeCompilationWorkItem(normalizedPath);               
+
+                if (precompiledViews.TryGetValue(normalizedPath, out var precompiledView)) {
+                    item = CreatePrecompiledWorkItem(normalizedPath, precompiledView);
+                } else {
+                    item = CreateRuntimeCompilationWorkItem(normalizedPath);
+                }
+
                 var tokens = new List<IChangeToken>();
                 taskSource = new TaskCompletionSource<CompiledViewDescriptor>(creationOptions: TaskCreationOptions.RunContinuationsAsynchronously);
                 tokens.AddRange(item.ExpirationTokens);
@@ -158,12 +161,24 @@
                     var engine = projectEngines[item.Descriptor?.Item.Type.Assembly.GetName().Name];
 
                     // If the item has checksums to validate, we should also have a precompiled view.
-
+                    
+                    // If nothing changed serve that mofo
                     if (ChecksumValidator.IsItemValid(engine.FileSystem, item.Descriptor.Item)) {
                         Debug.Assert(item.Descriptor != null);
 
                         taskSource.SetResult(item.Descriptor);
                         return taskSource.Task;
+                    }
+                    
+                    // Otherwise try to recompile
+                    try {
+                        var descriptor = CompileAndEmit(normalizedPath, engine);
+                        descriptor.ExpirationTokens = cacheEntryOptions.ExpirationTokens;
+                        taskSource.SetResult(descriptor);
+                        return taskSource.Task;
+                    } catch (Exception ex) {
+                        logger.LogError(ex, "Razor blowup");
+                        taskSource.SetException(ex);
                     }
                 }
 
@@ -256,7 +271,7 @@
                 ExpirationTokens = allTokens,
                 Descriptor = exists ? default : new CompiledViewDescriptor() {
                     RelativePath = normalizedPath,
-                    ExpirationTokens = allTokens,
+                    ExpirationTokens = allTokens
                 }
             };
         }
@@ -407,5 +422,8 @@
 
             public CompiledViewDescriptor Descriptor { get; set; }
         }
+
+
+        private class CacheResult { }
     }
 }

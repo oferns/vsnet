@@ -66,6 +66,7 @@
 
             services.AddTransient<IViewLocalizer, ViewLocalizer>();
             services.AddTransient<IHtmlLocalizerFactory, HtmlLocalizerFactory>();
+            services.AddTransient<IRazorPageFactoryProvider, MultiTenantRuntimePageFactoryProvider>();
 
             //services.AddSingleton<IRazorViewEngine, MultiTenantRazorViewEngine>();
             //services.AddSingleton<IViewCompilerProvider, MultiTenantViewCompilerProvider>();

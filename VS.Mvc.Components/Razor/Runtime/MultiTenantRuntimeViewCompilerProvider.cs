@@ -3,14 +3,11 @@
     using Microsoft.AspNetCore.Mvc.ApplicationParts;
     using Microsoft.AspNetCore.Mvc.Razor.Compilation;
     using Microsoft.AspNetCore.Razor.Language;
-    using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Logging;
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Security.Claims;
-    using System.Threading;
     using VS.Abstractions.Culture;
     using VS.Core.Identity;
 

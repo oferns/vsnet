@@ -9,6 +9,7 @@
     using Microsoft.Extensions.Options;
     using Microsoft.Extensions.Primitives;
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
@@ -31,6 +32,10 @@
         private readonly HtmlEncoder htmlEncoder;
         private readonly RazorViewEngineOptions options;        
         private readonly DiagnosticListener diagnosticListener;
+
+
+        private readonly ConcurrentDictionary<string, string> OriginalViewTypeCache = new ConcurrentDictionary<string, string>();
+
 
         public MultiTenantRazorViewEngine(IHttpContextAccessor contextAccessor,
                                             IRazorPageFactoryProvider pageFactory,
@@ -326,9 +331,14 @@
                     GetViewStartPages(viewDescriptor.RelativePath, expirationTokens) :
                     Array.Empty<ViewLocationCacheItem>();
 
+                var originAssemblyName = viewDescriptor.Item.Type.Assembly.GetName().Name;
+                
+                if (this.OriginalViewTypeCache.ContainsKey(relativePath)) {
+                    originAssemblyName = OriginalViewTypeCache[relativePath];
+                }
                 
                 return new ViewLocationCacheResult(
-                    new ViewLocationCacheItem(factoryResult.RazorPageFactory, relativePath, viewDescriptor.Item.Type.Assembly.GetName().Name),
+                    new ViewLocationCacheItem(factoryResult.RazorPageFactory, relativePath, originAssemblyName),
                     viewStartPages);
             }
 
