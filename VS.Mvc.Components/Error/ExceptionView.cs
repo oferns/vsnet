@@ -1,4 +1,4 @@
-﻿namespace VS.Mvc.Error._views {
+﻿namespace VS.Mvc.Components.Error {
     using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Infrastructure;

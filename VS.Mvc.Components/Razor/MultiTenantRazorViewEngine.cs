@@ -24,7 +24,8 @@
         private const string ControllerKey = "controller";
         private const string PageKey = "page";
 
-        private static readonly TimeSpan _cacheExpirationDuration = TimeSpan.FromMinutes(20);
+        private static readonly TimeSpan _cacheExpirationDuration = TimeSpan.FromSeconds(20);    // TODO CHANGE THIS BACK TO MINUTES
+
         private readonly IRazorPageFactoryProvider pageFactory;
         private readonly IRazorPageActivator pageActivator;
         private readonly HtmlEncoder htmlEncoder;
@@ -365,10 +366,16 @@
 
             var page = result.ViewEntry.PageFactory();
 
-            var viewStarts = new IRazorPage[result.ViewStartEntries.Count];
-            for (var i = 0; i < viewStarts.Length; i++) {
+            var viewStarts = new List<IRazorPage>();
+
+            var cnt = result.ViewStartEntries.Count;
+
+            // var viewStarts = new IRazorPage[result.ViewStartEntries.Count];
+            for (var i = 0; i < cnt; i++) {
                 var viewStartItem = result.ViewStartEntries[i];
-                viewStarts[i] = viewStartItem.PageFactory();
+                if (viewStartItem.SourceAssemblyName.Equals(result.ViewEntry.SourceAssemblyName)) {
+                    viewStarts.Add(viewStartItem.PageFactory());
+                }
             }
 
             var view = new DebugRazorView(result.ViewEntry.SourceAssemblyName, this, pageActivator, viewStarts, page, htmlEncoder, diagnosticListener);

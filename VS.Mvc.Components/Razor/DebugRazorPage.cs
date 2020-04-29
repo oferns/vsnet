@@ -2,11 +2,9 @@
     using Microsoft.AspNetCore.Html;
     using Microsoft.AspNetCore.Mvc.Razor;
     using System;
-    using System.Text;
     using System.Threading.Tasks;
 
     public abstract class DebugRazorPage<T> : RazorPage<T> {
-
 
         private readonly string assemblyName;
 
@@ -54,7 +52,6 @@
             });
             
         }
-
 
         private void EnsureMethodCanBeInvoked(string methodName) {
             if (PreviousSectionWriters == null) {

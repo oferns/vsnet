@@ -1,4 +1,4 @@
-﻿namespace VS.Mvc.RegisterCard._forms {
+﻿namespace VS.Mvc.Components.RegisterCard {
     using System;
     using System.Threading.Tasks;
     using MediatR;

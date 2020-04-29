@@ -1,4 +1,4 @@
-﻿namespace VS.Mvc.RegisterCard._lists {
+﻿namespace VS.Mvc.Components.RegisterCard {
     using System;
     using System.Threading.Tasks;
     using MediatR;

@@ -13,6 +13,8 @@
         <select name="paymentBrand">
             <option value="MASTER">Mastercard</option>
             <option value="VISA">Visa</option>
+            <option value="VISA">AMEX</option>
+            <option value="VISA">BOLETO</option>
         </select>
     </section>
 
@@ -41,5 +43,5 @@
 
 
 <section>
-    <form action=@Model.ReturnUrl class="paymentWidgets" data-brands="VISA MASTER AMEX"></form>
+    <form action=@Model.ReturnUrl class="paymentWidgets" data-brands="VISA MASTER AMEX BOLETO"></form>
 </section>

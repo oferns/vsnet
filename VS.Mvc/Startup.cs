@@ -76,7 +76,7 @@ namespace VS.Mvc {
             _ = app
                 .UseSerilogRequestLogging()
                 .ProxyForwardHeaders()
-                .UseStaticFiles(new StaticFileOptions() { ContentTypeProvider = new WebManifestTypeContentProvider() })
+                .UseStaticFiles()
                 .UseRequestCorrelation()
                 .UseSimpleInjector(container)
                 .UseHostBasedLocalization()

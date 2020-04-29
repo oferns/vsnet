@@ -1,6 +1,4 @@
-﻿
-namespace VS.Mvc.Components.Razor {
-
+﻿namespace VS.Mvc.Components.Razor {
 
     using Microsoft.AspNetCore.Mvc.Razor;
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,12 +15,12 @@ namespace VS.Mvc.Components.Razor {
             this.sourceAssembly = sourceAssembly;
         }
 
-        public override async Task RenderAsync(ViewContext context) {
-            context.Writer.WriteLine($"{context.Writer.NewLine}<!-- in {sourceAssembly}:{context.View.Path} -->{context.Writer.NewLine}");
-            await base.RenderAsync(context);
-            context.Writer.WriteLine($"{context.Writer.NewLine}<!-- out {sourceAssembly}:{context.View.Path} -->{context.Writer.NewLine}");
-            
-        }
-
+        public override Task RenderAsync(ViewContext context) {            
+           
+            context.Writer.WriteLine($"<!-- in {sourceAssembly}:{context.View.Path} -->");            
+            return base.RenderAsync(context).ContinueWith((r) => {
+                context.Writer.WriteLine($"<!-- out {sourceAssembly}:{context.View.Path} -->");
+            });
+        }       
     }
 }

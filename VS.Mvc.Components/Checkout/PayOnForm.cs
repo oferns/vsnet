@@ -1,4 +1,4 @@
-﻿namespace VS.Mvc.Checkout._forms {
+﻿namespace VS.Mvc.Components.Checkout {
     using System;
     using System.Threading.Tasks;
     using MediatR;

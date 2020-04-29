@@ -23,7 +23,7 @@
 
         [HttpGet]
         [NavLink("User", "Log In", 0)]
-        public IActionResult Index() => new ViewResult { ViewName = "Login" };
+        public IActionResult Index() => new ViewResult { ViewName = "LogIn" };
 
         [HttpPost]
         [ValidateAntiForgeryToken]                                                                                                                                                                                                                                                   
@@ -43,7 +43,7 @@
 
             // TODO: Flash a message
 
-            return new ViewResult { ViewName = "Login" };
+            return new ViewResult { ViewName = "LogIn" };
         }
 
 

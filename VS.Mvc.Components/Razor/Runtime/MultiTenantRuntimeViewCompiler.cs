@@ -1,5 +1,4 @@
 ﻿namespace VS.Mvc.Components.Razor.Runtime {
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Razor.Compilation;
     using Microsoft.AspNetCore.Razor.Hosting;
     using Microsoft.AspNetCore.Razor.Language;
@@ -18,23 +17,24 @@
     using System.Linq;
     using System.Reflection;
     using System.Text;
-    using System.Threading;
     using System.Threading.Tasks;
 
     public class MultiTenantRuntimeViewCompiler : IViewCompiler {
 
+
+        private readonly Dictionary<string, CompiledViewDescriptor> precompiledViews = new Dictionary<string, CompiledViewDescriptor>();
+
+        private readonly IMemoryCache cache = new MemoryCache(new MemoryCacheOptions());
         private readonly object cacheLock = new object();
-        private readonly IDictionary<string, CompiledViewDescriptor> compiledViews;
-
-        private readonly IMemoryCache cache;
-
-        private readonly ConcurrentDictionary<string, string> normalizedPathCache;
+        
+        private readonly IDictionary<string, string> normalizedPathCache = new ConcurrentDictionary<string, string>(StringComparer.Ordinal);
         private readonly IDictionary<string, RazorProjectEngine> projectEngines;
 
         private readonly ILogger logger;
         private readonly CSharpCompiler csharpCompiler;
 
-        public MultiTenantRuntimeViewCompiler(IDictionary<string, RazorProjectEngine> projectEngines,
+        public MultiTenantRuntimeViewCompiler(
+            IDictionary<string, RazorProjectEngine> projectEngines,
             CSharpCompiler csharpCompiler,
             IList<CompiledViewDescriptor> compiledViews,
             ILogger logger) {
@@ -42,31 +42,27 @@
             this.projectEngines = projectEngines;
             this.csharpCompiler = csharpCompiler;
             this.logger = logger;
-
-            // This is our L0 cache, and is a durable store. Views migrate into the cache as they are requested
-            // from either the set of known precompiled views, or by being compiled.
-            cache = new MemoryCache(new MemoryCacheOptions());
-
-
-            normalizedPathCache = new ConcurrentDictionary<string, string>(StringComparer.Ordinal);
-
-            // We need to validate that the all of the precompiled views are unique by path (case-insensitive).
-            // We do this because there's no good way to canonicalize paths on windows, and it will create
-            // problems when deploying to linux. Rather than deal with these issues, we just don't support
-            // views that differ only by case.
-            this.compiledViews = new Dictionary<string, CompiledViewDescriptor>(
-                compiledViews.Count,
-                StringComparer.OrdinalIgnoreCase);
-
+           
             foreach (var compiledView in compiledViews) {
 
-                if (!this.compiledViews.ContainsKey(compiledView.RelativePath)) {
-                    // View ordering has precedence semantics, a view with a higher precedence was not
-                    // already added to the list.
-
-
-                    this.compiledViews.Add(compiledView.RelativePath, compiledView);
+                if (!this.precompiledViews.ContainsKey(compiledView.RelativePath)) {
+                    this.precompiledViews.Add(compiledView.RelativePath, compiledView);
                 }
+
+
+
+                //if (!this.cache.TryGetValue(normalizedPath, out _)) {
+
+                //    logger.LogInformation($"Adding {normalizedPath} to the cache");
+                //    var item = CreatePrecompiledWorkItem(normalizedPath, compiledView);
+
+                //    var cacheEntryOptions = new MemoryCacheEntryOptions();
+                //    foreach (var token in item.ExpirationTokens) {
+                //        cacheEntryOptions.ExpirationTokens.Add(token);
+                //    }
+
+                //    this.cache.Set(compiledView.RelativePath, Task.FromResult(item.Descriptor), cacheEntryOptions);
+                //}
             }
         }
 
@@ -75,16 +71,41 @@
                 throw new ArgumentNullException(nameof(relativePath));
             }
 
+            logger.LogInformation($"Compiling {relativePath}");
+
             // Attempt to lookup the cache entry using the passed in path. This will succeed if the path is already
             // normalized and a cache entry exists.
             if (cache.TryGetValue(relativePath, out Task<CompiledViewDescriptor> cachedResult)) {
+                logger.LogInformation($"{relativePath} found in the cache");
                 return cachedResult;
             }
 
+            logger.LogInformation($"Missed {relativePath}");
+
             var normalizedPath = GetNormalizedPath(relativePath);
-            if (cache.TryGetValue(normalizedPath, out cachedResult)) {
+
+            if (!(normalizedPath.Equals(relativePath)) && cache.TryGetValue(normalizedPath, out cachedResult)) {
+                logger.LogInformation($"{normalizedPath} found in the cache");
                 return cachedResult;
             }
+
+
+            if (precompiledViews.ContainsKey(normalizedPath)) {
+                var view = precompiledViews[normalizedPath];
+                var item = CreatePrecompiledWorkItem(normalizedPath, view);
+
+                var cacheEntryOptions = new MemoryCacheEntryOptions();
+                foreach (var token in item.ExpirationTokens) {
+                    cacheEntryOptions.ExpirationTokens.Add(token);
+                }
+
+                var task = Task.FromResult(item.Descriptor);
+                this.cache.Set(normalizedPath, task, cacheEntryOptions);
+                // precompiledViews.Remove(normalizedPath);
+                return task;
+            }
+
+            logger.LogInformation($"{normalizedPath} not found in the cache");
 
             // Entry does not exist. Attempt to create one.
             cachedResult = OnCacheMiss(normalizedPath);
@@ -93,7 +114,6 @@
 
         private IFileProvider GetProviderFromRazorProjectEngine(RazorProjectEngine engine) {
             return ((FileProviderRazorProjectFileSystem)engine.FileSystem).FileProvider;
-
         }
 
         private Task<CompiledViewDescriptor> OnCacheMiss(string normalizedPath) {
@@ -111,25 +131,18 @@
                 if (cache.TryGetValue(normalizedPath, out Task<CompiledViewDescriptor> result)) {
                     return result;
                 }
-
-                if (compiledViews.TryGetValue(normalizedPath, out var precompiledView)) {
-                    // _logger.ViewCompilerLocatedCompiledViewForPath(normalizedPath);
-                    item = CreatePrecompiledWorkItem(normalizedPath, precompiledView);
-                } else {
-                    item = CreateRuntimeCompilationWorkItem(normalizedPath);
-                }
-
+             
+                item = CreateRuntimeCompilationWorkItem(normalizedPath);               
                 var tokens = new List<IChangeToken>();
                 taskSource = new TaskCompletionSource<CompiledViewDescriptor>(creationOptions: TaskCreationOptions.RunContinuationsAsynchronously);
-
                 tokens.AddRange(item.ExpirationTokens);
-            
+
                 if (!item.SupportsCompilation) {
                     taskSource.SetResult(item.Descriptor);
                 }
-                
+
                 cacheEntryOptions = new MemoryCacheEntryOptions();
-                
+
                 foreach (var token in tokens) {
                     cacheEntryOptions.ExpirationTokens.Add(token);
                 }
@@ -159,18 +172,21 @@
                 var exceptions = new List<Exception>();
 
                 foreach (var engine in projectEngines) {
-                    try {
-                        var descriptor = CompileAndEmit(normalizedPath, engine.Value);
-                        descriptor.ExpirationTokens = cacheEntryOptions.ExpirationTokens;
-                        taskSource.SetResult(descriptor);
-                        return taskSource.Task;
-                    } catch (Exception ex) {
-                        exceptions.Add(ex);
-                        logger.LogError(ex, "Razor blowup");
+                    var file = engine.Value.FileSystem.GetItem(normalizedPath, null);
+                    if (file.Exists) {
+                        try {
+                            var descriptor = CompileAndEmit(normalizedPath, engine.Value);
+                            descriptor.ExpirationTokens = cacheEntryOptions.ExpirationTokens;
+                            taskSource.SetResult(descriptor);
+                            return taskSource.Task;
+                        } catch (Exception ex) {
+                            exceptions.Add(ex);
+                            logger.LogError(ex, "Razor blowup");
+                        }
                     }
                 }
                 if (exceptions.Count > 0) {
-                    taskSource.SetException(exceptions.AsEnumerable());                                                
+                    taskSource.SetException(exceptions.AsEnumerable());
                 }
             }
 
@@ -241,23 +257,23 @@
                 Descriptor = exists ? default : new CompiledViewDescriptor() {
                     RelativePath = normalizedPath,
                     ExpirationTokens = allTokens,
-                } 
+                }
             };
         }
 
         private IList<IChangeToken> GetExpirationTokens(CompiledViewDescriptor precompiledView) {
             var checksums = precompiledView.Item.GetChecksumMetadata();
             var expirationTokens = new List<IChangeToken>(checksums.Count);
-            
+
             foreach (var engine in projectEngines) {
-                            
+
                 var provider = GetProviderFromRazorProjectEngine(engine.Value);
                 for (var i = 0; i < checksums.Count; i++) {
                     // We rely on Razor to provide the right set of checksums. Trust the compiler, it has to do a good job,
                     // so it probably will.
 
                     expirationTokens.Add(provider.Watch(checksums[i].Identifier));
-                }     
+                }
             }
             return expirationTokens;
         }
@@ -340,6 +356,7 @@
 
         private string GetNormalizedPath(string relativePath) {
             Debug.Assert(relativePath != null);
+            logger.LogInformation($"Normalizing {relativePath}");
             if (relativePath.Length == 0) {
                 return relativePath;
             }
@@ -349,9 +366,10 @@
                 normalizedPathCache[relativePath] = normalizedPath;
             }
 
+            logger.LogInformation($"Normalization result: Was {relativePath} Now {normalizedPath}");
+
             return normalizedPath;
         }
-
 
         public static string NormalizePath(string path) {
             var addLeadingSlash = path[0] != '\\' && path[0] != '/';

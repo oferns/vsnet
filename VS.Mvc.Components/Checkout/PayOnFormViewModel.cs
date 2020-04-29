@@ -1,4 +1,4 @@
-﻿namespace VS.Mvc.Checkout {
+﻿namespace VS.Mvc.Components.Checkout {
 
     using System;
     using System.Collections.Generic;

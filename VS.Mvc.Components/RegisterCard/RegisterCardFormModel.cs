@@ -1,4 +1,4 @@
-﻿namespace VS.Mvc.RegisterCard {
+﻿namespace VS.Mvc.Components.RegisterCard {
 
     using System;
     using System.Collections.Generic;

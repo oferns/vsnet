@@ -3,7 +3,7 @@
     "VS.Mvc": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:5000/",
+      "launchUrl": "http://localhost:5000/log-in",
       "environmentVariables": {
         "PG_USER": "postgres",
         "YOTI_SDK_ID": "80bd1050-57f1-45c8-bdf6-8f9284a62952",
