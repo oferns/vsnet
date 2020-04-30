@@ -6,8 +6,9 @@
     using VS.Mvc._Extensions;
 
     public class LanguageSwitchingMiddleware : IMiddleware {
-                          
-        public async Task InvokeAsync(HttpContext context, RequestDelegate next) {
+
+        public Task InvokeAsync(HttpContext context, RequestDelegate next) {
+            
             if (!string.IsNullOrEmpty(context.Request.Query["uilang"].ToString())) {
                 var cookieval = $"c={CultureInfo.CurrentCulture.Name}|uic={context.Request.Query["uilang"]}";
                 context.Response.Cookies.Append(".AspNetCore.Culture", cookieval);
@@ -15,8 +16,9 @@
                 var backto = context.IsLocalUrl(referer) ? referer : "/";
                 backto = backto.Equals(context.Request.Path) ? "/" : backto;
                 context.Response.Redirect(backto);
+                return Task.CompletedTask;
             } else {
-                await next(context);
+                return next(context);
             }
         }
     }

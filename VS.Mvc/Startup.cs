@@ -3,13 +3,16 @@ namespace VS.Mvc {
     using Microsoft.AspNetCore.Antiforgery;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Infrastructure;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.FileProviders;
     using Serilog;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
     using System;
+    using System.Reflection;
     using VS.Abstractions.Culture;
     using VS.Mvc._Extensions;
     using VS.Mvc._Startup;
@@ -28,10 +31,18 @@ namespace VS.Mvc {
         }
 
         public void ConfigureServices(IServiceCollection services) {
-            
+
             var cultureoptions = configuration.GetSection("CultureOptions").Get<CultureOptions>();
-            
+
             this.services = services
+                    .AddDistributedMemoryCache()
+                    .AddSession(options => {
+                        options.IdleTimeout = TimeSpan.FromMinutes(30);
+                        options.Cookie.HttpOnly = true;
+                        options.Cookie.Name = "PEACHSESSID";
+                        options.Cookie.IsEssential = true;
+                        options.Cookie.Path = "/analytics";
+                    })
                     .AddLog()
                     .AddSingleton<CultureOptions>(cultureoptions)
 #if DEBUG
@@ -53,7 +64,7 @@ namespace VS.Mvc {
                            .AddViewComponentActivation()
                            .AddTagHelperActivation();
 
-                        container                            
+                        container
                             .AddAwsServices(configuration, Log.Logger)
                             .AddPayOn(configuration, Log.Logger)
                             .AddCoreServices()
@@ -67,13 +78,19 @@ namespace VS.Mvc {
         public void Configure(IApplicationBuilder app) {
 
 
-         
+
 
             // I believe it is correctly configured but the analyzer can't cope with chained methods
             // Remove the pragma clause and make your own mind up.
-#pragma warning disable     
+#pragma warning disable
 
             _ = app
+                .Map("/analytics", b => {
+                    b.UseSession(new SessionOptions() { Cookie = new CookieBuilder { Path = "/analytics", Name = "PEACHSESSID", IsEssential = true } });
+                    b.UsePhp(new PhpRequestOptions { ScriptAssembliesName = new[] { "VS.OWA" }, RootPath = "../../VS.OWA" });
+                    b.UseDefaultFiles();
+                    b.UseStaticFiles(new StaticFileOptions { FileProvider = new EmbeddedFileProvider(Assembly.Load("VS.OWA")) });
+                })
                 .UseSerilogRequestLogging()
                 .ProxyForwardHeaders()
                 .UseStaticFiles()
@@ -88,6 +105,7 @@ namespace VS.Mvc {
                 .UseRouting()
                 .UseAppIdentity()
                 .UseEndpoints(e => e.AddMvcEndpoints());
+
 
 #pragma warning restore ASP0001 // Authorization middleware is incorrectly configured.
 
