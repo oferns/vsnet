@@ -1,0 +1,3 @@
+[submodule "VS.OWA"]
+	path = VS.OWA
+	url = https://github.com/oferns/Open-Web-Analytics
