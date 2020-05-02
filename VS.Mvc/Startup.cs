@@ -39,9 +39,10 @@ namespace VS.Mvc {
                     .AddSession(options => {
                         options.IdleTimeout = TimeSpan.FromMinutes(30);
                         options.Cookie.HttpOnly = true;
-                        options.Cookie.Name = "PEACHSESSID";
+                        options.Cookie.Name = "vss";
                         options.Cookie.IsEssential = true;
-                        options.Cookie.Path = "/analytics";
+                        //options.Cookie.Path = "/analytics";
+                        
                     })
                     .AddLog()
                     .AddSingleton<CultureOptions>(cultureoptions)
@@ -85,11 +86,12 @@ namespace VS.Mvc {
 #pragma warning disable
 
             _ = app
+                .UseSession(new SessionOptions() { Cookie = new CookieBuilder { /*Path = "/analytics",*/ Name = "vss", IsEssential = true } })
                 .Map("/analytics", b => {
-                    b.UseSession(new SessionOptions() { Cookie = new CookieBuilder { Path = "/analytics", Name = "PEACHSESSID", IsEssential = true } });
+                  //  b.UseSession(new SessionOptions() { Cookie = new CookieBuilder { Path = "/analytics", Name = "PEACHSESSID", IsEssential = true } });
                     b.UsePhp(new PhpRequestOptions { ScriptAssembliesName = new[] { "VS.OWA" }, RootPath = "../../VS.OWA" });
                     b.UseDefaultFiles();
-                    b.UseStaticFiles(new StaticFileOptions { FileProvider = new EmbeddedFileProvider(Assembly.Load("VS.OWA")) });
+                    b.UseStaticFiles(new StaticFileOptions { FileProvider = new ManifestEmbeddedFileProvider(Assembly.Load("VS.OWA")) });
                 })
                 .UseSerilogRequestLogging()
                 .ProxyForwardHeaders()
@@ -104,6 +106,7 @@ namespace VS.Mvc {
 #endif    
                 .UseRouting()
                 .UseAppIdentity()
+
                 .UseEndpoints(e => e.AddMvcEndpoints());
 
 

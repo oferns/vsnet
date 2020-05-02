@@ -1,3 +1,6 @@
 [submodule "VS.OWA"]
 	path = VS.OWA
 	url = https://github.com/oferns/Open-Web-Analytics
+[submodule "PeachPie"]
+	path = PeachPie
+	url = https://github.com/oferns/peachpie

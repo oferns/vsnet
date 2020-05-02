@@ -54,14 +54,14 @@
 
         <label id="menuCloseLabel" for="menuToggle">@sr["CLOSE"]</label>
         <nav id="topNav">
-            <a href='/home'>Item1</a>
-            <a href='/home'>Item2</a>
-            <a href='/home'>Item3</a>
-            <a href='/home'>Item4</a>
-            <a href='/home'>Item5</a>
-            <a href='/home'>Item6</a>
-            <a href='/home'>Item7</a>
-            <a href='/home' title="Item8">Item8</a>
+            <a name="topNav_login" href='/log-in' title="Login">Login</a>
+            <a name="topNav_register-card" href='/register-card' title="Register Card">Register Card</a>
+            <a name="topNav_developer-guide" href='/dev-guide' title="Developer Guide">Developer Guide</a>
+            <a name="topNav_login" href='/log-in' title="Log In">Log In</a>
+            <a name="topNav_register-card" href='/register-card' title="Register Card">Register Card</a>
+            <a name="topNav_developer-guide" href='/dev-guide' title="Developer Guide">Developer Guide</a>
+            <a name="topNav_login" href='/about' title="About">About</a>
+            <a name="topNav_help" href='/help' title="Help">Help</a>
         </nav>
 
         <div id="mainBody">
@@ -71,18 +71,18 @@
             <environment include="Development">
                 <vc:host-picker></vc:host-picker>
                 @*<vc:language-picker></vc:language-picker>
-                @CultureInfo.CurrentCulture
-                <br />
-                @CultureInfo.CurrentUICulture
-                <br />
-                <vc:user-agent-info></vc:user-agent-info>
-                <client-info>
-                    <strong slot="languageslabel">@sr["Client Languages"]</strong>
-                    <strong slot="languagelabel">@sr["Client Language"]</strong>
-                    <strong slot="agentlabel">@sr["User Agent"]</strong>
-                </client-info>
-                <vc:build-info></vc:build-info>
-                <mini-profiler position="RenderPosition.BottomRight" />*@
+                    @CultureInfo.CurrentCulture
+                    <br />
+                    @CultureInfo.CurrentUICulture
+                    <br />
+                    <vc:user-agent-info></vc:user-agent-info>
+                    <client-info>
+                        <strong slot="languageslabel">@sr["Client Languages"]</strong>
+                        <strong slot="languagelabel">@sr["Client Language"]</strong>
+                        <strong slot="agentlabel">@sr["User Agent"]</strong>
+                    </client-info>
+                    <vc:build-info></vc:build-info>*@
+                <mini-profiler position="RenderPosition.BottomRight" />
             </environment>
         </div>
 

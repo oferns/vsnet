@@ -3,7 +3,6 @@
     "VS.Mvc": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:5000/analytics",
       "environmentVariables": {
         "PG_USER": "postgres",
         "YOTI_SDK_ID": "80bd1050-57f1-45c8-bdf6-8f9284a62952",
@@ -14,7 +13,7 @@
         "SEQ_URI": "http://localhost:5341",
         "AWS_SECRET_KEY": "PnZejFgZ+I606NZ+0hged3nTihIc7iLxxEPDpaii"
       },
-      "applicationUrl": "http://localhost:5000"
+      "applicationUrl": "http://vs.net"
     }
   }
 }

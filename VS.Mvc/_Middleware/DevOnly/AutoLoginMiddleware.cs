@@ -18,7 +18,16 @@ namespace VS.Mvc._Middleware.DevOnly {
         }
 
         public async Task InvokeAsync(HttpContext httpcontext, RequestDelegate next) {
+            if (httpcontext is null) {
+                throw new ArgumentNullException(nameof(httpcontext));
+            }
 
+            if (next is null) {
+                throw new ArgumentNullException(nameof(next));
+            }
+
+
+            // httpcontext.Session.SetInt32("SomeKey", 10);
             if (context.User is object && context.User.Identity.IsAuthenticated) {
                 await next(httpcontext);
                 return;
