@@ -6,7 +6,7 @@
     using VS.Core;
     using VS.Mvc._Services;
 
-    public static class Logging {
+    public static class LogConfig {
 
         public static IServiceCollection AddLog(this IServiceCollection services) {
 

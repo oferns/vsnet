@@ -1,17 +1,10 @@
 ﻿namespace VS.Mvc.Home {
-    using System;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
-    using VS.Abstractions.Logging;
+    using System;
 
     [Controller]
     public class HomeController {
-        private readonly ILog log;
-
-        public HomeController(ILog log) {
-            this.log = log ?? throw new ArgumentNullException(nameof(log));
-        }
 
         [HttpGet]
         [AllowAnonymous]
@@ -28,6 +21,12 @@
         [HttpGet]
         public IActionResult Component(string componentName) {
             return new ViewComponentResult() { ViewComponentName = componentName };
+        }
+
+        // This should be handled by the proxy in production
+        [HttpHead]
+        public IActionResult Ping() {
+            return new OkResult();
         }
 
 #if DEBUG

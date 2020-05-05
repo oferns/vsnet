@@ -3,21 +3,17 @@ namespace VS.Mvc {
     using Microsoft.AspNetCore.Antiforgery;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Infrastructure;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.FileProviders;
     using Serilog;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
     using System;
-    using System.Reflection;
     using VS.Abstractions.Culture;
-    using VS.Mvc._Extensions;
     using VS.Mvc._Startup;
 
-    public class Startup {
+    public class Startup : IDisposable {
         internal readonly Container container;
         internal readonly IConfiguration configuration;
         internal readonly IWebHostEnvironment env;
@@ -35,15 +31,15 @@ namespace VS.Mvc {
             var cultureoptions = configuration.GetSection("CultureOptions").Get<CultureOptions>();
 
             this.services = services
-                    .AddDistributedMemoryCache()
-                    .AddSession(options => {
-                        options.IdleTimeout = TimeSpan.FromMinutes(30);
-                        options.Cookie.HttpOnly = true;
-                        options.Cookie.Name = "vss";
-                        options.Cookie.IsEssential = true;
-                        //options.Cookie.Path = "/analytics";
-                        
-                    })
+                    //.AddDistributedMemoryCache()
+                    //.AddSession(options => {
+                    //    options.IdleTimeout = TimeSpan.FromMinutes(30);
+                    //    options.Cookie.HttpOnly = true;
+                    //    options.Cookie.Name = "vss";
+                    //    options.Cookie.IsEssential = true;
+                    //    //options.Cookie.Path = "/analytics";
+
+                    //})
                     .AddLog()
                     .AddSingleton<CultureOptions>(cultureoptions)
 #if DEBUG
@@ -86,13 +82,13 @@ namespace VS.Mvc {
 #pragma warning disable
 
             _ = app
-                .UseSession(new SessionOptions() { Cookie = new CookieBuilder { /*Path = "/analytics",*/ Name = "vss", IsEssential = true } })
-                .Map("/analytics", b => {
-                  //  b.UseSession(new SessionOptions() { Cookie = new CookieBuilder { Path = "/analytics", Name = "PEACHSESSID", IsEssential = true } });
-                    b.UsePhp(new PhpRequestOptions { ScriptAssembliesName = new[] { "VS.OWA" }, RootPath = "../../VS.OWA" });
-                    b.UseDefaultFiles();
-                    b.UseStaticFiles(new StaticFileOptions { FileProvider = new ManifestEmbeddedFileProvider(Assembly.Load("VS.OWA")) });
-                })
+                //.UseSession(new SessionOptions() { Cookie = new CookieBuilder { /*Path = "/analytics",*/ Name = "vss", IsEssential = true } })
+                //.Map("/analytics", b => {
+                //  //  b.UseSession(new SessionOptions() { Cookie = new CookieBuilder { Path = "/analytics", Name = "PEACHSESSID", IsEssential = true } });
+                //    b.UsePhp(new PhpRequestOptions { ScriptAssembliesName = new[] { "VS.OWA" }, RootPath = "../../VS.OWA" });
+                //    b.UseDefaultFiles();
+                //    b.UseStaticFiles(new StaticFileOptions { FileProvider = new ManifestEmbeddedFileProvider(Assembly.Load("VS.OWA")) });
+                //})
                 .UseSerilogRequestLogging()
                 .ProxyForwardHeaders()
                 .UseStaticFiles()
@@ -114,6 +110,16 @@ namespace VS.Mvc {
 
 
             container.Verify();
+        }
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing) {
+            if (disposing) {
+                this.container?.Dispose();
+            }
         }
     }
 }

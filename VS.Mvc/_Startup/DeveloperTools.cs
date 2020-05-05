@@ -10,7 +10,10 @@
 
         public static IServiceCollection AddDevServices(this IServiceCollection services) {
             return services
-                   .AddMiniProfiler().Services
+                   .AddMiniProfiler(o => {
+                       o.ExcludedMethods.Add("HEAD");
+                       o.IgnoredPaths.Add("/analytics");                   
+                   }).Services
                    .AddSingleton<HostSwitchingMiddleware>()
                    .AddSingleton<AutoLoginMiddleware>()
                    .AddSingleton<RouteGraphMiddleware>()
@@ -20,7 +23,7 @@
         public static IApplicationBuilder UseDevTools(this IApplicationBuilder app) {
 
             return app
-                    .UseMiddleware<AutoLoginMiddleware>()
+                    //.UseMiddleware<AutoLoginMiddleware>()
                     .UseMiniProfiler()
                     .Map("/cc", b => b.UseMiddleware<HostSwitchingMiddleware>())
                     .Map("/graph", b => b.UseMiddleware<RouteGraphMiddleware>())

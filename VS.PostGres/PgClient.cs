@@ -14,7 +14,6 @@
         private NpgsqlConnection NpgsqlConnection => this.Connection as NpgsqlConnection;
         private NpgsqlTransaction NpgsqlTransaction => this.Transaction as NpgsqlTransaction;
 
-
         public event NoticeEventHandler MessageRecieved;
         
         public PgClient(IDbConnection connection) : base(connection) { }

@@ -4,7 +4,7 @@
     using VS.Abstractions;
     using VS.Mvc._Services;
 
-    public static class Identity {
+    public static class IdentityConfig {
 
         public static IServiceCollection AddAppIdentity(this IServiceCollection services) {
             services.AddAuthentication(

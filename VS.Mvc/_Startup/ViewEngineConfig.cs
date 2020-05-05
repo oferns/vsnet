@@ -124,7 +124,6 @@
                 .ConfigureApplicationPartManager(p => {
                     p.FeatureProviders.Add(new DataRouteFeatureProvider());
                 })
-
                 .AddDataAnnotationsLocalization().Services
                 .AddAntiforgery(o => o = antiforgeryOptions)
                 .Configure<RazorViewEngineOptions>(options => {

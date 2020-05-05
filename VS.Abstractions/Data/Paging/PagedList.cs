@@ -5,12 +5,12 @@
     using VS.Abstractions.Data;
 
     public class PagedList<T> : List<T>, IPageInfo where T : class {
+
         public PagedList(IEnumerable<T> source, int startFrom, int pageSize, int total) : base(source) {
             this.StartFrom = startFrom;
             this.PageSize = pageSize;
             this.Total = total;
         }
-
         public int StartFrom { get; private set; }
         public int PageSize { get; private set; }
         public int Total { get; private set; }

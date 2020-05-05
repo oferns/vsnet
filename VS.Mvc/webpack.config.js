@@ -12,7 +12,8 @@ module.exports = env => {
         : (env.MODE = "production"),
     optimization: {
       minimize: env.MODE === "production" || env.MODE === "staging"
-    },
+      },
+    externals: ['tls', 'net', 'fs'],
     entry: ["./app.ts", "./app.scss"],
     devtool: false, // We handle source maps with a plugin due to issues resolving the paths
     module: {
