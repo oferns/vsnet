@@ -15,6 +15,17 @@
     public static class AwsServices {
 
         public static Container AddAwsServices(this Container container, IConfiguration config, ILogger log) {
+            if (container is null) {
+                throw new System.ArgumentNullException(nameof(container));
+            }
+
+            if (config is null) {
+                throw new System.ArgumentNullException(nameof(config));
+            }
+
+            if (log is null) {
+                throw new System.ArgumentNullException(nameof(log));
+            }
 
             var awsconfig = config.GetSection("AwsConfig").Get<AwsConfig>();
 
@@ -26,10 +37,10 @@
 
             foreach (var region in awsconfig.Regions) {
                 log.Information($"Creating storage client for AWS region {region}");
-                container.Collection.Append<IAmazonS3>(() => new AmazonS3Client(RegionEndpoint.GetBySystemName(region)), Lifestyle.Singleton);
+                container.Collection.Append<IAmazonS3>(() => new AmazonS3Client("AKIAIODGVLXS42Z5D7BQ", "PnZejFgZ+I606NZ+0hged3nTihIc7iLxxEPDpaii", RegionEndpoint.GetBySystemName(region)), Lifestyle.Singleton);
 
                 log.Information($"Creating MQ client for AWS region {region}");
-                container.Collection.Append<IAmazonMQ>(() => new AmazonMQClient(RegionEndpoint.GetBySystemName(region)), Lifestyle.Singleton);
+                container.Collection.Append<IAmazonMQ>(() => new AmazonMQClient("AKIAIODGVLXS42Z5D7BQ", "PnZejFgZ+I606NZ+0hged3nTihIc7iLxxEPDpaii", RegionEndpoint.GetBySystemName(region)), Lifestyle.Singleton);
             }
 
             container.RegisterConditional<IStorageClient, S3StorageClient>(c => true);
@@ -44,7 +55,7 @@
             s3reg.SuppressDiagnosticWarning(DiagnosticType.DisposableTransientComponent, "The Amazon s3 clients should be singletons but this class just selects which of those to use on a per-request basis");
             mqreq.SuppressDiagnosticWarning(DiagnosticType.DisposableTransientComponent, "The Amazon MQ clients should be singletons but this class just selects which of those to use on a per-request basis");
 
-            var assemblies = new[] { typeof(PutRequestDecorator).Assembly };
+            var assemblies = new[] { typeof(PutDecorator).Assembly };
 
             var requestHandlerTypes = container.GetTypesToRegister(
                 typeof(IRequestHandler<,>),

@@ -10,7 +10,7 @@
         "SEQ_API_KEY": "bFzpkR6P5P0tQndkpgIn",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "PG_PWD": "Cubew0rks*",
-        "SEQ_URI": "http://localhost:5341",
+        "SEQ_URI": "http://127.0.0.1:5341",
         "AWS_SECRET_KEY": "PnZejFgZ+I606NZ+0hged3nTihIc7iLxxEPDpaii"
       },
       "applicationUrl": "http://vs.net"

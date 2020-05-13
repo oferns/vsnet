@@ -11,6 +11,8 @@ namespace VS.Mvc {
     using SimpleInjector.Lifestyles;
     using System;
     using VS.Abstractions.Culture;
+    using VS.Mvc._Middleware;
+    using VS.Mvc._Services;
     using VS.Mvc._Startup;
 
     public class Startup : IDisposable {
@@ -68,7 +70,8 @@ namespace VS.Mvc {
                             .AddCaching(configuration, Log.Logger)
                             .AddPostGresServices(configuration, Log.Logger)
                             .AddSerializationServices();
-                    });
+                    })
+                    .AddAnalytics();
         }
 
         // OJF: ORDER IS IMPORTANT. ONLY CHANGE IF YOU KNOW WHAT YOU ARE DOING AND WHY AND IT BETTER BE IN THE COMMIT MESSAGE (and yes, I did mean to shout that).
@@ -102,7 +105,7 @@ namespace VS.Mvc {
 #endif    
                 .UseRouting()
                 .UseAppIdentity()
-
+                .UseAnalytics()
                 .UseEndpoints(e => e.AddMvcEndpoints());
 
 

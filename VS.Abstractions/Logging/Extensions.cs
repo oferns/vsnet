@@ -19,6 +19,11 @@ namespace VS.Abstractions.Logging {
             logger.Log(new LogEntry(LogEventType.Debug, message, exception));
         }
 
+
+        public static void LogWarn(this ILog logger, string message, Exception exception = default) {
+            logger.Log(new LogEntry(LogEventType.Warning, message, exception));
+        }
+
     }
 
 }

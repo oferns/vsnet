@@ -8,12 +8,12 @@
     using VS.Abstractions.Storage;
     using VS.Core.Storage;
 
-    public class PutRequestDecorator : IRequestHandler<Put, Uri> {
+    public class PutDecorator : IRequestHandler<Put, Uri> {
         private readonly IRequestHandler<Put, Uri> wrappedHandler;
         private readonly IStorageClient storageClient;
-        private readonly ILogger<PutRequestDecorator> log;
+        private readonly ILogger<PutDecorator> log;
 
-        public PutRequestDecorator(IRequestHandler<Put, Uri> wrappedHandler, IStorageClient storageClient, ILogger<PutRequestDecorator> log) {
+        public PutDecorator(IRequestHandler<Put, Uri> wrappedHandler, IStorageClient storageClient, ILogger<PutDecorator> log) {
             this.wrappedHandler = wrappedHandler ?? throw new ArgumentNullException(nameof(wrappedHandler));
             this.storageClient = storageClient ?? throw new ArgumentNullException(nameof(storageClient));
             this.log = log ?? throw new ArgumentNullException(nameof(log));

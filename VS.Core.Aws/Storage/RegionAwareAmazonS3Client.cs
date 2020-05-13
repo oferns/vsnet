@@ -18,9 +18,9 @@ namespace VS.Core.Aws.Storage {
 
         public RegionAwareAmazonS3Client(IAmazonS3[] clients, IContext context) {
             if (clients is null) {
-                throw new System.ArgumentNullException(nameof(clients));
+                throw new ArgumentNullException(nameof(clients));
             }
-            this.context = context ?? throw new System.ArgumentNullException(nameof(context));
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
             chosenClient = clients.Length == 0 ? new AmazonS3Client(RegionEndpoint.EUWest2) : clients[0];
         }
 

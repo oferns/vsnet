@@ -20,9 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Analytics\analytics.ts" />
-    <None Remove="Analytics\EventType.ts" />
-    <None Remove="Analytics\IEventInfo.ts" />
+    <None Remove="_WebComponents\infiniteScroll.ts" />
   </ItemGroup>
 
 
@@ -73,9 +71,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="Analytics\Analytics.ts" />
-    <TypeScriptCompile Include="Analytics\IEventInfo.ts" />
-    <TypeScriptCompile Include="Analytics\EventType.ts" />
+    <TypeScriptCompile Include="_WebComponents\infiniteScroll.ts" />
   </ItemGroup>
 
 </Project>

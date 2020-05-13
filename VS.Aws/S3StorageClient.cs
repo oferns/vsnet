@@ -93,7 +93,8 @@
             try {
                 await s3.EnsureBucketExistsAsync(bucket);   // OJF: I dont know why this throws. The error is "Your previous request to create the named bucket succeeded and you already own it"
             } catch (AmazonS3Exception ex) {
-                if (!ex.StatusCode.Equals(HttpStatusCode.Conflict)) {
+                if (!(ex.StatusCode.Equals(HttpStatusCode.Conflict) && 
+                    ex.Message.Equals("Your previous request to create the named bucket succeeded and you already own it."))) {
                     throw;
                 }
             }

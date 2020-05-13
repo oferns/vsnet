@@ -12,13 +12,13 @@ namespace VS.Core.Aws.Storage {
     using VS.Abstractions.Storage.Paging;
     using VS.Core.Storage;
 
-    public class GetIndexRequestDecorator : IRequestHandler<GetIndex, PagedIndex> {
+    public class GetIndexDecorator : IRequestHandler<GetIndex, PagedIndex> {
 
         private readonly IRequestHandler<Core.Storage.GetIndex, PagedIndex> wrappedHandler;
         private readonly IStorageClient storageClient;
-        private readonly ILogger<GetIndexRequestDecorator> log;
+        private readonly ILogger<GetIndexDecorator> log;
 
-        public GetIndexRequestDecorator(IRequestHandler<GetIndex, PagedIndex> wrappedHandler, IStorageClient storageClient, ILogger<GetIndexRequestDecorator> log) {
+        public GetIndexDecorator(IRequestHandler<GetIndex, PagedIndex> wrappedHandler, IStorageClient storageClient, ILogger<GetIndexDecorator> log) {
             this.wrappedHandler = wrappedHandler ?? throw new ArgumentNullException(nameof(wrappedHandler));
             this.storageClient = storageClient ?? throw new ArgumentNullException(nameof(storageClient));
             this.log = log ?? throw new ArgumentNullException(nameof(log));

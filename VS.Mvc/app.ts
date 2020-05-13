@@ -1,4 +1,4 @@
-﻿import ClientInfo from "./_WebComponents/ClientInfo";
+﻿import ClientInfo from "./_WebComponents/clientInfo";
 import SearchBox from "./Search/SearchBox";
 import Analytics from "./Analytics/Analytics";
 
